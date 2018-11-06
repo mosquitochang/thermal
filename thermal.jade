@@ -3,7 +3,7 @@ html(lang="en")
 	head
 		meta(charset="UTF-8")
 		title Document
-		link(rel="stylesheet", href="assets/styles/main.css")
+		link(rel="stylesheet", href="assets/styles/thermal.css")
 		meta(name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0")
 		meta(name="title" content="")
 		meta(name="description" content="")
@@ -14,35 +14,21 @@ html(lang="en")
 		meta(property="og:image" content="")
 		meta(property="og:description" content="")
 		meta(property="og:site_name" content="")
+		//- <script src="https://code.highcharts.com/highcharts.js"></script>
+		//- <script src="https://code.highcharts.com/modules/boost.js"></script>
+		//- <script src="https://code.highcharts.com/modules/exporting.js"></script>
 	body
-		header
-		.page-wrapper
-			.screen
-				.screen-container
-					section.art
-						img(src="assets/images/t.png", alt="")
-					section.art
-						img(src="assets/images/t.png", alt="")
-					section.art
-						img(src="assets/images/t.png", alt="")
-		.lightbox-wrapper
-			section.art
-				.art-header
-					.title banana.
-					.close
-						span
-						span
-		.cursor
-			img(src="assets/images/cursor.png", alt="")
+		canvas.screen
+		canvas.output
+		//- #chart
 
 
 
 
 	script(src="assets/scripts/jquery-3.3.1.min.js")
-	script(src="assets/scripts/jquery.mousewheel.min.js")
-	//- script(src="assets/scripts/lodash.min.js")
-	//- script(src="assets/scripts/tinycolor-min.js")
-	//- script(src="assets/scripts/perlin.js")
+	script(src="assets/scripts/lodash.min.js")
+	script(src="assets/scripts/tinycolor-min.js")
+	script(src="assets/scripts/perlin.js")
 	//- script(src="https://code.jquery.com/jquery-3.2.1.js" integrity="sha256-DZAnKJ/6XZ9si04Hgrsxu/8s717jcIzLy3oi35EouyE=" crossorigin="anonymous")
 	//- script(src="http://cdnjs.cloudflare.com/ajax/libs/gsap/1.19.0/TweenMax.min.js")
 	//- script(src="//cdnjs.cloudflare.com/ajax/libs/ScrollMagic/2.0.5/ScrollMagic.js")
@@ -53,8 +39,8 @@ html(lang="en")
 	//- script(src="https://rawgit.com/chinchang/screenlog.js/master/screenlog.js")
 
 	//- script(src="https://cdnjs.cloudflare.com/ajax/libs/tinycolor/1.4.1/tinycolor.min.js")
-	//- script(src="assets/scripts/deltae.global.min.js")
+	script(src="assets/scripts/deltae.global.min.js")
 	
 
-	script(src="assets/scripts/main.js")
+	script(src="assets/scripts/thermal.js")
 	
