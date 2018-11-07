@@ -210,15 +210,16 @@ imgGrayHand.onload = function () {
 
 	// ctxOutput.putImageData(outputImageData, 0, 0);
 }
-imgGrayHand.src = "assets/images/hand-gray.png";
-// imgGrayHand.src = "assets/images/1.png";
+// imgGrayHand.src = "assets/images/hand-gray.png";
+// imgGrayHand.src = "assets/images/hand-gray2.png";
+imgGrayHand.src = "assets/images/b.png";
 
 
 var heats = [];
 
 var lastPoint;
 $("body").on("mousemove", function(e) {
-	var currentPoint = { x: e.clientX-$(".output").offset().left, y: e.clientY-$(".output").offset().top };
+	var currentPoint = { x: e.pageX-$(".output").offset().left, y: e.pageY-$(".output").offset().top };
 	if(lastPoint !== undefined) {
 		var dist = distanceBetween(lastPoint, currentPoint);
 		var angle = angleBetween(lastPoint, currentPoint);
@@ -255,6 +256,12 @@ $("body").on("mousemove", function(e) {
 		}
 		
 	}
+
+
+	// $(".cursor").css({
+	// 	top: e.clientY + "px",
+	// 	left: e.clientX + "px"
+	// })
 })
 
 function distanceBetween(point1, point2) {
@@ -278,7 +285,7 @@ function Heat(x,y,index) {
 		var alpha = 0.15*this.life/60;
 		if(this.index == heats.length - 1) {
 			outerRadius = radius = 150+this.wave;
-			alpha = 0.7;
+			alpha = 0.7+this.wave/100;
 		}
 
 
@@ -302,7 +309,7 @@ function Heat(x,y,index) {
 		// if(this.life%3 == 0) {
 		// 	this.wave = noise.perlin3(this.life, 0, height)*20;
 		// }
-		this.wave = Math.sin(this.life/10) * 10;
+		this.wave = Math.sin(this.life/20) * 10;
 
 		if(this.life <= 0) {
 			if(this.index != heats.length - 1) {
@@ -332,15 +339,15 @@ function drawColorHand() {
 		// handColors.push(color);
 
 		if(orgData.data[i+3] != 0) {
-			// var index = 100 - Math.ceil(imageData.data[i]*100/255);
-			var index = Math.ceil(imageData.data[i+3]*100/255) - 1;
+			var index = 99 - Math.ceil(imageData.data[i]*100/255);
+			// var index = Math.ceil(imageData.data[i+3]*100/255) - 1;
 
 			var newColor = colors[index];
 			if( newColor !== undefined) {
 				outputImageData.data[i] = newColor.toRgb().r;
 				outputImageData.data[i+1] = newColor.toRgb().g;
 				outputImageData.data[i+2] = newColor.toRgb().b;
-				outputImageData.data[i+3] = 255;
+				outputImageData.data[i+3] = orgData.data[i+3];
 			}
 		}
 	}
@@ -348,19 +355,20 @@ function drawColorHand() {
 }
 
 var height = 0;
-var bgImageData;
-function drawBackGround() {
-	// count++;
-	// var start = Date.now();
-	var w = c.width;
-	var h = c.height;
+// var bgImageData;
+var scaleUpCanvas = $("<canvas>")[0];
+var scaleUpCtx = scaleUpCanvas.getContext("2d");
+var noiseScale = 5;
+function drawNoise() {
+	var w = Math.floor(c.width/noiseScale);
+	var h = Math.floor(c.height/noiseScale);
 	var imageData = ctx.createImageData(w, h);
 
 	var max = -Infinity, min = Infinity;
 
 	for (var x = 0; x < w; x++) {
 	  for (var y = 0; y < h; y++) {
-	  	var value = noise.perlin3(x / 50, y / 50, height);
+	  	var value = noise.perlin3(x / (50/noiseScale), y / (50/noiseScale), height);
 
 	  	if (max < value) max = value;
 	  	if (min > value) min = value;
@@ -373,7 +381,10 @@ function drawBackGround() {
 	  	// 	imageData.data[cell] = imageData.data[cell + 1] = imageData.data[cell + 2] = 0;
 	  	// }
 
-	  	value = (1.6+value) * 1.1 * 20;
+	  	// console.log(value);
+
+	  	value = (1.6+value) * 30;
+	  	// value = value * 200;
 
 	  	var cell = (x + y * w) * 4;
 	  	// imageData.data[cell] = imageData.data[cell + 1] = imageData.data[cell + 2] = 255;
@@ -381,9 +392,15 @@ function drawBackGround() {
 	  }
 	}
 
-	ctx.putImageData(imageData, 0, 0);
+	scaleUpCanvas.width = c.width;
+	scaleUpCanvas.height = c.height;
+	scaleUpCtx.putImageData(imageData, 0, 0);
+	scaleUpCtx.scale(noiseScale,noiseScale);
+	scaleUpCtx.drawImage(scaleUpCanvas, 0, 0);
 
-	bgImageData = imageData;
+	ctx.drawImage(scaleUpCanvas, 0, 0);
+
+	// bgImageData = imageData;
 
 	height += 0.03;
 
@@ -395,26 +412,48 @@ var count = 0;
 function draw() {
 	requestAnimationFrame(draw);
 
-	if(isLoad) {
-		ctx.clearRect(0, 0, c.width, c.height);
-		drawBackGround();
-		ctx.drawImage(imgGrayHand,0,0);
+	if(count++%2 == 0) {
+		if(isLoad) {
+			ctx.clearRect(0, 0, c.width, c.height);
+			
+			ctx.drawImage(imgGrayHand,0,0);
+			drawNoise();
 
-		for (var i = 0; i < heats.length; i++) {
-			if(heats[i] !== undefined) {
-				heats[i].draw();
-				heats[i].lifeCount();
+			for (var i = 0; i < heats.length; i++) {
+				if(heats[i] !== undefined) {
+					heats[i].draw();
+					heats[i].lifeCount();
+				}
+				
 			}
+
+			drawColorHand();
+
+			// $(cOutput).css("filter",'blur('+(Math.sin(count/30)+1)*50+'px)');
+			// $(cOutput).css("opacity",(Math.cos(count/30)+1)/2);
+			// var imageData = ctxOutput.getImageData(0,0,c.width, c.height);
+
+			// var temp = cOutput;
+			// ctxOutput.clearRect(0, 0, c.width, c.height);
+			// ctxOutput.putImageData(imageData, 0, 0)
 			
 		}
-
-		drawColorHand();
-		
 	}
+	
 
 	
 }
 draw();
+
+
+
+// $("body").on("mousemove", function(e) {
+// 	$(".cursor").css({
+// 		top: e.pageY + "px",
+// 		left: e.pageX + "px"
+// 	})
+// })
+
 
 //stat
 (function(){var script=document.createElement('script');script.onload=function(){var stats=new Stats();document.body.appendChild(stats.dom);requestAnimationFrame(function loop(){stats.update();requestAnimationFrame(loop)});};script.src='//rawgit.com/mrdoob/stats.js/master/build/stats.min.js';document.head.appendChild(script);})()

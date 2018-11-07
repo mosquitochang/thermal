@@ -65,3 +65,21 @@ html, body {
 
 .screen {
   background-color: #fff; }
+
+.output {
+  -webkit-filter: blur(0px);
+  filter: blur(0px); }
+
+.cursor {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 34px;
+  height: 34px;
+  -webkit-transform: translate(-50%, -50%);
+  -ms-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+  z-index: 1000;
+  pointer-events: none; }
+  .cursor img {
+    width: 100%; }
