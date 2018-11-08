@@ -1,28 +1,56 @@
 precision mediump float;
 
 varying vec2 vTextureCoord;
-varying vec4 vColor;
-
 uniform sampler2D uSampler;
 
-uniform float colors[300];
+#define C_0 vec4(0.0000,0.0000,0.0039, 1.0)
+#define C_1 vec4(0.0000,0.3137,0.6118, 1.0)
+#define C_2 vec4(0.0000,0.6588,0.8549, 1.0)
+#define C_3 vec4(0.0980,0.9333,0.6588, 1.0)
+#define C_4 vec4(0.4275,0.9333,0.1804, 1.0)
+#define C_5 vec4(0.7882,0.9882,0.0000, 1.0)
+#define C_6 vec4(1.0000,0.9843,0.0000, 1.0)
+#define C_7 vec4(1.0000,0.7686,0.0000, 1.0)
+#define C_8 vec4(1.0000,0.3529,0.0000, 1.0)
+#define C_9 vec4(1.0000,0.2118,0.2000, 1.0)
+#define C_10 vec4(1.0000,0.9569,0.9686, 1.0)
 
 
 void main(void)
 {
-	vec2 uvs = vTextureCoord.xy;
 	vec4 fg = texture2D(uSampler, vTextureCoord);
-	int index = int(100.0 - ((fg.r+fg.g+fg.b)/3.0) * 100.0);
 
-	for (int i = 0; i <= 100; i++) {
-		if (i == index) {
-			fg.r = colors[i*3];
-			fg.g = colors[i*3+1];
-			fg.b = colors[i*3+2];
-			// fg.a = 1.0;
-			break;
-		}
+	float gray = (fg.r+fg.g+fg.b)/3.0;
+
+	float grayPercent = (gray - (0.1 * floor(gray/0.1)))*10.0;
+
+	vec4 mixedColor;
+
+	if(gray < 0.1) {
+		mixedColor = mix(C_10, C_9, grayPercent);
+	} else if (gray < 0.2) {
+		mixedColor = mix(C_9, C_8, grayPercent);
+	} else if (gray < 0.3) {
+		mixedColor = mix(C_8, C_7, grayPercent);
+	} else if (gray < 0.4) {
+		mixedColor = mix(C_7, C_6, grayPercent);
+	} else if (gray < 0.5) {
+		mixedColor = mix(C_6, C_5, grayPercent);
+	} else if (gray < 0.6) {
+		mixedColor = mix(C_5, C_4, grayPercent);
+	} else if (gray < 0.7) {
+		mixedColor = mix(C_4, C_3, grayPercent);
+	} else if (gray < 0.8) {
+		mixedColor = mix(C_3, C_2, grayPercent);
+	} else if (gray < 0.9) {
+		mixedColor = mix(C_2, C_1, grayPercent);
+	} else if (gray <= 1.0) {
+		mixedColor = mix(C_1, C_0, grayPercent);
 	}
+
+	fg.r = mixedColor[0];
+	fg.g = mixedColor[1];
+	fg.b = mixedColor[2];
 
 	gl_FragColor = fg;
 	if(gl_FragColor.a < 1.0) discard;
