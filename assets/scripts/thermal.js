@@ -124,33 +124,50 @@ var shaderFrag = `
 	precision mediump float;
 
 	varying vec2 vTextureCoord;
-
 	uniform sampler2D uSampler;
 
-	// uniform float colors[300];
+	#define C_0 vec3(0.0000,0.0000,0.0039)
+	#define C_1 vec3(0.0000,0.3137,0.6118)
+	#define C_2 vec3(0.0000,0.6588,0.8549)
+	#define C_3 vec3(0.0980,0.9333,0.6588)
+	#define C_4 vec3(0.4275,0.9333,0.1804)
+	#define C_5 vec3(0.7882,0.9882,0.0000)
+	#define C_6 vec3(1.0000,0.9843,0.0000)
+	#define C_7 vec3(1.0000,0.7686,0.0000)
+	#define C_8 vec3(1.0000,0.3529,0.0000)
+	#define C_9 vec3(1.0000,0.2118,0.2000)
+	#define C_10 vec3(1.0000,0.9569,0.9686)
 
-	#define C_0 vec4(0.0000,0.0000,0.0039, 1.0)
-	#define C_1 vec4(0.0000,0.3137,0.6118, 1.0)
-	#define C_2 vec4(0.0000,0.6588,0.8549, 1.0)
-	#define C_3 vec4(0.0980,0.9333,0.6588, 1.0)
-	#define C_4 vec4(0.4275,0.9333,0.1804, 1.0)
-	#define C_5 vec4(0.7882,0.9882,0.0000, 1.0)
-	#define C_6 vec4(1.0000,0.9843,0.0000, 1.0)
-	#define C_7 vec4(1.0000,0.7686,0.0000, 1.0)
-	#define C_8 vec4(1.0000,0.3529,0.0000, 1.0)
-	#define C_9 vec4(1.0000,0.2118,0.2000, 1.0)
-	#define C_10 vec4(1.0000,0.9569,0.9686, 1.0)
+	// #define C_0 vec3(0.0000,0.0353,0.0745)
+	// #define C_1 vec3(0.0000,0.0353,0.0784)
+	// #define C_2 vec3(0.2431,0.0000,0.5647)
+	// #define C_3 vec3(0.5294,0.0000,0.6353)
+	// #define C_4 vec3(0.8118,0.0000,0.5608)
+	// #define C_5 vec3(0.9569,0.1176,0.3176)
+	// #define C_6 vec3(1.0000,0.3804,0.0000)
+	// #define C_7 vec3(1.0000,0.5843,0.0000)
+	// #define C_8 vec3(1.0000,0.7686,0.0000)
+	// #define C_9 vec3(1.0000,0.9333,0.1608)
+	// #define C_10 vec3(1.0000,1.0000,0.9529)
 
 
 	void main(void)
 	{
 		vec4 fg = texture2D(uSampler, vTextureCoord);
 
+
+		// fg.r = fg.r * fg.a;
+		// fg.g = fg.g * fg.a;
+		// fg.b = fg.b * fg.a;
+
+		// fg.a = 1.0;
+		
+
 		float gray = (fg.r+fg.g+fg.b)/3.0;
 
 		float grayPercent = (gray - (0.1 * floor(gray/0.1)))*10.0;
 
-		vec4 mixedColor;
+		vec3 mixedColor;
 
 		if(gray < 0.1) {
 			mixedColor = mix(C_10, C_9, grayPercent);
@@ -186,6 +203,41 @@ var filter = new PIXI.Filter(null, shaderFrag);
 
 
 
+var shaderFrag = `
+	precision mediump float;
+
+	varying vec2 vTextureCoord;
+	uniform sampler2D uSampler;
+
+	// #define C_0 vec3(0.1607,0.0000,0.2666)
+	// #define C_1 vec3(0.4313,0.0000,0.7098)
+
+	#define C_0 vec3(0.1,0.0,0.2)
+	#define C_1 vec3(0.8,0.0,0.9)
+
+
+	void main(void)
+	{
+		vec4 fg = texture2D(uSampler, vTextureCoord);		
+
+		float gray = (fg.r+fg.g+fg.b)/3.0;
+
+		vec3 mixedColor;
+
+		mixedColor = mix(C_1, C_0, gray);
+
+		fg.r = mixedColor[0];
+		fg.g = mixedColor[1];
+		fg.b = mixedColor[2];
+
+		gl_FragColor = fg;
+		if(gl_FragColor.a < 1.0) discard;
+	}
+`;
+var bgfilter = new PIXI.Filter(null, shaderFrag);
+
+
+
 
 
 
@@ -193,24 +245,24 @@ var thermals = [];
 
 var thermal1 = new Thermal({
 	target: $(".canvas-hand")[0],
-	src: "assets/images/hand-gray2.png",
+	src: "assets/images/h2.png",
 	debug: false
 })
 thermals.push(thermal1);
 
-var thermal2 = new Thermal({
-	target: $(".canvas-banana")[0],
-	src: "assets/images/b.png",
-	debug: false
-})
-thermals.push(thermal2);
+// var thermal2 = new Thermal({
+// 	target: $(".canvas-banana")[0],
+// 	src: "assets/images/b.png",
+// 	debug: false
+// })
+// thermals.push(thermal2);
 
-var thermal3 = new Thermal({
-	target: $(".canvas-banana2")[0],
-	src: "assets/images/b.png",
-	debug: false
-})
-thermals.push(thermal3);
+// var thermal3 = new Thermal({
+// 	target: $(".canvas-banana2")[0],
+// 	src: "assets/images/b.png",
+// 	debug: false
+// })
+// thermals.push(thermal3);
 
 
 function draw() {
@@ -229,8 +281,28 @@ $("body").on("mousemove", function(e) {
 	}
 })
 
+var el = $("body")[0];
+
+el.addEventListener("touchstart", function(e){
+	e.preventDefault();
+	for (var i = 0; i < thermals.length; i++) {
+		thermals[i].mouseMove(e.targetTouches[0]);
+	}
+}, false);
+
+el.addEventListener("touchmove", function(e){
+	e.preventDefault();
+	for (var i = 0; i < thermals.length; i++) {
+		thermals[i].mouseMove(e.targetTouches[0]);
+	}
+}, false);
 
 
+$(window).on("resize", function() {
+	for (var i = 0; i < thermals.length; i++) {
+		thermals[i].resize();
+	}
+})
 
 
 function Thermal(option) {
@@ -241,15 +313,36 @@ function Thermal(option) {
 	this.processCanvas = $("<canvas>")[0];
 	this.processCtx = this.processCanvas.getContext("2d");
 
+	this.backgroundCanvas = $("<canvas>")[0];
+	this.backgroundCtx = this.backgroundCanvas.getContext("2d");
+	this.backgroundCanvas.width = window.innerWidth*3;
+	this.backgroundCanvas.height = window.innerHeight;
+
 	//pixi本體
-	this.pixiApp = new PIXI.Application(1024, 1024, { view: this.targetCanvas, transparent: true });
+	this.pixiApp = new PIXI.Application(window.innerWidth, window.innerHeight, { view: this.targetCanvas, transparent: true });
 	this.processTexture = PIXI.BaseTexture.fromCanvas(this.processCanvas);
 	this.processSprite = PIXI.Sprite.from(this.processTexture);
-	this.pixiApp.stage.addChild(this.processSprite);
+
+	this.backgroundTexture = PIXI.BaseTexture.fromCanvas(this.backgroundCanvas);
+	this.backgroundSprite = PIXI.Sprite.from(this.backgroundTexture);
+	this.pixiApp.stage.addChild(this.backgroundSprite);
 
 	//pixi shader
-	this.pixiApp.stage.filters = [filter];
-	// filter.uniforms.colors = colors;
+	// var pixelate = new PIXI.filters.BlurFilter(100,50);
+	// this.pixiApp.stage.filters = [filter];
+
+	var crt = new PIXI.filters.CRTFilter({
+		lineWidth: 1,
+		lineContrast: 0.1,
+		noise: 0.3,
+		vignetting: 0.4,
+		vignettingAlpha: 0.7
+	})
+
+	this.backgroundSprite.filters = [filter];
+	this.processSprite.filters = [filter];
+
+	this.pixiApp.stage.filters = [crt];
 	
 	this.width = this.height = undefined;
 
@@ -264,24 +357,64 @@ function Thermal(option) {
 	this.isLoaded = false;
 
 	function init() {
-		_this.width = _this.targetCanvas.width = _this.processCanvas.width = _this.imageSourse.width;
-		_this.height = _this.targetCanvas.height = _this.processCanvas.height = _this.imageSourse.height;
+		// _this.width = _this.targetCanvas.width = _this.processCanvas.width = _this.imageSourse.width;
+		// _this.height = _this.targetCanvas.height = _this.processCanvas.height = _this.imageSourse.height;
+		_this.width = _this.processCanvas.width = _this.imageSourse.width;
+		_this.height = _this.processCanvas.height = _this.imageSourse.height;
 
-		_this.pixiApp.renderer.resize(_this.width,_this.height);
+		_this.processTexture.update();
+
+		_this.processSprite.anchor.set(0.5);
+		_this.processSprite.scale.x = _this.pixiApp.screen.height / _this.imageSourse.height;
+		_this.processSprite.scale.y = _this.pixiApp.screen.height / _this.imageSourse.height;
+		_this.processSprite.x = _this.pixiApp.screen.width / 2;
+		_this.processSprite.y = _this.pixiApp.screen.height / 2;
+		_this.pixiApp.stage.addChild(_this.processSprite);
+
+		// _this.pixiApp.renderer.resize(_this.width,_this.height);
 
 		_this.isLoaded = true;
 
 		_this.update();
 	}
 
+	this.resize = function() {
+		_this.pixiApp.renderer.resize(window.innerWidth, window.innerHeight);
+		_this.processSprite.scale.x = _this.pixiApp.screen.height / _this.imageSourse.height;
+		_this.processSprite.scale.y = _this.pixiApp.screen.height / _this.imageSourse.height;
+		_this.processSprite.x = _this.pixiApp.screen.width / 2;
+		_this.processSprite.y = _this.pixiApp.screen.height / 2;
+
+		_this.backgroundCanvas.width = window.innerWidth*3;
+		_this.backgroundCanvas.height = window.innerHeight;
+	}
+
 	this.update = function() {
 		if(!this.isLoaded) return;
 
+
+		// this.processCtx.fillStyle = "#fff";
+		// this.processCtx.fillRect(0,0,this.width,this.height);
 		this.processCtx.clearRect(0,0,this.width,this.height);
 		this.processCtx.drawImage(this.imageSourse,0,0);
 
-		var noiseMap = getPerlinNoiseImage(500,500,0.1,this.time);
+		var noiseMap = getPerlinNoiseImage(500,500,0.1,1,1,this.time/2);
+		// this.processCtx.globalCompositeOperation = "source-atop";
 		this.processCtx.drawImage(noiseMap,0,0,this.width,this.height);
+		// this.processCtx.globalCompositeOperation = "source-out";
+
+		// this.processCtx.drawImage(this.imageSourse,0,0);
+
+
+		// var noiseMap = getPerlinNoiseImage(this.backgroundCanvas.width/2,this.backgroundCanvas.height/2,0.1,0.8,0.5,this.time/10);
+		this.backgroundCtx.fillStyle = "#fff";
+		this.backgroundCtx.fillRect(0,0,this.backgroundCanvas.width,this.backgroundCanvas.height);
+
+		this.backgroundCtx.globalAlpha = 0.6;
+		this.backgroundCtx.drawImage(this.imageSourse,(this.processSprite.x - this.processSprite.width/2 + 0),(this.processSprite.y - this.processSprite.height/2 + 0),this.processSprite.width - 0,this.processSprite.height - 0);
+		this.backgroundCtx.globalAlpha = 0.7;
+		this.backgroundCtx.drawImage(noiseMap,0,0,this.backgroundCanvas.width,this.backgroundCanvas.height);
+		this.backgroundCtx.globalAlpha = 1;
 
 		for (var i = 0; i < this.heats.length; i++) {
 			if(this.heats[i] !== undefined) {
@@ -291,6 +424,7 @@ function Thermal(option) {
 		}
 
 		this.processTexture.update();
+		this.backgroundTexture.update();
 
 		this.time += 0.02;
 	}
@@ -302,10 +436,16 @@ function Thermal(option) {
 	this.mouseMove = function(e) {
 		if(!this.isLoaded) return;
 
+		// var currentPoint = { 
+		// 	x: (e.pageX-$(option.target).offset().left) * (this.width/$(option.target).width()), 
+		// 	y: (e.pageY-$(option.target).offset().top) * (this.height/$(option.target).height())
+		// };
+
 		var currentPoint = { 
-			x: (e.pageX-$(option.target).offset().left) * (this.width/$(option.target).width()), 
-			y: (e.pageY-$(option.target).offset().top) * (this.height/$(option.target).height())
+			x: (e.pageX - (this.processSprite.x - this.processSprite.width/2)) / this.processSprite.scale.x, 
+			y: (e.pageY - (this.processSprite.y - this.processSprite.height/2)) / this.processSprite.scale.y
 		};
+
 		if(this.lastPoint !== undefined) {
 			var dist = distanceBetween(this.lastPoint, currentPoint);
 			var angle = angleBetween(this.lastPoint, currentPoint);
@@ -357,15 +497,17 @@ function Thermal(option) {
 			gradient.addColorStop(0.7, 'rgba(0,0,0,'+alpha/4+')');
 			gradient.addColorStop(1, 'rgba(0,0,0,0)');
 
+			// _this.processCtx.globalCompositeOperation = "source-atop";
 			_this.processCtx.beginPath();
 			_this.processCtx.arc(this.x, this.y, outerRadius, 0, 2 * Math.PI);
 			_this.processCtx.fillStyle = gradient;
 			_this.processCtx.fill();
+			// _this.processCtx.globalCompositeOperation = "source-out";
 		}
 
 		this.lifeCount = function() {
 			this.life--;
-			this.wave = Math.sin(this.life/20) * 10;
+			this.wave = Math.sin(_this.time) * 6;
 
 			if(this.life <= 0) {
 				if(this.index != _this.heats.length - 1) {
@@ -379,7 +521,7 @@ function Thermal(option) {
 		}
 	}
 
-	function getPerlinNoiseImage(width,height,resolution,time) {
+	function getPerlinNoiseImage(width,height,resolution,diff,scale,time) {
 		var perlinNoiseImage = $("<canvas>")[0];
 		var perlinNoiseCtx = perlinNoiseImage.getContext("2d");
 		perlinNoiseImage.width = width*resolution;
@@ -389,9 +531,9 @@ function Thermal(option) {
 
 		for (var x = 0; x < perlinNoiseImage.width; x++) {
 		  for (var y = 0; y < perlinNoiseImage.height; y++) {
-		  	var value = noise.perlin3(x / (50*resolution), y / (50*resolution), time);
+		  	var value = noise.perlin3(x / (50*resolution*diff), y / (50*resolution*diff), time);
 
-		  	value = (1.6+value) * 30;
+		  	value = (1.6+value) * 30 * scale;
 
 		  	var cell = (x + y * perlinNoiseImage.width) * 4;
 		  	perlinNoiseImageData.data[cell + 3] = value;

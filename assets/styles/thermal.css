@@ -60,8 +60,7 @@ html, body {
   -ms-scroll-chaining: none;
   overscroll-behavior: contain;
   float: left;
-  background-color: #01034a;
-  cursor: url("../images/cursor.png"), auto; }
+  background-color: #01034a; }
 
 .screen {
   background-color: #fff;
@@ -84,9 +83,9 @@ html, body {
   align-items: center;
   overflow: scroll; }
   .container section {
-    height: 50%; }
+    width: 100%; }
     .container section canvas {
-      height: 100%; }
+      width: 100%; }
 
 .cursor {
   position: fixed;
