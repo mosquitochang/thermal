@@ -2,7 +2,7 @@
 html(lang="en")
 	head
 		meta(charset="UTF-8")
-		title Document
+		title 體感溫差
 		link(rel="stylesheet", href="assets/styles/main.css")
 		meta(name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0")
 		meta(name="title" content="")
@@ -15,25 +15,184 @@ html(lang="en")
 		meta(property="og:description" content="")
 		meta(property="og:site_name" content="")
 	body
-		header
 		.page-wrapper
-			.screen
-				.screen-container
-					section.art
-						img(src="assets/images/t.png", alt="")
-					section.art
-						img(src="assets/images/t.png", alt="")
-					section.art
-						img(src="assets/images/t.png", alt="")
-		.lightbox-wrapper
-			section.art
-				.art-header
-					.title banana.
-					.close
-						span
-						span
-				.art-content
-					iframe(src="http://dollar-post.com/")
+			.left
+				.logo
+					img(src="assets/images/logo.png", alt="")
+				.menu
+					.menu-header
+						.header-icon
+							img(src="assets/images/icon-menu1.png", alt="")
+						.header-content
+							img(src="assets/images/menu.png", alt="")
+						.header-icon
+							img(src="assets/images/icon-menu2.png", alt="")
+					.menu-arrow
+						.arrow
+							img(src="assets/images/arrow.png", alt="")
+					.menu-content
+						.menu-row.active(data-menu=1)
+							.row-icon
+								include ./assets/images/icon-menu-row.svg
+							p.row-text 
+								span 策展人 
+								span CURATOR
+						.menu-row(data-menu=2)
+							.row-icon
+								include ./assets/images/icon-menu-row.svg
+							p.row-text 
+								span 策展論述 
+								span ESSAY
+						.menu-row(data-menu=3)
+							.row-icon
+								include ./assets/images/icon-menu-row.svg
+							p.row-text 
+								span 藝術家 
+								span ARTISTS
+						.menu-row(data-menu=4)
+							.row-icon
+								include ./assets/images/icon-menu-row.svg
+							p.row-text 
+								span 關於本計畫 
+								span ABOUT
+						.menu-row(data-menu=5)
+							.row-icon
+								include ./assets/images/icon-menu-row.svg
+							p.row-text 
+								span 體感溫差 
+								span HOMEPAGE
+						.menu-row(data-menu=6)
+							.row-icon
+								include ./assets/images/icon-menu-row.svg
+							p.row-text 
+								span 聊天室
+								span CHAT ROOM
+				.clock
+					.header
+						.header-icon
+							img(src="assets/images/icon-clock.png", alt="")
+						.header-content
+							p.time 00:00:00
+					.content
+						img(src="assets/images/hourglass.png", alt="")
+			.center
+				.main-screen
+					.homepage
+						.screen-container
+							canvas.screen
+						.temperture-reader
+							.reader-high
+								.reader-header
+									.reader-title 
+										p HI
+									.reader-texture
+										img(src="assets/images/temp-left.png", alt="")
+								.reader-content
+									p.temp-high 20
+									img(src="assets/images/icon-menu1.png", alt="")
+							.reader-current
+								.reader-header 
+									.reader-title
+										p CURRENT TEMPERATURE
+								.reader-content
+									p.temp-high 17
+									img(src="assets/images/icon-menu1.png", alt="")
+							.reader-low
+								.reader-header
+									.reader-texture
+										img(src="assets/images/temp-right.png", alt="")
+									.reader-title 
+										p LOW
+								.reader-content
+									p.temp-high 16
+									img(src="assets/images/icon-menu1.png", alt="")
+									
+							
+			.right
+				.status
+					.battery
+						img(src="assets/images/battery.png", alt="")
+					.marquee
+						.marquee-icon
+							img(src="assets/images/icon-mar.png", alt="")
+						.marquee-content 
+							marquee 南無阿彌陀佛南無阿彌陀佛南無阿彌陀佛
+				.countdown
+					.header
+						.header-icon
+							img(src="assets/images/icon-countdown.png", alt="")
+						.header-content
+							p 展覽倒數
+							p Countdown
+					.content
+						.countdown-box
+							p 
+								span.date 0
+								span Days Left ......
+				.date
+					.header
+						.header-icon
+							img(src="assets/images/icon-date.png", alt="")
+						.header-content
+							p 展覽時間
+							p Date
+					.content
+						.content-box
+							p 2018/10/30-2018/12/31
+							p AM11:00-PM18:30
+							p “Closed On Son&Mon”
+
+				.venue
+					.header
+						.header-icon
+							img(src="assets/images/icon-venue.png", alt="")
+						.header-content
+							p 展覽地點
+							p Venue
+					.content
+						.content-box
+							.left
+								.texts
+									p.zh 台北數位藝術中心
+									p Digital Art Center, Taipei
+									.br
+									p.zh 11158
+									p.zh 台北市士林區福華路180號 
+									p No.180, Fuhua Rd., 
+									p Shilin Dist., Taipei, Taiwan
+							.right
+								a(href="https://goo.gl/maps/o4vyorikbzK2", target="_blank")
+									img(src="assets/images/map.png", alt="")
+				.tel
+					.header
+						.header-icon
+							img(src="assets/images/icon-tel.png", alt="")
+						.header-content
+							p 聯絡電話
+							p Telephone
+					.content
+						.content-box
+							p +886 2 28345066
+				.info
+					.header
+						.header-icon
+							img(src="assets/images/icon-info.png", alt="")
+						.header-content
+							p 更多資訊
+							p Infomation
+					.content
+						.content-box
+							a(href="https://dac.tw/", target="_blank")
+								img(src="assets/images/info.png", alt="")
+		//- .lightbox-wrapper
+		//- 	section.art
+		//- 		.art-header
+		//- 			.title banana.
+		//- 			.close
+		//- 				span
+		//- 				span
+		//- 		.art-content
+		//- 			iframe(src="http://dollar-post.com/")
 		.cursor
 			img(src="assets/images/cursor.png", alt="")
 
@@ -41,7 +200,7 @@ html(lang="en")
 
 
 	script(src="assets/scripts/jquery-3.3.1.min.js")
-	script(src="assets/scripts/jquery.mousewheel.min.js")
+	//- script(src="assets/scripts/jquery.mousewheel.min.js")
 	//- script(src="assets/scripts/lodash.min.js")
 	//- script(src="assets/scripts/tinycolor-min.js")
 	//- script(src="assets/scripts/perlin.js")
@@ -56,9 +215,21 @@ html(lang="en")
 
 	//- script(src="https://cdnjs.cloudflare.com/ajax/libs/tinycolor/1.4.1/tinycolor.min.js")
 	//- script(src="assets/scripts/deltae.global.min.js")
+
+
+
+	//- script(src="https://cdnjs.cloudflare.com/ajax/libs/pixi.js/4.7.1/pixi.min.js")
+	//- script(src="https://cdn.jsdelivr.net/npm/pixi-filters@2.6.1/dist/pixi-filters.js")
+	//- script(src="assets/scripts/lodash.min.js")
+	//- script(src="assets/scripts/tinycolor-min.js")
+	//- script(src="assets/scripts/perlin.js")
+	//- script(src="http://cdnjs.cloudflare.com/ajax/libs/gsap/1.19.0/TweenMax.min.js")
+	//- script(src="https://cdnjs.cloudflare.com/ajax/libs/gsap/2.0.2/plugins/PixiPlugin.min.js")
 	
 
 	script(src="assets/scripts/main.js")
 
-	script(src="assets/scripts/color.js")
+	//- script(src="assets/scripts/thermal.js")
+
+	//- script(src="assets/scripts/color.js")
 	

@@ -6,7 +6,8 @@ var shaderFrag = `
 	varying vec2 vTextureCoord;
 	uniform sampler2D uSampler;
 
-	#define C_0 vec3(0.0000,0.0000,0.0039)
+	// #define C_0 vec3(0.0000,0.0000,0.0039)
+	#define C_0 vec3(0.0035,0.0019,0.2247)
 	#define C_1 vec3(0.0000,0.3137,0.6118)
 	#define C_2 vec3(0.0000,0.6588,0.8549)
 	#define C_3 vec3(0.0980,0.9333,0.6588)
@@ -134,7 +135,7 @@ var crt = new PIXI.filters.CRTFilter({
 	vignettingAlpha: 0.7
 })
 
-app.stage.filters = [crt];
+// app.stage.filters = [crt];
 
 
 
@@ -148,14 +149,14 @@ backgroundLayer.filters = [filter];
 frontLayer.filters = [filter];
 
 PIXI.loader
-    .add('assets/images/h2.png')
+    .add('assets/images/h3.png')
     .load(init);
 
 var shadowSprite;
 var realSprite;
 function init() {
-	shadowSprite = PIXI.Sprite.fromImage("assets/images/h2.png");
-	backgroundLayer.addChild(shadowSprite);
+	shadowSprite = PIXI.Sprite.fromImage("assets/images/h3.png");
+	// backgroundLayer.addChild(shadowSprite);
 
 	shadowSprite.anchor.set(0.5);
 	var ratio = shadowSprite.width / shadowSprite.height;
@@ -165,8 +166,8 @@ function init() {
 	shadowSprite.y = app.screen.height / 2;
 	shadowSprite.alpha = 0.6;
 
-	realSprite = PIXI.Sprite.fromImage("assets/images/h2.png");
-	frontLayer.addChild(realSprite);
+	realSprite = PIXI.Sprite.fromImage("assets/images/h3.png");
+	// frontLayer.addChild(realSprite);
 
 	realSprite.anchor.set(0.5);
 	var ratio = realSprite.width / realSprite.height;
@@ -180,9 +181,9 @@ function init() {
 	noiseSprite.width = noiseSprite.height = Math.max(app.screen.width,app.screen.height)
 	noiseSprite.x = app.screen.width / 2;
 	noiseSprite.y = app.screen.height / 2;
-	frontLayer.addChild(noiseSprite);
+	// frontLayer.addChild(noiseSprite);
 
-	frontLayer.addChild(mouseHeatSprite);
+	// frontLayer.addChild(mouseHeatSprite);
 }
 
 
@@ -218,6 +219,16 @@ var mouseHeatSprite = PIXI.Sprite.from(mouseHeatTexture);
 $("body").on("mousemove", function(e) {
 	mouseHeat.mouseMove(e);
 })
+
+var el = $("body")[0];
+
+el.addEventListener("touchstart", function(e){
+	mouseHeat.mouseMove(e.targetTouches[0]);
+}, false);
+
+el.addEventListener("touchmove", function(e){
+	mouseHeat.mouseMove(e.targetTouches[0]);
+}, false);
 
 
 // $("body").on("keypress", function(e) {
@@ -268,7 +279,7 @@ app.ticker.add(function(delta) {
 	backgroundCtx.fillStyle = "#fff";
 	backgroundCtx.fillRect(0,0,backgroundCanvas.width,backgroundCanvas.height);
 
-	backgroundCtx.globalAlpha = 0.6;
+	backgroundCtx.globalAlpha = 0.15;
 	backgroundCtx.drawImage(noiseMap,0,0,backgroundCanvas.width,backgroundCanvas.height);
 	backgroundCtx.globalAlpha = 1;
 
@@ -481,37 +492,37 @@ var thermals = [];
 // }
 // draw();
 
-$("body").on("mousemove", function(e) {
-	// thermals[0].mouseMove(e);
-	for (var i = 0; i < thermals.length; i++) {
-		thermals[i].mouseMove(e);
-	}
-})
+// $("body").on("mousemove", function(e) {
+// 	// thermals[0].mouseMove(e);
+// 	for (var i = 0; i < thermals.length; i++) {
+// 		thermals[i].mouseMove(e);
+// 	}
+// })
 
-var el = $("body")[0];
+// var el = $("body")[0];
 
-el.addEventListener("touchstart touchmove", function(e){
-	e.preventDefault();
-	for (var i = 0; i < thermals.length; i++) {
-		thermals[i].mouseMove(e.targetTouches[0]);
-	}
-}, false);
+// el.addEventListener("touchstart touchmove", function(e){
+// 	e.preventDefault();
+// 	for (var i = 0; i < thermals.length; i++) {
+// 		thermals[i].mouseMove(e.targetTouches[0]);
+// 	}
+// }, false);
 
-$(window).on("resize", function() {
-	for (var i = 0; i < thermals.length; i++) {
-		thermals[i].resize();
-	}
-})
+// $(window).on("resize", function() {
+// 	for (var i = 0; i < thermals.length; i++) {
+// 		thermals[i].resize();
+// 	}
+// })
 
-$("body").on("keypress", function(e) {
-	if(e.which == 122) {
-		var nowX = thermal1.pixiApp.stage.x;
-		TweenMax.to(thermal1.pixiApp.stage,1,{x:nowX-$(".screen").width()});
-	} else if(e.which == 120) {
-		var nowX = thermal1.pixiApp.stage.x;
-		TweenMax.to(thermal1.pixiApp.stage,1,{x:nowX+$(".screen").width()});
-	}
-})
+// $("body").on("keypress", function(e) {
+// 	if(e.which == 122) {
+// 		var nowX = thermal1.pixiApp.stage.x;
+// 		TweenMax.to(thermal1.pixiApp.stage,1,{x:nowX-$(".screen").width()});
+// 	} else if(e.which == 120) {
+// 		var nowX = thermal1.pixiApp.stage.x;
+// 		TweenMax.to(thermal1.pixiApp.stage,1,{x:nowX+$(".screen").width()});
+// 	}
+// })
 
 
 function Thermal(option) {

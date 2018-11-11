@@ -1,3 +1,7 @@
+$dark-blue: #09053A
+$light-blue: #4AFFFF
+
+
 /* http://meyerweb.com/eric/tools/css/reset/ 
 	 v2.0 | 20110126
 	 License: none (public domain) */
@@ -46,7 +50,8 @@ table
 	border-collapse: collapse
 	border-spacing: 0
 
-// @import url(//fonts.googleapis.com/earlyaccess/notosanstc.css)
+@import url('//fonts.googleapis.com/earlyaccess/notosanstc.css')
+@import url('https://fonts.googleapis.com/css?family=Press+Start+2P|Roboto');
 
 *
 	box-sizing: border-box
@@ -54,55 +59,501 @@ table
 	outline: none
 
 html,body
-	// font-family: 'Noto Sans TC', sans-serif
+	font-family: 'Press Start 2P','Noto Sans TC', sans-serif
+	// font-family: 'Press Start 2P', cursive;
+	// font-family: 'Roboto', sans-serif;
 	font-weight: 300
 	width: 100%
 	height: 100%
 	// font-size: 0
 	overscroll-behavior: contain
-
-header
-	position: fixed
-	bottom: 50px
-	left: 30px
-	height: 70%
-	width: 40px
-	border: 3px solid #000
-	z-index: 100
-	background-image: url("../images/header-bg.png")
-	background-size: 100% 100%
-
+	color: $light-blue
 
 .page-wrapper
 	width: 100%
 	height: 100%
-	padding: 20px 0
-	background-color: #222
-	.screen
-		width: 100%
-		height: 100%
-		background-color: #01034a
-		// overflow-x: hidden
-		overflow-x: scroll
-		.screen-container
-			height: 100%
+	padding: 20px
+	background-color: $dark-blue
+	display: flex
+	// align-items: 
+	.left
+		width: 300px
+		margin-right: 10px
+		// background-color: #fff
+		display: flex
+		flex-direction: column
+		.logo
+			width: 100%
+			// height: 120px
+			margin-bottom: 10px
+			// border: 3px solid $light-blue
+			img
+				width: 100%
+		.menu
+			flex: 1
+			width: 100%
+			margin-bottom: 10px
+			border: 3px solid $light-blue
 			display: flex
-			.art
+			.menu-header
+				width: 40px
 				height: 100%
-				width: 1000px
-				// border: 5px solid #fff
-				flex: 0 0 auto
+				border-right: 3px solid $light-blue
 				display: flex
-				justify-content: center
+				flex-direction: column
+				.header-icon
+					width: 100%
+					height: 40px
+					flex: 0 0 auto
+					border-bottom: 3px solid $light-blue
+					&:last-child
+						border-bottom: 0
+						border-top: 3px solid $light-blue
+					img
+						width: 100%
+				.header-content
+					flex: 1
+					width: 100%
+					background-image: url("../images/header-bg.png")
+					// background-image: linear-gradient(to bottom,rgba(red,0.8),rgba(blue,0.8))
+					background-size: 100% 100%
+					img
+						height: calc(100% - 60px)
+						width: auto
+						max-width: 100%
+						position: absolute
+						top: 50%
+						right: 0
+						transform: translateY(-50%)	
+			.menu-arrow
+				width: 15px
+				height: 100%
+				margin: 0 10px
+				padding: 75px 0
+				.arrow
+					width: 100%
+					height: 30px
+					position: absolute
+					top: calc((100% - 150px) * 0 + 75px)
+					left: 0
+					transform: translateY(-50%)
+					transition: 0.4s
+					&.at-1
+						top: calc((100% - 150px) * 0 + 75px)
+					&.at-2
+						top: calc((100% - 150px) * 0.2 + 75px)
+					&.at-3
+						top: calc((100% - 150px) * 0.4 + 75px)
+					&.at-4
+						top: calc((100% - 150px) * 0.6 + 75px)
+					&.at-5
+						top: calc((100% - 150px) * 0.8 + 75px)
+					&.at-6
+						top: calc((100% - 150px) * 1 + 75px)
+					img
+						width: 100%
+			.menu-content
+				flex: 1
+				height: 100%
+				display: flex
+				flex-direction: column
 				align-items: center
+				justify-content: space-between
+				padding: 57px 10px 61px 0px
+				.menu-row
+					width: 100%
+					height: 30px
+					padding: 5px
+					// background-color: rgba(#fff,0)
+					display: flex
+					transition: 0.2s
+					cursor: pointer
+					&::before
+						content: ""
+						display: block
+						width: 0
+						height: 100%
+						background-color: rgba($light-blue,1)
+						position: absolute
+						top: 0
+						left: 0
+						z-index: 1
+						transition: 0.5s
+					&.active
+						color: $dark-blue
+						&::before
+							background-color: rgba($light-blue,1)
+							width: 100%
+						.row-icon
+							svg
+								fill: $dark-blue
+					&.active
+						
+					.row-icon
+						width: 20px
+						height: 100%
+						display: flex
+						align-items: center
+						margin-right: 5px
+						z-index: 2
+						svg
+							width: 15px
+							height: 15px
+							fill: $light-blue
+					.row-text
+						// margin-bottom: 5px
+						flex: 0 0 auto
+						white-space: nowrap
+						transform-origin: 0% 50%
+						transform: translateY(-50%) scale(0.8)
+						position: absolute
+						top: 42%
+						left: 30px
+						display: flex
+						align-items: flex-end
+						z-index: 2
+						transition: 0.5s
+						span:first-child
+							font-weight: 500
+							font-size: 20px
+							margin-right: 10px
+							letter-spacing: 3px
+						span:last-child
+							font-size: 12px
+
+							
+							
+
+
+		.clock
+			width: 100%
+			height: 170px
+			border: 3px solid $light-blue
+			display: flex
+			flex-direction: column
+			.header
+				width: 100%
+				height: 40px
+				border-bottom: 3px solid $light-blue
+				display: flex
+				.header-icon
+					width: 40px
+					height: 100%
+					border-right: 3px solid $light-blue
+					img
+						width: 100%
+				.header-content
+					flex: 1
+					height: 100%
+					display: flex
+					align-items: center
+					justify-content: center
+					color: $light-blue
+					font-family: 'Press Start 2P'
+			.content
+				width: 100%
+				flex: 1
+				display: flex
+				align-items: center
+				justify-content: center
 				img
-					height: 90%
-				&:nth-child(1)
-					background-color: rgba(#fff,0.3)
-				&:nth-child(2)
-					background-color: rgba(#fff,0.5)
-				&:nth-child(3)
-					background-color: rgba(#fff,0.7)
+					width: 50px
+	.center
+		flex: 1
+		// background-color: #fff
+		display: flex
+		flex-direction: column
+		.main-screen
+			flex: 1
+			width: 100%
+			// width: 606px
+			// margin-bottom: 10px
+			border: 3px solid $light-blue
+			// box-shadow: 0px 0px 40px 40px #4195fc
+			.homepage
+				width: 100%
+				height: 100%
+				display: flex
+				flex-direction: column
+				.screen-container
+					width: 100%
+					flex: 1
+					canvas
+						width: 100%
+						height: calc( 100% - 140px )
+						// background-image: linear-gradient(0deg, #A0E5E5 0%,transparent 1%,transparent 99%, #A0E5E5 100%), linear-gradient(90deg, #A0E5E5 0%,transparent 1%,transparent 99%, #A0E5E5 100%)
+						// background-size: 50px 50px
+						// background-position: 50% 50%
+					&::after
+						content: ""
+						display: block
+						position: absolute
+						top: 0
+						left: 0
+						width: 100%
+						height: 100%
+						pointer-events: none
+						background-image: linear-gradient(0deg, #A0E5E5 0%,transparent 1%,transparent 99%, #A0E5E5 100%), linear-gradient(90deg, #A0E5E5 0%,transparent 1%,transparent 99%, #A0E5E5 100%)
+						background-size: 50px 50px
+						background-position: 50% 50%
+				.temperture-reader
+					width: 100%
+					height: 140px
+					border-top: 3px solid $light-blue
+					display: flex
+					>div
+						flex: 1
+						height: 100%
+						border-right: 3px solid $light-blue
+						display: flex
+						flex-direction: column
+						&:last-child
+							border-right: 0
+						.reader-header
+							width: 100%
+							height: 40px
+							flex: 0 0 auto
+							border-bottom: 3px solid $light-blue
+							display: flex
+							flex-direction: row
+							overflow: hidden
+							.reader-title
+								width: 70px
+								height: 100%
+								flex: 0 0 auto
+								p
+									position: absolute
+									top: 50%
+									left: 50%
+									font-size: 12px
+									line-height: 1.5
+									transform-origin: 50% 50%
+									transform: translate(-50%,-50%) scale(0.8)
+									text-align: center
+							.reader-texture
+								flex: 1
+								height: 100%
+								overflow: hidden
+								img
+									height: 15px
+									position: absolute
+									top: 50%
+									left: 50%
+									transform: translate(-50%,-50%)
+						.reader-content
+							width: 100%
+							flex: 1
+							display: flex
+							flex-direction: row
+							justify-content: center
+							align-items: center
+							p
+								font-size: 40px
+							img
+								width: 40px
+					.reader-high
+						.reader-title
+							border-right: 3px solid $light-blue
+					.reader-low
+						.reader-title
+							border-left: 3px solid $light-blue
+					.reader-current
+						.reader-header
+							.reader-title
+								width: 100%
+
+
+	.right
+		width: 250px
+		margin-left: 10px
+		// background-color: #fff
+		display: flex
+		flex-direction: column
+		>div
+			flex: 1
+			width: 100%
+			border: 3px solid $light-blue
+			border-bottom: 0
+			display: flex
+			flex-direction: column
+			&:last-child
+				border: 3px solid $light-blue
+			.header
+				width: 100%
+				height: 40px
+				flex: 0 0 auto
+				border-bottom: 3px solid $light-blue
+				display: flex
+				.header-icon
+					width: 40px
+					height: 100%
+					border-right: 3px solid $light-blue
+					display: flex
+					justify-content: center
+					align-items: center
+					img
+						width: 100%
+				.header-content
+					flex: 1
+					height: 100%
+					display: flex
+					align-items: center
+					padding: 0 10px
+					color: $light-blue
+					font-family: 'Press Start 2P'
+					font-weight: 500
+					p
+						flex: 0 0 auto
+					p:first-child
+						margin-bottom: 5px
+						letter-spacing: 3px
+					p:last-child
+						position: absolute
+						top: 50%
+						right: 10px
+						font-size: 12px
+						transform-origin: 100% 100%
+						transform: translateY(-50%) scale(0.7)
+			.content
+				width: 100%
+				flex: 1
+				overflow: hidden
+						
+
+
+		.status
+			display: flex
+			flex-direction: row
+			flex: 0 0 auto
+			margin-bottom: 10px
+			border: 0
+			height: 40px
+			.battery
+				width: 60px
+				margin-left: 5px
+				margin-right: 10px
+				padding: 5px 0
+				img
+					width: 100%
+			.marquee
+				flex: 1
+				border: 3px solid $light-blue
+				display: flex
+				.marquee-icon
+					width: 40px
+					height: 100%
+					flex: 0 0 auto
+					border-right: 3px solid $light-blue
+					display: flex
+					justify-content: center
+					align-items: center
+					img
+						width: 100%
+				.marquee-content 
+					display: flex
+					align-items: center
+					marquee
+						width: 100%
+						line-height: 1.5
+						margin-bottom: 5px
+						font-weight: 500
+						letter-spacing: 3px
+
+		.countdown
+			height: 100px
+			flex: 0 0 auto
+			.content
+				.countdown-box
+					position: absolute
+					top: 50%
+					left: 50%
+					flex: 0 0 auto
+					transform-origin: 50% 50%
+					transform: translate(-50%,-50%) scale(0.7)
+					font-size: 12px
+					width: auto
+					p
+						white-space: nowrap
+					.date
+						font-size: 30px
+						margin-right: 10px
+		.date
+			.content
+				.content-box
+					position: absolute
+					top: 50%
+					left: 50%
+					flex: 0 0 auto
+					transform-origin: 50% 50%
+					transform: translate(-50%,-50%) scale(0.6)
+					p
+						white-space: nowrap
+						line-height: 1.5
+		.venue
+			flex: 1.7
+			.content
+
+				.content-box
+					width: 100%
+					height: 100%
+					display: flex
+					.left
+						flex: 1
+						height: 100%
+						.texts
+							position: absolute
+							top: 50%
+							left: 15px
+							flex: 0 0 auto
+							transform-origin: 0% 50%
+							transform: translate(0%,-50%) scale(0.3)
+							p
+								white-space: nowrap
+								line-height: 1.5
+							.zh
+								font-family: 'Noto Sans TC', sans-serif
+								font-weight: 500
+								font-size: 40px
+							.br
+								margin: 30px 0
+					.right
+						width: 70px
+						position: absolute
+						top: 50%
+						right: 10px
+						transform: translateY(-50%)
+						a
+							width: 100%
+							img
+								width: 100%
+		.tel
+			height: 100px
+			flex: 0 0 auto
+			.content
+				.content-box
+					position: absolute
+					top: 50%
+					left: 50%
+					flex: 0 0 auto
+					transform-origin: 50% 50%
+					transform: translate(-50%,-50%) scale(0.7)
+					p
+						white-space: nowrap
+						line-height: 1.5
+		.info
+			height: 110px
+			flex: 0 0 auto
+			.content
+				.content-box
+					position: absolute
+					top: 50%
+					left: 50%
+					flex: 0 0 auto
+					transform: translate(-50%,-50%) 
+					a
+						height: 50px
+						img
+							height: 50px
 
 .lightbox-wrapper
 	width: 100%
@@ -147,7 +598,7 @@ header
 			padding: 0 10px
 			background-color: #000
 			.title
-				font-weight: 700
+				font-weight: 500
 				color: #fff
 			.close
 				width: 20px
