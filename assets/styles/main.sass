@@ -1,6 +1,8 @@
 $dark-blue: #09053A
 $light-blue: #4AFFFF
 
+$gray: #536060
+
 
 /* http://meyerweb.com/eric/tools/css/reset/ 
 	 v2.0 | 20110126
@@ -58,6 +60,10 @@ table
 	position: relative
 	outline: none
 
+::-webkit-scrollbar 
+	display: none
+
+
 html,body
 	font-family: 'Press Start 2P','Noto Sans TC', sans-serif
 	// font-family: 'Press Start 2P', cursive;
@@ -72,6 +78,7 @@ html,body
 .page-wrapper
 	width: 100%
 	height: 100%
+	overflow: hidden
 	padding: 20px
 	background-color: $dark-blue
 	display: flex
@@ -114,7 +121,8 @@ html,body
 				.header-content
 					flex: 1
 					width: 100%
-					background-image: url("../images/header-bg.png")
+					// background-image: url("../images/header-bg.png")
+					background-image: linear-gradient(to bottom,rgb(255,255,243),rgb(255,238,41),rgb(255,196,0),rgb(255,149,0),rgb(255,97,0),rgb(244,30,81),rgb(207,0,143),rgb(135,0,162),rgb(62,0,144),rgb(0,9,19))
 					// background-image: linear-gradient(to bottom,rgba(red,0.8),rgba(blue,0.8))
 					background-size: 100% 100%
 					img
@@ -269,38 +277,148 @@ html,body
 			// width: 606px
 			// margin-bottom: 10px
 			border: 3px solid $light-blue
+			overflow: hidden
 			// box-shadow: 0px 0px 40px 40px #4195fc
+			&::before
+				content: ""
+				display: block
+				position: absolute
+				top: 0
+				left: 0
+				width: 100%
+				height: 100%
+				pointer-events: none
+				background-image: linear-gradient(0deg, #A0E5E5 0%,transparent 2%,transparent 98%, #A0E5E5 100%), linear-gradient(90deg, #A0E5E5 0%,transparent 2%,transparent 98%, #A0E5E5 100%)
+				background-size: 50px 50px
+				background-position: 50% 50%
+			section
+				width: 100%
+				height: 100%
+				position: absolute
+				top: 0
+				left: 0
+				display: flex
+				// display: none
+				visibility: hidden
+				&.active
+					// display: flex
+					visibility: visible
+				.window
+					width: 80%
+					height: 80%
+					background-color: rgba($dark-blue,0.9)
+					border: 3px solid $light-blue
+					display: flex
+					flex-direction: column
+					.window-header
+						width: 100%
+						height: 40px
+						flex: 0 0 auto
+						border-bottom: 3px solid $light-blue
+						display: flex
+						.header-icon
+							width: 40px
+							height: 100%
+							border-right: 3px solid $light-blue
+							display: flex
+							justify-content: center
+							align-items: center
+							img
+								width: 100%
+						.header-content
+							flex: 1
+							height: 100%
+							display: flex
+							align-items: center
+							padding: 0 10px
+							// color: $dark-blue
+							// background-color: $dar
+							font-family: 'Press Start 2P'
+							font-weight: 500
+							p
+								flex: 0 0 auto
+							p:first-child
+								font-size: 18px
+								margin-bottom: 5px
+								letter-spacing: 3px
+							p:last-child
+								position: absolute
+								top: 50%
+								right: 10px
+								font-size: 12px
+								transform-origin: 100% 100%
+								transform: translateY(-50%) scale(1)
+					.window-bottom
+						width: 100%
+						height: calc(100% - 40px)
+						display: flex
+						.window-content
+							width: calc(100% - 40px)
+							height: 100%
+							flex: 0 0 auto
+							overflow-y: scroll
+							// overflow: hidden
+							// display: flex
+							.window-content-container
+								position: absolute
+								top: 0
+								left: 0
+								width: 100%
+								height: 1000px
+						.window-scrollbar
+							height: 100%
+							width: 40px
+							border-left: 3px solid $light-blue
+							display: flex
+							flex-direction: column
+							.up-btn,.down-btn
+								width: 100%
+								height: 40px
+								background-color: $light-blue
+								display: flex
+								justify-content: center
+								align-items: center
+								img
+									width: 30px
+							.down-btn
+								img
+									transform: rotate(180deg)
+							.scrollbar
+								width: 100%
+								flex: 1
+								background-color: $dark-blue
+								.bar
+									position: absolute
+									top: 0
+									left: 0
+									width: 100%
+									height: 100px
+									border: 3px solid $dark-blue
+									background-color: $light-blue
+									cursor: pointer
 			.homepage
 				width: 100%
 				height: 100%
-				display: flex
+				// display: flex
 				flex-direction: column
 				.screen-container
 					width: 100%
 					flex: 1
+					// height: calc( 100% - 140px )
 					canvas
 						width: 100%
-						height: calc( 100% - 140px )
+						height: 100%
+						// height: calc( 100% - 140px )
+						// opacity: 0.8
 						// background-image: linear-gradient(0deg, #A0E5E5 0%,transparent 1%,transparent 99%, #A0E5E5 100%), linear-gradient(90deg, #A0E5E5 0%,transparent 1%,transparent 99%, #A0E5E5 100%)
 						// background-size: 50px 50px
 						// background-position: 50% 50%
-					&::after
-						content: ""
-						display: block
-						position: absolute
-						top: 0
-						left: 0
-						width: 100%
-						height: 100%
-						pointer-events: none
-						background-image: linear-gradient(0deg, #A0E5E5 0%,transparent 1%,transparent 99%, #A0E5E5 100%), linear-gradient(90deg, #A0E5E5 0%,transparent 1%,transparent 99%, #A0E5E5 100%)
-						background-size: 50px 50px
-						background-position: 50% 50%
 				.temperture-reader
 					width: 100%
 					height: 140px
 					border-top: 3px solid $light-blue
 					display: flex
+					background-color: $dark-blue
 					>div
 						flex: 1
 						height: 100%
@@ -361,7 +479,100 @@ html,body
 						.reader-header
 							.reader-title
 								width: 100%
+			.curator
+				justify-content: center
+				align-items: center
+				.window
+					.window-content-container
+						background-image: linear-gradient(to top, red, blue)
+			.essay
+				justify-content: center
+				align-items: center
+				.window
+					.window-content-container
+						background-image: linear-gradient(to top, orange, purple)
+			.artists
+				justify-content: center
+				align-items: center
+				.window
+					.window-content-container
+						background-image: linear-gradient(to top, green, yellow)
+			.about
+				justify-content: center
+				align-items: center
+				.window
+					.window-content-container
+						background-image: linear-gradient(to top, gray, red)
+			.chatroom
+				justify-content: center
+				align-items: center
+				.window
+					.window-content-container
+						background-image: linear-gradient(to top, purple, gray)
 
+		.screen-animate
+			position: absolute
+			top: 0
+			left: 0
+			width: 100%
+			height: 100%
+			pointer-events: none
+			overflow: hidden
+			border: 3px solid $light-blue
+			>div
+				background-color: $dark-blue
+				transition: 0.3s
+			.screen-animate-top
+				position: absolute
+				top: -50%
+				left: 0
+				width: 100%
+				height: calc(50% - 1px)
+				transition: 0.2s
+				transition-delay: 0.3s
+				transition-timing-function: ease-out
+			.screen-animate-bottom
+				position: absolute
+				bottom: -50%
+				left: 0
+				width: 100%
+				height: calc(50% - 1px)
+				transition: 0.2s
+				transition-delay: 0.3s
+				transition-timing-function: ease-out
+			.screen-animate-left
+				position: absolute
+				top: 0
+				left: -50%
+				width: 50%
+				height: 100%
+				transition-delay: 0s
+				transition-timing-function: ease-in
+			.screen-animate-right
+				position: absolute
+				top: 0
+				right: -50%
+				width: 50%
+				height: 100%
+				transition-delay: 0s
+				transition-timing-function: ease-in
+			&.active
+				.screen-animate-top
+					top: 0%
+					transition-delay: 0s
+					transition-timing-function: ease-in
+				.screen-animate-bottom
+					bottom: 0%
+					transition-delay: 0s
+					transition-timing-function: ease-in
+				.screen-animate-left
+					left: 0%
+					transition-delay: 0.2s
+					transition-timing-function: ease-out
+				.screen-animate-right
+					right: 0%
+					transition-delay: 0.2s
+					transition-timing-function: ease-out
 
 	.right
 		width: 250px

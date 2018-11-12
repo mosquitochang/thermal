@@ -7,29 +7,30 @@ var shaderFrag = `
 	uniform sampler2D uSampler;
 
 	// #define C_0 vec3(0.0000,0.0000,0.0039)
-	#define C_0 vec3(0.0035,0.0019,0.2247)
-	#define C_1 vec3(0.0000,0.3137,0.6118)
-	#define C_2 vec3(0.0000,0.6588,0.8549)
-	#define C_3 vec3(0.0980,0.9333,0.6588)
-	#define C_4 vec3(0.4275,0.9333,0.1804)
-	#define C_5 vec3(0.7882,0.9882,0.0000)
-	#define C_6 vec3(1.0000,0.9843,0.0000)
-	#define C_7 vec3(1.0000,0.7686,0.0000)
-	#define C_8 vec3(1.0000,0.3529,0.0000)
-	#define C_9 vec3(1.0000,0.2118,0.2000)
-	#define C_10 vec3(1.0000,0.9569,0.9686)
 
-	// #define C_0 vec3(0.0000,0.0353,0.0745)
-	// #define C_1 vec3(0.0000,0.0353,0.0784)
-	// #define C_2 vec3(0.2431,0.0000,0.5647)
-	// #define C_3 vec3(0.5294,0.0000,0.6353)
-	// #define C_4 vec3(0.8118,0.0000,0.5608)
-	// #define C_5 vec3(0.9569,0.1176,0.3176)
-	// #define C_6 vec3(1.0000,0.3804,0.0000)
-	// #define C_7 vec3(1.0000,0.5843,0.0000)
-	// #define C_8 vec3(1.0000,0.7686,0.0000)
-	// #define C_9 vec3(1.0000,0.9333,0.1608)
-	// #define C_10 vec3(1.0000,1.0000,0.9529)
+	// #define C_0 vec3(0.0035,0.0019,0.2247)
+	// #define C_1 vec3(0.0000,0.3137,0.6118)
+	// #define C_2 vec3(0.0000,0.6588,0.8549)
+	// #define C_3 vec3(0.0980,0.9333,0.6588)
+	// #define C_4 vec3(0.4275,0.9333,0.1804)
+	// #define C_5 vec3(0.7882,0.9882,0.0000)
+	// #define C_6 vec3(1.0000,0.9843,0.0000)
+	// #define C_7 vec3(1.0000,0.7686,0.0000)
+	// #define C_8 vec3(1.0000,0.3529,0.0000)
+	// #define C_9 vec3(1.0000,0.2118,0.2000)
+	// #define C_10 vec3(1.0000,0.9569,0.9686)
+
+	#define C_0 vec3(0.0000,0.0353,0.0745)
+	#define C_1 vec3(0.0000,0.0353,0.0784)
+	#define C_2 vec3(0.2431,0.0000,0.5647)
+	#define C_3 vec3(0.5294,0.0000,0.6353)
+	#define C_4 vec3(0.8118,0.0000,0.5608)
+	#define C_5 vec3(0.9569,0.1176,0.3176)
+	#define C_6 vec3(1.0000,0.3804,0.0000)
+	#define C_7 vec3(1.0000,0.5843,0.0000)
+	#define C_8 vec3(1.0000,0.7686,0.0000)
+	#define C_9 vec3(1.0000,0.9333,0.1608)
+	#define C_10 vec3(1.0000,1.0000,0.9529)
 
 
 	void main(void)
@@ -156,7 +157,7 @@ var shadowSprite;
 var realSprite;
 function init() {
 	shadowSprite = PIXI.Sprite.fromImage("assets/images/h3.png");
-	// backgroundLayer.addChild(shadowSprite);
+	backgroundLayer.addChild(shadowSprite);
 
 	shadowSprite.anchor.set(0.5);
 	var ratio = shadowSprite.width / shadowSprite.height;
@@ -164,10 +165,10 @@ function init() {
 	shadowSprite.width = app.screen.height * ratio;
 	shadowSprite.x = app.screen.width / 2;
 	shadowSprite.y = app.screen.height / 2;
-	shadowSprite.alpha = 0.6;
+	shadowSprite.alpha = 0.3;
 
 	realSprite = PIXI.Sprite.fromImage("assets/images/h3.png");
-	// frontLayer.addChild(realSprite);
+	frontLayer.addChild(realSprite);
 
 	realSprite.anchor.set(0.5);
 	var ratio = realSprite.width / realSprite.height;
@@ -181,9 +182,9 @@ function init() {
 	noiseSprite.width = noiseSprite.height = Math.max(app.screen.width,app.screen.height)
 	noiseSprite.x = app.screen.width / 2;
 	noiseSprite.y = app.screen.height / 2;
-	// frontLayer.addChild(noiseSprite);
+	frontLayer.addChild(noiseSprite);
 
-	// frontLayer.addChild(mouseHeatSprite);
+	frontLayer.addChild(mouseHeatSprite);
 }
 
 
@@ -279,7 +280,7 @@ app.ticker.add(function(delta) {
 	backgroundCtx.fillStyle = "#fff";
 	backgroundCtx.fillRect(0,0,backgroundCanvas.width,backgroundCanvas.height);
 
-	backgroundCtx.globalAlpha = 0.15;
+	backgroundCtx.globalAlpha = 0.6;
 	backgroundCtx.drawImage(noiseMap,0,0,backgroundCanvas.width,backgroundCanvas.height);
 	backgroundCtx.globalAlpha = 1;
 
@@ -365,6 +366,8 @@ function MouseHeat() {
 			y: e.pageY - $(".screen").offset().top
 		};
 
+		// console.log(currentPoint);
+
 		if(this.lastPoint !== undefined) {
 			var dist = distanceBetween(this.lastPoint, currentPoint);
 			var angle = angleBetween(this.lastPoint, currentPoint);
@@ -403,11 +406,11 @@ function MouseHeat() {
 
 		this.draw = function() {
 			var innerRadius = 5;
-			var outerRadius = Math.max(70*this.life/30 + 30, 0);
+			var outerRadius = Math.max(70*this.life/30 + 30, 0) / 2;
 			// var radius = 70*this.life/60 + 30;
 			var alpha = 0.15*this.life/30;
 			if(this.index == _this.heats.length - 1) {
-				outerRadius = radius = 100+this.wave;
+				outerRadius = radius = (100+this.wave) / 2 ;
 				alpha = 0.7+this.wave/100;
 			}
 
@@ -423,7 +426,7 @@ function MouseHeat() {
 		}
 
 		this.lifeCount = function() {
-			this.life--;
+			this.life -= 0.2;
 			this.wave = Math.sin(_this.time) * 6;
 
 			if(this.life <= 0) {

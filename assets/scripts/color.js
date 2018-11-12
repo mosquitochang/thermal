@@ -28,13 +28,13 @@
 var colors = [[255,255,243,255],[255,238,41,255],[255,196,0,255],[255,149,0,255],[255,97,0,255],[244,30,81,255],[207,0,143,255],[135,0,162,255],[62,0,144,255],[0,9,20,255],[0,9,19,255]];
 
 
-var glsl = [];
-for (var i = colors.length-1; i >= 0; i--) {
-	var string = `#define C_${i} vec4(${(colors[i][0]/255).toFixed(4)},${(colors[i][1]/255).toFixed(4)},${(colors[i][2]/255).toFixed(4)}, 1.0)`;
-	glsl.push(string);
+// var glsl = [];
+// for (var i = colors.length-1; i >= 0; i--) {
+// 	var string = `#define C_${i} vec4(${(colors[i][0]/255).toFixed(4)},${(colors[i][1]/255).toFixed(4)},${(colors[i][2]/255).toFixed(4)}, 1.0)`;
+// 	glsl.push(string);
 
-	console.log(string);
-}
+// 	console.log(string);
+// }
 
 // #define C_10 vec4(0.0000,0.0353,0.0745, 1.0)
 // #define C_9 vec4(0.0000,0.0353,0.0784, 1.0)
@@ -51,16 +51,16 @@ for (var i = colors.length-1; i >= 0; i--) {
 // console.log(glsl);
 
 
-// var colorStrings = [];
-// for (var i = 0; i < colors.length; i++) {
-// 	var colorString = `rgb(${colors[i][0]},${colors[i][1]},${colors[i][2]})`;
-// 	colorStrings.push(colorString);
-// }
+var colorStrings = [];
+for (var i = 0; i < colors.length; i++) {
+	var colorString = `rgb(${colors[i][0]},${colors[i][1]},${colors[i][2]})`;
+	colorStrings.push(colorString);
+}
 
 // console.log(colorStrings);
 
-// var css = `linear-gradient(to top,${colorStrings[0]},${colorStrings[1]},${colorStrings[2]},${colorStrings[3]},${colorStrings[4]},${colorStrings[5]},${colorStrings[6]},${colorStrings[7]},${colorStrings[8]},${colorStrings[9]},${colorStrings[10]})`;
-
+var css = `linear-gradient(to top,${colorStrings[0]},${colorStrings[1]},${colorStrings[2]},${colorStrings[3]},${colorStrings[4]},${colorStrings[5]},${colorStrings[6]},${colorStrings[7]},${colorStrings[8]},${colorStrings[9]},${colorStrings[10]})`;
+console.log(css);
 
 // $("header").css({
 // 	"background": css

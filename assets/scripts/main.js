@@ -20,8 +20,10 @@ setInterval(function() {
 },1000)
 
 
-var nowMenuIndex = 1;
-var nowArrowIndex = 1;
+
+//menu
+var nowMenuIndex = 5;
+var nowArrowIndex = 5;
 $(".menu-row").on("mouseenter", function(){
 	var index = $(this).data("menu");
 	
@@ -30,10 +32,6 @@ $(".menu-row").on("mouseenter", function(){
 	}
 	
 	$(".arrow").addClass("at-"+index);
-
-	// $(".menu-row.active").removeClass('active');
-	// $(this).addClass('active');
-
 	nowArrowIndex = index;
 })
 
@@ -50,5 +48,71 @@ $(".menu-row").on("click", function(){
 	$(".menu-row.active").removeClass('active');
 	$(this).addClass('active');
 
+	// toggleWindow($(".main-screen section.active"),false);
+	// setTimeout(function(){
+	// 	toggleWindow($(".main-screen section[data-section="+index+"]"),true);
+	// },1000)
+	$(".screen-animate").addClass('active');
+	setTimeout(function(){
+		$(".main-screen section.active").removeClass('active');
+		$(".main-screen section[data-section="+index+"]").addClass('active');
+		$(".screen-animate").removeClass('active');
+
+		if(index == 5) {
+			app.start();
+		} else {
+			app.stop();
+		}
+
+		scrollbars.forEach(scrollbar => {
+			scrollbar.reset();
+		})
+	},800)
+	
+
+	
+
 	nowMenuIndex = index;
 })
+
+$(".main-screen").on("click", function(){
+	// $(".screen-animate").toggleClass('active');
+
+	// if($(".curator .window").hasClass('off')) {
+	// 	$(".curator .window").removeClass('off2');
+	// 	setTimeout(function(){
+	// 		$(".curator .window").removeClass('off');
+	// 	},300);
+	// } else {
+	// 	$(".curator .window").addClass('off');
+	// 	setTimeout(function(){
+	// 		$(".curator .window").addClass('off2');
+	// 	},300);
+	// }
+})
+
+function toggleWindow(target,turnOn) {
+	if(turnOn) {
+		target.addClass('active');
+		target.find(".window").removeClass('off');
+		// setTimeout(function(){
+		// 	target.find(".window").removeClass('off');
+		// },300);
+	} else {
+		target.find(".window").addClass('off');
+		setTimeout(function(){
+			target.removeClass('active');
+		},1000);
+	}
+}
+
+
+var scrollbars = [];
+for (var i = 1; i < $(".main-screen section").length; i++) {
+	var target = $(".main-screen section").eq(i);
+	var scrollbar = new Scrollbar($(target).find(".scrollbar")[0],$(target).find(".bar")[0],$(target).find(".window-content")[0]);
+
+	scrollbars.push(scrollbar);	
+}
+
+// var scrollbar = new Scrollbar($(".scrollbar")[0],$(".bar")[0],$(".window-content")[0]);
