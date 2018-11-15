@@ -18,7 +18,7 @@ function Scrollbar(container,scroll,content) {
     var y = _this.scroll.offsetTop;
     var onMove = function(end){
       var delta = end.pageY - start.pageY;
-      _this.scroll.style.top = Math.min(_this.container.clientHeight - (_this.scroll.clientHeight+6), Math.max(0, y + delta)) + 'px';
+      _this.scroll.style.top = Math.min(_this.container.clientHeight - _this.scroll.clientHeight, Math.max(0, y + delta)) + 'px';
       _this.content.scrollTop = (_this.content.scrollHeight * _this.scroll.offsetTop / _this.container.clientHeight);
     };
     document.addEventListener('mousemove', onMove);

@@ -75,6 +75,46 @@ html,body
 	overscroll-behavior: contain
 	color: $light-blue
 
+
+@keyframes pulse 
+	0%
+		transform: scale(1.001) 
+		opacity: .1;
+	8%
+		transform: scale(1.000)
+		opacity: .09
+	15%
+		transform: scale(1.004)
+		opacity: .1
+	30%
+		transform: scale(1.002)
+		opacity: .07
+	100%
+		transform: scale(1.000)
+		opacity: .1
+
+.crt
+	position: fixed
+	width: 100%
+	height: 100%
+	top: 0
+	left: 0
+	z-index: 1000
+	pointer-events: none
+	&::before
+		content: ""
+		display: block
+		position: absolute
+		top: 0
+		left: 0
+		width: 100%
+		height: 100%
+		background: linear-gradient(#444 50%, #000 50%)
+		background-size: 100% 4px
+		background-repeat: repeat-y
+		opacity: .1
+
+
 .page-wrapper
 	width: 100%
 	height: 100%
@@ -291,6 +331,22 @@ html,body
 				background-image: linear-gradient(0deg, #A0E5E5 0%,transparent 2%,transparent 98%, #A0E5E5 100%), linear-gradient(90deg, #A0E5E5 0%,transparent 2%,transparent 98%, #A0E5E5 100%)
 				background-size: 50px 50px
 				background-position: 50% 50%
+			.screen-bg
+				position: absolute
+				width: 100%
+				height: 100%
+				top: 0
+				left: 0
+				video
+					position: absolute
+					top: 50%
+					left: 50%
+					transform: translateX(-50%) translateY(-50%)
+					min-width: 100%
+					min-height: 100%
+					width: auto
+					height: auto
+					overflow: hidden
 			section
 				width: 100%
 				height: 100%
@@ -368,6 +424,7 @@ html,body
 						.window-scrollbar
 							height: 100%
 							width: 40px
+							background-color: $dark-blue
 							border-left: 3px solid $light-blue
 							display: flex
 							flex-direction: column
@@ -380,7 +437,10 @@ html,body
 								align-items: center
 								img
 									width: 30px
+							.up-btn
+								margin-bottom: 3px
 							.down-btn
+								margin-top: 3px
 								img
 									transform: rotate(180deg)
 							.scrollbar
@@ -390,10 +450,10 @@ html,body
 								.bar
 									position: absolute
 									top: 0
-									left: 0
-									width: 100%
+									left: 3px
+									width: calc( 100% - 6px)
 									height: 100px
-									border: 3px solid $dark-blue
+									// border: 3px solid $dark-blue
 									background-color: $light-blue
 									cursor: pointer
 			.homepage
@@ -404,10 +464,12 @@ html,body
 				.screen-container
 					width: 100%
 					flex: 1
+					cursor: none
 					// height: calc( 100% - 140px )
 					canvas
 						width: 100%
 						height: 100%
+						cursor: none
 						// height: calc( 100% - 140px )
 						// opacity: 0.8
 						// background-image: linear-gradient(0deg, #A0E5E5 0%,transparent 1%,transparent 99%, #A0E5E5 100%), linear-gradient(90deg, #A0E5E5 0%,transparent 1%,transparent 99%, #A0E5E5 100%)
@@ -484,96 +546,121 @@ html,body
 				align-items: center
 				.window
 					.window-content-container
-						background-image: linear-gradient(to top, red, blue)
+						// background-image: linear-gradient(to top, red, blue)
 			.essay
 				justify-content: center
 				align-items: center
 				.window
 					.window-content-container
-						background-image: linear-gradient(to top, orange, purple)
+						// background-image: linear-gradient(to top, orange, purple)
 			.artists
 				justify-content: center
 				align-items: center
 				.window
 					.window-content-container
-						background-image: linear-gradient(to top, green, yellow)
+						// background-image: linear-gradient(to top, green, yellow)
 			.about
 				justify-content: center
 				align-items: center
 				.window
 					.window-content-container
-						background-image: linear-gradient(to top, gray, red)
+						// background-image: linear-gradient(to top, gray, red)
 			.chatroom
 				justify-content: center
 				align-items: center
 				.window
 					.window-content-container
-						background-image: linear-gradient(to top, purple, gray)
+						// background-image: linear-gradient(to top, purple, gray)
 
-		.screen-animate
-			position: absolute
-			top: 0
-			left: 0
-			width: 100%
-			height: 100%
-			pointer-events: none
-			overflow: hidden
-			border: 3px solid $light-blue
-			>div
-				background-color: $dark-blue
-				transition: 0.3s
-			.screen-animate-top
-				position: absolute
-				top: -50%
-				left: 0
-				width: 100%
-				height: calc(50% - 1px)
-				transition: 0.2s
-				transition-delay: 0.3s
-				transition-timing-function: ease-out
-			.screen-animate-bottom
-				position: absolute
-				bottom: -50%
-				left: 0
-				width: 100%
-				height: calc(50% - 1px)
-				transition: 0.2s
-				transition-delay: 0.3s
-				transition-timing-function: ease-out
-			.screen-animate-left
+			.screen-animate
 				position: absolute
 				top: 0
-				left: -50%
-				width: 50%
+				left: 0
+				width: 100%
 				height: 100%
-				transition-delay: 0s
-				transition-timing-function: ease-in
-			.screen-animate-right
-				position: absolute
-				top: 0
-				right: -50%
-				width: 50%
-				height: 100%
-				transition-delay: 0s
-				transition-timing-function: ease-in
-			&.active
+				pointer-events: none
+				overflow: hidden
+				// border: 3px solid $light-blue
+				>div
+					background-color: $dark-blue
+					transition: 0.3s
 				.screen-animate-top
-					top: 0%
-					transition-delay: 0s
-					transition-timing-function: ease-in
+					position: absolute
+					top: -50%
+					left: 0
+					width: 100%
+					height: calc(50% - 1px)
+					transition: 0.2s
+					transition-delay: 0.3s
+					transition-timing-function: ease-out
 				.screen-animate-bottom
-					bottom: 0%
+					position: absolute
+					bottom: -50%
+					left: 0
+					width: 100%
+					height: calc(50% - 1px)
+					transition: 0.2s
+					transition-delay: 0.3s
+					transition-timing-function: ease-out
+				.screen-animate-left
+					position: absolute
+					top: 0
+					left: -50%
+					width: 50%
+					height: 100%
 					transition-delay: 0s
 					transition-timing-function: ease-in
-				.screen-animate-left
-					left: 0%
-					transition-delay: 0.2s
-					transition-timing-function: ease-out
 				.screen-animate-right
-					right: 0%
-					transition-delay: 0.2s
-					transition-timing-function: ease-out
-
+					position: absolute
+					top: 0
+					right: -50%
+					width: 50%
+					height: 100%
+					transition-delay: 0s
+					transition-timing-function: ease-in
+				&.active
+					.screen-animate-top
+						top: 0%
+						transition-delay: 0s
+						transition-timing-function: ease-in
+					.screen-animate-bottom
+						bottom: 0%
+						transition-delay: 0s
+						transition-timing-function: ease-in
+					.screen-animate-left
+						left: 0%
+						transition-delay: 0.2s
+						transition-timing-function: ease-out
+					.screen-animate-right
+						right: 0%
+						transition-delay: 0.2s
+						transition-timing-function: ease-out
+		.marquee
+			width: 100%
+			height: 40px
+			border: 3px solid $light-blue
+			margin-top: 10px
+			display: flex
+			.marquee-icon
+				width: 40px
+				height: 100%
+				flex: 0 0 auto
+				border-right: 3px solid $light-blue
+				display: flex
+				justify-content: center
+				align-items: center
+				img
+					width: 100%
+			.marquee-content 
+				display: flex
+				align-items: center
+				marquee
+					width: 100%
+					line-height: 1.5
+					margin-bottom: 5px
+					font-weight: 500
+					letter-spacing: 3px
+					font-family: 'Noto Sans TC', sans-serif
 	.right
 		width: 250px
 		margin-left: 10px

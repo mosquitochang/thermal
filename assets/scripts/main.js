@@ -1,3 +1,14 @@
+
+// function crtAnimate() {
+// 	requestAnimationFrame(crtAnimate);
+// 	$(".n1").toggleClass('active');
+// 	$(".n2").toggleClass('active');
+// }
+// crtAnimate();
+
+
+
+
 //時鐘和倒數
 setInterval(function() {
 	var dt = new Date();
@@ -22,8 +33,8 @@ setInterval(function() {
 
 
 //menu
-var nowMenuIndex = 5;
-var nowArrowIndex = 5;
+var nowMenuIndex = 6;
+var nowArrowIndex = 6;
 $(".menu-row").on("mouseenter", function(){
 	var index = $(this).data("menu");
 	
@@ -58,7 +69,7 @@ $(".menu-row").on("click", function(){
 		$(".main-screen section[data-section="+index+"]").addClass('active');
 		$(".screen-animate").removeClass('active');
 
-		if(index == 5) {
+		if(index == 6) {
 			app.start();
 		} else {
 			app.stop();
