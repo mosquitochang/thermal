@@ -167,9 +167,9 @@ frontLayer.filters = [filter];
 
 var isInit = false;
 PIXI.loader
+    .add('assets/images/art-1.png')
     .add('assets/images/art-2.png')
-    .add('assets/images/h3.png')
-    .add('assets/images/b4.png')
+    .add('assets/images/art-3.png')
     .add('assets/images/icon-art-1-1.png')
     .add('assets/images/icon-art-1-2.png')
     .add('assets/images/thermal-grid.png')
@@ -182,6 +182,7 @@ var realSprite1, realSprite2, realSprite3;
 var ui1, ui2, ui3;
 var uiCursor;
 
+var uiTextGroups = [];
 var uiTexts = [];
 var uiTextBgs = [];
 var uiTextLines = [];
@@ -189,7 +190,7 @@ var uiTextLines = [];
 
 var nowArtIndex = 1;
 function init() {
-	shadowSprite1 = PIXI.Sprite.fromImage("assets/images/art-2.png");
+	shadowSprite1 = PIXI.Sprite.fromImage("assets/images/art-1.png");
 	shadowGroup.addChild(shadowSprite1);
 
 	shadowSprite1.anchor.set(0.5);
@@ -201,7 +202,7 @@ function init() {
 	shadowSprite1.alpha = 1;
 
 
-	shadowSprite2 = PIXI.Sprite.fromImage("assets/images/h3.png");
+	shadowSprite2 = PIXI.Sprite.fromImage("assets/images/art-2.png");
 	shadowGroup.addChild(shadowSprite2);
 
 	shadowSprite2.anchor.set(0.5);
@@ -213,7 +214,7 @@ function init() {
 	shadowSprite2.alpha = 1;
 
 
-	shadowSprite3 = PIXI.Sprite.fromImage("assets/images/b4.png");
+	shadowSprite3 = PIXI.Sprite.fromImage("assets/images/art-3.png");
 	shadowGroup.addChild(shadowSprite3);
 
 	shadowSprite3.anchor.set(0.5);
@@ -227,7 +228,7 @@ function init() {
 
 
 
-	realSprite1 = PIXI.Sprite.fromImage("assets/images/art-2.png");
+	realSprite1 = PIXI.Sprite.fromImage("assets/images/art-1.png");
 	realGroup.addChild(realSprite1);
 
 	realSprite1.anchor.set(0.5);
@@ -239,7 +240,7 @@ function init() {
 	realSprite1.alpha = 1;
 
 
-	realSprite2 = PIXI.Sprite.fromImage("assets/images/h3.png");
+	realSprite2 = PIXI.Sprite.fromImage("assets/images/art-2.png");
 	realGroup.addChild(realSprite2);
 
 	realSprite2.anchor.set(0.5);
@@ -251,7 +252,7 @@ function init() {
 	realSprite2.alpha = 1;
 
 
-	realSprite3 = PIXI.Sprite.fromImage("assets/images/b4.png");
+	realSprite3 = PIXI.Sprite.fromImage("assets/images/art-3.png");
 	realGroup.addChild(realSprite3);
 
 	realSprite3.anchor.set(0.5);
@@ -276,7 +277,7 @@ function init() {
 	//ui
 	var textureUi1 = PIXI.Texture.fromImage('assets/images/icon-art-1-1.png');
 	var textureUi2 = PIXI.Texture.fromImage('assets/images/icon-art-1-2.png');
-	ui1 = PIXI.Sprite.from(textureUi1);
+	ui1 = PIXI.Sprite.from(textureUi2);
 	uiLayer.addChild(ui1);
 	ui1.index = 1;
 	ui1.scale.x = 0.3;
@@ -319,14 +320,22 @@ function init() {
 	ui3.on('pointerup', moveTo);
 
 	function onHover() {
-		this.setTexture(textureUi2);
+		if(this.index != nowArtIndex) {
+			this.setTexture(textureUi2);
+		}
 	}
 	function onHoverOut() {
-		this.setTexture(textureUi1);
+		if(this.index != nowArtIndex) {
+			this.setTexture(textureUi1);
+		}
 	}
 
 	function moveTo() {
 		var index = this.index;
+		ui1.setTexture(textureUi1);
+		ui2.setTexture(textureUi1);
+		ui3.setTexture(textureUi1);
+		this.setTexture(textureUi2);
 		TweenMax.to(realGroup,1,{x:-$(".screen").width()*(index-1)});
 		TweenMax.to(backgroundLayer,1,{x:-$(".screen").width()*(index-1)});
 		TweenMax.to(tilingSprite,1,{x:-$(".screen").width()*(index-1)});
@@ -339,6 +348,12 @@ function init() {
 	//texts
 	var textStrings = [["鄭先喻","Mission Failed"],["楊傑懷","如何向手機解釋愛情"],["吳宜曄","Dollar-Post"]];
 	for (var i = 1; i <= 3; i++) {
+		var uiTextGroup = new PIXI.Container();
+		textLayer.addChild(uiTextGroup);
+		uiTextGroup.x = app.screen.width*(i-1);
+		uiTextGroup.y = 0;
+		uiTextGroups.push(uiTextGroup);
+
 		uiTexts.push([]);
 		uiTextBgs.push([]);
 		uiTextLines.push([]);
@@ -358,7 +373,7 @@ function init() {
 		textBg.width = 0;
 		textBg.height = uiText.height + 6;
 
-		uiText.x = app.screen.width*(i-1) + 80;
+		uiText.x = 80;
 		textBg.x = uiText.x - 5;
 		uiText.y = app.screen.height* 3 / 4;
 		textBg.y = uiText.y;
@@ -366,8 +381,10 @@ function init() {
 		uiTextBgs[i-1].push(textBg);
 		uiTexts[i-1].push(uiText);
 
-		textLayer.addChild(textBg);
-		textLayer.addChild(uiText);
+		// textLayer.addChild(textBg);
+		// textLayer.addChild(uiText);
+		uiTextGroup.addChild(textBg);
+		uiTextGroup.addChild(uiText);
 
 		if(i==2) {
 			var uiText = new PIXI.Text('_', {
@@ -392,7 +409,7 @@ function init() {
 		textBg.width = 0;
 		textBg.height = uiText.height + 6;
 
-		uiText.x = app.screen.width*(i-1) + 80;
+		uiText.x = 80;
 		textBg.x = uiText.x - 5;
 		uiText.y = app.screen.height* 3 / 4 + textBg.height + 10;
 		textBg.y = uiText.y;
@@ -400,8 +417,10 @@ function init() {
 		uiTextBgs[i-1].push(textBg);
 		uiTexts[i-1].push(uiText);
 
-		textLayer.addChild(textBg);
-		textLayer.addChild(uiText);
+		// textLayer.addChild(textBg);
+		// textLayer.addChild(uiText);
+		uiTextGroup.addChild(textBg);
+		uiTextGroup.addChild(uiText);
 
 
 		var line = new PIXI.Sprite.fromImage("assets/images/blue.png");
@@ -411,7 +430,8 @@ function init() {
 		line.x = uiText.x + 250;
 		line.y = uiText.y - 100;
 
-		textLayer.addChild(line);
+		// textLayer.addChild(line);
+		uiTextGroup.addChild(line);
 		uiTextLines[i-1].push(line);
 
 		var line = new PIXI.Sprite.fromImage("assets/images/blue.png");
@@ -422,7 +442,8 @@ function init() {
 		line.y = uiText.y - 100;
 		line.rotation = - Math.PI * 2 * 0.125;
 
-		textLayer.addChild(line);
+		// textLayer.addChild(line);
+		uiTextGroup.addChild(line);
 		uiTextLines[i-1].push(line);
 	}
 
@@ -460,7 +481,6 @@ function init() {
 				tl.set(textBg1,{width: 10 + (i+2)*(uiText1.style.fontSize+3)});
 				tl.to(uiText1,interval,{text: textStrings[index-1][0].substring(0, i+1) + "_"});
 			}
-			
 		}
 
 		tl.to(line2,0.3,{width: 50});
@@ -528,8 +548,8 @@ backgroundLayer.addChild(shadowGroup);
 var texture = PIXI.Texture.fromImage('assets/images/thermal-grid.png');
 var tilingSprite = new PIXI.extras.TilingSprite(
     texture,
-    app.screen.width*3,
-    app.screen.height
+    app.screen.width*4,
+    app.screen.height*2
 );
 tilingSprite.alpha = 0.3;
 gridLayer.addChild(tilingSprite);
@@ -617,6 +637,10 @@ $(window).on("resize", function() {
 	ui1.x = app.screen.width - 10;
 	ui2.x = app.screen.width - 10;
 	ui3.x = app.screen.width - 10;
+
+	for (var i = 0; i < uiTextGroups.length; i++) {
+		uiTextGroups[i].x = i*app.screen.width;
+	}
 
 	mouseHeatSprite.width = app.screen.width;
 	mouseHeatSprite.height = app.screen.height;

@@ -568,8 +568,251 @@ html,body
 			.chatroom
 				justify-content: center
 				align-items: center
-				.window
-					.window-content-container
+				.chat-left
+					flex: 2
+					height: 100%
+					display: flex
+					flex-direction: column
+					border-right: 3px solid $light-blue
+					background-color: rgba($dark-blue,0.9)
+					.youtube
+						width: 100%
+						flex: 0 0 auto
+						&::before
+							content: ""
+							display: block
+							width: 100%
+							padding-top: 56.25%
+					.form
+						width: 100%
+						flex: 1
+						border-top: 3px solid $light-blue
+						display: flex
+						flex-direction: column
+						.form-header
+							width: 100%
+							height: 40px
+							flex: 0 0 auto
+							border-bottom: 3px solid $light-blue
+							display: flex
+							.header-icon
+								width: 40px
+								height: 100%
+								border-right: 3px solid $light-blue
+								display: flex
+								justify-content: center
+								align-items: center
+								img
+									width: 100%
+							.header-content
+								flex: 1
+								height: 100%
+								display: flex
+								align-items: center
+								padding: 0 10px
+								// color: $dark-blue
+								// background-color: $dar
+								font-family: 'Press Start 2P'
+								font-weight: 500
+								p
+									flex: 0 0 auto
+								p:first-child
+									font-size: 18px
+									margin-bottom: 5px
+									letter-spacing: 3px
+								p:last-child
+									position: absolute
+									top: 50%
+									right: 10px
+									font-size: 12px
+									transform-origin: 100% 100%
+									transform: translateY(-50%) scale(1)
+						.form-content
+							width: 100%
+							flex: 1
+							display: flex
+							justify-content: center
+							align-items: center
+							.content-box
+								width: 60%
+								display: flex
+								flex-direction: column
+								justify-content: center
+								align-items: flex-end
+								margin-left: 90px
+								.comment-icon
+									position: absolute
+									top: 0
+									left: -90px
+									width: 80px
+									height: 80px
+									border: 3px solid $light-blue
+									cursor: pointer
+									overflow: hidden
+									&::after
+										content: ""
+										display: block
+										position: absolute
+										top: 50%
+										left: 50%
+										transform: translate(-50%,-50%)
+										width: 65px
+										height: 65px
+										border: 1px solid $light-blue
+										opacity: 0
+										transition: 0.2s
+									&:hover
+										&::after
+											opacity: 1
+										// .comment-change
+										// 	opacity: 1
+									img
+										width: 100%
+										position: absolute
+										top: 0
+										left: 0
+										display: none
+										&.active
+											display: block
+									.comment-change
+										position: absolute
+										bottom: 0
+										left: 0
+										width: 100%
+										height: 100%
+										// border: 3px solid $light-blue
+										cursor: pointer
+										color: $dark-blue
+										display: flex
+										justify-content: center
+										align-items: center
+										cursor: pointer
+										background-color: rgba($light-blue,0.5)
+										transition: 0.2s
+										font-weight: 500
+										opacity: 0
+
+								.comment-name
+									width: 100%
+									height: 40px
+									border: 3px solid $light-blue
+									margin-bottom: 10px
+									display: flex
+									.name-left
+										width: 100px
+										height: 100%
+										border-right: 3px solid $light-blue
+										display: flex
+										justify-content: center
+										align-items: center
+										p
+									.name-input
+										flex: 1
+										height: 100%
+										input
+											background-color: transparent
+											border: 0
+											width: 100%
+											height: 100%
+											font-size: 16px
+											padding: 0 10px
+											color: $light-blue
+											font-family: 'Noto Sans TC', sans-serif
+											font-weight: 500
+											letter-spacing: 1px
+								.comment-content
+									width: 100%
+									height: 100px
+									border: 3px solid $light-blue
+									textarea
+										background-color: transparent
+										border: 0
+										width: 100%
+										height: 100%
+										font-size: 16px
+										padding: 5px 10px
+										color: $light-blue
+										overflow: auto
+										font-family: 'Noto Sans TC', sans-serif
+										font-weight: 500
+										letter-spacing: 1px
+										resize: none
+										&::placeholder
+											color: rgba($light-blue,0.3)
+								.comment-send
+									margin-top: 10px
+									width: 100px
+									height: 40px
+									border: 3px solid $light-blue
+									display: flex
+									justify-content: center
+									align-items: center
+									cursor: pointer
+									background-color: rgba($light-blue,0)
+									transition: 0.2s
+									&:hover
+										background-color: rgba($light-blue,1)
+										color: $dark-blue
+
+				.chat-right
+					flex: 1
+					height: 100%
+					background-color: rgba($dark-blue,0.9)
+					.comment
+						width: 100%
+						height: 100%
+						display: flex
+						.window-content
+							width: calc(100% - 40px)
+							height: 100%
+							flex: 0 0 auto
+							overflow-y: scroll
+							// overflow: hidden
+							// display: flex
+							.window-content-container
+								position: absolute
+								top: 0
+								left: 0
+								width: 100%
+								height: 1000px
+						.window-scrollbar
+							height: 100%
+							width: 40px
+							background-color: $dark-blue
+							border-left: 3px solid $light-blue
+							display: flex
+							flex-direction: column
+							.up-btn,.down-btn
+								width: 100%
+								height: 40px
+								background-color: $light-blue
+								display: flex
+								justify-content: center
+								align-items: center
+								img
+									width: 30px
+							.up-btn
+								margin-bottom: 3px
+							.down-btn
+								margin-top: 3px
+								img
+									transform: rotate(180deg)
+							.scrollbar
+								width: 100%
+								flex: 1
+								background-color: $dark-blue
+								.bar
+									position: absolute
+									top: 0
+									left: 3px
+									width: calc( 100% - 6px)
+									height: 100px
+									// border: 3px solid $dark-blue
+									background-color: $light-blue
+									cursor: pointer
+
+				// .window
+					// .window-content-container
 						// background-image: linear-gradient(to top, purple, gray)
 
 			.screen-animate

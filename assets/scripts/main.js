@@ -126,4 +126,34 @@ for (var i = 1; i < $(".main-screen section").length; i++) {
 	scrollbars.push(scrollbar);	
 }
 
+
+$(".form .comment-icon").on("click", function(){
+	var prev = $(this).find("img.active");
+	prev.removeClass('active');
+	if(prev.next().length) {
+		prev.next().addClass('active');
+	} else {
+		$(this).find("img").eq(0).addClass('active');
+	}
+	
+})
+
+$(".form .comment-send").on("click", function(){
+	var post = {
+		avatarIndex: $(".form .comment-icon img.active").data("avatar"),
+		name: $(".form .name-input input").val(),
+		comment: $(".form .comment-content textarea").val()
+	}
+	console.log(writeNewPost(post));
+	
+})
+
+function writeNewPost(postData) {
+  var newPostKey = firebase.database().ref().child('posts').push().key;
+  var updates = {};
+  updates['/' + newPostKey] = postData;
+
+  return firebase.database().ref().update(updates);
+}
+
 // var scrollbar = new Scrollbar($(".scrollbar")[0],$(".bar")[0],$(".window-content")[0]);

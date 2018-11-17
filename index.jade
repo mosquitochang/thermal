@@ -82,7 +82,7 @@ html(lang="en")
 				.main-screen
 					.screen-bg
 						video(src="assets/images/bg.mp4" autoplay loop muted)
-					section.homepage.active(data-section=6)
+					section.homepage(data-section=6)
 						.screen-container
 							canvas.screen
 						//- .temperture-reader
@@ -183,15 +183,37 @@ html(lang="en")
 										.bar
 									.down-btn
 										img(src="assets/images/scroll-arrow.png", alt="")
-					section.chatroom(data-section=5)
-						.window
-							.window-header
-								.header-icon
-									img(src="assets/images/icon-curator.png", alt="")
-								.header-content
-									p 聊天室
-									p CHAT ROOM
-							.window-bottom
+					section.chatroom.active(data-section=5)
+						.chat-left
+							.youtube
+							.form
+								.form-header
+									.header-icon
+										img(src="assets/images/icon-curator.png", alt="")
+									.header-content
+										p 體感溫室
+										p Greenhouse
+								.form-content
+									.content-box
+										.comment-icon
+											img.active(src="assets/images/ex1.jpg", alt="", data-avatar=1)
+											img(src="assets/images/ex2.jpg", alt="", data-avatar=2)
+											img(src="assets/images/ex3.jpg", alt="", data-avatar=3)
+											img(src="assets/images/ex4.jpg", alt="", data-avatar=4)
+											//- .comment-change
+											//- 	p 換頭貼
+										.comment-name
+											.name-left
+												p name
+											.name-input
+												input(type="text" maxlength="10")
+										.comment-content
+											textarea(maxlength="100" placeholder="type something")
+										.comment-send
+											p send
+
+						.chat-right
+							.comment
 								.window-content
 									.window-content-container
 								.window-scrollbar
@@ -299,7 +321,19 @@ html(lang="en")
 		.cursor
 			img(src="assets/images/cursor.png", alt="")
 
-
+	
+	script(src="https://www.gstatic.com/firebasejs/5.5.8/firebase.js")
+	script.
+		// Initialize Firebase
+		var config = {
+			apiKey: "AIzaSyCcOX_VGqtiisNikz6yfvd7loQf1aTDDcw",
+			authDomain: "thermal-4d159.firebaseapp.com",
+			databaseURL: "https://thermal-4d159.firebaseio.com",
+			projectId: "thermal-4d159",
+			storageBucket: "thermal-4d159.appspot.com",
+			messagingSenderId: "731795832827"
+		};
+		firebase.initializeApp(config);
 
 
 	script(src="assets/scripts/jquery-3.3.1.min.js")
