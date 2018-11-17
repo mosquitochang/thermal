@@ -71,44 +71,25 @@ $(".menu-row").on("click", function(){
 
 		if(index == 6) {
 			app.start();
+			appResize();
+			isPlaying = true;
 		} else {
 			app.stop();
+			isPlaying = false;
 		}
 
 		scrollbars.forEach(scrollbar => {
 			scrollbar.reset();
 		})
 	},800)
-	
-
-	
 
 	nowMenuIndex = index;
-})
-
-$(".main-screen").on("click", function(){
-	// $(".screen-animate").toggleClass('active');
-
-	// if($(".curator .window").hasClass('off')) {
-	// 	$(".curator .window").removeClass('off2');
-	// 	setTimeout(function(){
-	// 		$(".curator .window").removeClass('off');
-	// 	},300);
-	// } else {
-	// 	$(".curator .window").addClass('off');
-	// 	setTimeout(function(){
-	// 		$(".curator .window").addClass('off2');
-	// 	},300);
-	// }
 })
 
 function toggleWindow(target,turnOn) {
 	if(turnOn) {
 		target.addClass('active');
 		target.find(".window").removeClass('off');
-		// setTimeout(function(){
-		// 	target.find(".window").removeClass('off');
-		// },300);
 	} else {
 		target.find(".window").addClass('off');
 		setTimeout(function(){
@@ -118,13 +99,18 @@ function toggleWindow(target,turnOn) {
 }
 
 
+//scrollbar init
 var scrollbars = [];
-for (var i = 1; i < $(".main-screen section").length; i++) {
-	var target = $(".main-screen section").eq(i);
+for (var i = 0; i < $(".window").length; i++) {
+	var target = $(".window").eq(i);
 	var scrollbar = new Scrollbar($(target).find(".scrollbar")[0],$(target).find(".bar")[0],$(target).find(".window-content")[0]);
 
 	scrollbars.push(scrollbar);	
 }
+
+var scrollbar = new Scrollbar($(".comment").find(".scrollbar")[0],$(".comment").find(".bar")[0],$(".comment").find(".window-content")[0],true);
+scrollbars.push(scrollbar);	
+
 
 
 $(".form .comment-icon").on("click", function(){
@@ -139,13 +125,17 @@ $(".form .comment-icon").on("click", function(){
 })
 
 $(".form .comment-send").on("click", function(){
+	if($(".form .comment-content textarea").val().length == 0) return;
 	var post = {
 		avatarIndex: $(".form .comment-icon img.active").data("avatar"),
 		name: $(".form .name-input input").val(),
 		comment: $(".form .comment-content textarea").val()
 	}
-	console.log(writeNewPost(post));
-	
+
+	$(".form .name-input input").val("");
+	$(".form .comment-content textarea").val("");
+
+	writeNewPost(post);
 })
 
 function writeNewPost(postData) {
@@ -155,5 +145,53 @@ function writeNewPost(postData) {
 
   return firebase.database().ref().update(updates);
 }
+
+var postTemplate = '<div class="comment"><div class="comment-icon"><img src="assets/images/ex{{avatarIndex}}.jpg" alt=""/></div><div class="comment-name"><p>{{name}}</p></div><div class="comment-content"><p>{{comment}}</p></div></div>';
+
+
+var initCommentNum = 0;
+function initGetData() {
+	var ref = firebase.database().ref('/');
+	ref.once('value', function(snapshot) {
+		initCommentNum = snapshot.numChildren();
+
+		getData();
+	});
+}
+initGetData();
+
+var commentNum = 0;
+function getData() {
+	var ref = firebase.database().ref('/');
+	ref.on('child_added', function(snapshot) {
+		var val = snapshot.val();
+		if( val !== null ) {
+			var filter = $("<div>");
+			filter.text(val.name);
+			var name = filter.html();
+			if(name.length == 0) {
+				name = "無名氏";
+			}
+			filter.text(val.comment);
+			var comment = filter.html();
+
+			var post = postTemplate.replace("{{avatarIndex}}", val.avatarIndex)
+								   .replace("{{name}}", name)
+								   .replace("{{comment}}", comment);
+			$(".comment .window-content-container").append(post);
+
+			commentNum++;
+
+			if(commentNum >= initCommentNum) {
+				$(".comment .window-content").animate({
+					scrollTop: $(".comment .window-content-container").height()
+				},500);
+				scrollbars.forEach(s => s.update());
+			}
+			
+		}
+	});
+}
+// getData();
 
 // var scrollbar = new Scrollbar($(".scrollbar")[0],$(".bar")[0],$(".window-content")[0]);

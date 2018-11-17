@@ -17,6 +17,12 @@ html(lang="en")
 		meta(property="og:site_name" content="")
 	body
 		.crt
+			.noise
+				img(src="assets/images/noise.png", alt="")
+			.line
+			.frame
+				img(src="assets/images/crt.png", alt="")
+
 		.page-wrapper
 			.left
 				.logo
@@ -34,38 +40,38 @@ html(lang="en")
 							img(src="assets/images/arrow.png", alt="")
 					.menu-content
 						.menu-row(data-menu=1)
-							.row-icon
+							//- .row-icon
 								include ./assets/images/icon-menu-row.svg
 							p.row-text 
 								span 策展人 
 								span CURATOR
 						.menu-row(data-menu=2)
-							.row-icon
+							//- .row-icon
 								include ./assets/images/icon-menu-row.svg
 							p.row-text 
 								span 策展論述 
 								span ESSAY
 						.menu-row(data-menu=3)
-							.row-icon
+							//- .row-icon
 								include ./assets/images/icon-menu-row.svg
 							p.row-text 
 								span 藝術家 
 								span ARTISTS
 						.menu-row(data-menu=4)
-							.row-icon
+							//- .row-icon
 								include ./assets/images/icon-menu-row.svg
 							p.row-text 
 								span 關於本計畫 
 								span ABOUT
 						
 						.menu-row(data-menu=5)
-							.row-icon
+							//- .row-icon
 								include ./assets/images/icon-menu-row.svg
 							p.row-text 
 								span 聊天室
 								span CHAT ROOM
 						.menu-row.active(data-menu=6)
-							.row-icon
+							//- .row-icon
 								include ./assets/images/icon-menu-row.svg
 							p.row-text 
 								span 體感溫差 
@@ -82,7 +88,7 @@ html(lang="en")
 				.main-screen
 					.screen-bg
 						video(src="assets/images/bg.mp4" autoplay loop muted)
-					section.homepage(data-section=6)
+					section.homepage.active(data-section=6)
 						.screen-container
 							canvas.screen
 						//- .temperture-reader
@@ -120,8 +126,21 @@ html(lang="en")
 									p 策展人 
 									p CURATOR
 							.window-bottom
+								.window-content-fixed
+									.pic
+										img(src="assets/images/ex1.jpg", alt="")
+									.name
+										p 魏金禾
+										p WEI CHIN-HO
+									.link
+										a(href="")
+											img(src="assets/images/icon-web.png", alt="")
+										a(href="")
+											img(src="assets/images/icon-ig.png", alt="")
 								.window-content
-									.window-content-container
+									.window-content-container.empty-top
+										p 1995年生於桃園，畢業於國立彰化師範大學美術系，創作多以油畫和裝置為主，對藝術史論抱有興趣並持續自主探索。目前潛伏在台北某機構，觀察藝術工作者的生存百態。
+										p 1984 born in Kaohsiung, Taiwan. Artist & Software developer based in Taipei now. Most of Cheng's works are electronic installations, software, experimental bio-electronic devices. His works are concerned with the relationship between human behavior, emotion, software and machine. He tries to bring out the meaning of life through his works that are filled with his own observation and feelings toward society & environment in a humorous way. He currently focuses on bioelectronic researches, such as free-energy, intelligent sound and developing creative art tools (software and hardware). 
 								.window-scrollbar
 									.up-btn
 										img(src="assets/images/scroll-arrow.png", alt="")
@@ -140,6 +159,29 @@ html(lang="en")
 							.window-bottom
 								.window-content
 									.window-content-container
+										p 在緊密連結又缺乏理解情感能力的編碼世界中，充斥著超常刺激(supernormal stimulus)挑逗著人類的本能，使有機物間喪失獨有的溫度感。雖生於肉身，拜虛擬網絡所賜，現世的人們得以存在現實與虛擬之間，日日夜夜，上傳、下載、標記、回覆，不歇息地快速來回穿梭，好似紅血球持續運輸氧氣，以確保脈動著龐大的網絡身軀，滿足現代生存的需求與欲望。當社會結構越發向虛擬世界靠攏運行時，我們何以抽離身體，抹去虛實間的界限，卻仍保持靈魂的溫度？
+											
+										p 藉由藝術家們重新檢視虛實差異間的經驗，由不同面向回歸至個體探索其中的創造性，並以科技媒介討論自身、社會以及其連結關係的影響與狀態。由片段的生活經驗作為切入點，試圖在無機的網絡中喚起體感、情感與共感三種不同的感知層次，不僅觸及最私密的身體經驗，也返回社會的群體經歷，重新賦予我們對虛擬間溫度的想像與可能性。
+
+										p 人體能感受時間流動快慢形成的溫差，而吳宜曄潛入時間的流動，體悟其中的溫度。《Dollar-post》是一項特製的電子郵件系統，藉由選擇不同的郵票，包括鴿子、驢子、船以及飛機，信件將模擬所選的媒介速度寄送。
+										
+										p 除身體感受溫度外，楊傑懷深入個體錯綜複雜的內心，感性思考人與科技間互為主體的關係，探索人機之間的情感溫差。作品《如何向手機解釋愛情》不斷向iPhone內建的人工智能助理Siri提問「你愛我嗎？你愛我嗎？」，但無論如何訴說愛語，Siri始終含糊其辭地應答。
+										p 個體間因彼此傳導溫度形成同溫層，擅長標籤化、議題化的網絡社群更是如此。鄭先喻的《MISSION FAILED》將個人旁觀學運的經驗重構於虛擬空間，戲謔地呈現本該嚴肅的激烈抗爭狀態，間接揭露虛擬與現實抗爭運動的熱度差異。在屬於太陽花領地的生存遊戲中，即使不斷窮盡努力地射擊香蕉，玩家的結局終為MISSION FAILED。
+
+										p 線上策展得以超越空間與時間的藩籬，應存在更多擴展策展意涵的可能性。然而於不乏虛擬策展的現今，藝術作品的上載和保存技術日益成熟，卻難以避免線上陳列之作品淪為實體展宣傳的附屬品。展覽《體感溫差》基於未來展覽形式將面臨全面線上化的可能提出發問：如何在生活世界逐漸數據化後仍保留創作的溫度？本次在虛擬場域進行實驗的創作者與策展人們，分別以作品檢視溫差中不同的情感層次，並隨著展覽上線，再次被虛擬世界檢驗。虛實間相互呼應，或許也是體感溫差間的一種樣貌。
+
+										.br
+
+										p In a coded world that is tightly connected and lacks the ability to understand emotions, it is full of supernormal stimulus to tease human instinct, and to lose the unique sense of temperature between organisms. Although born in the flesh, thanks to the virtual network, the people of this world can exist between reality and virtual, day, night, night, upload, download, mark, reply, and quickly shuttle back and forth, as if the red blood cells continue to transport oxygen to ensure The pulse of the huge network body meets the needs and desires of modern survival. When the social structure moves closer to the virtual world, why do we pull away from the body and erase the boundaries between the real and the virtual, but still maintain the temperature of the soul?
+
+										p Through the artist's re-examination of the experience between the virtual and the real differences, the different aspects of returning to the individual to explore the creativity, and the use of technology media to discuss the influence and status of themselves, society and their connected relationship. Using the life experience of the fragment as an entry point, trying to evoke three different levels of perception of body, emotion and common sense in the inorganic network, not only touching the most intimate body experience, but also returning to the social group experience, re-giving us the virtual room temperature Imagination and possibilities.
+
+										p The human body can feel the temperature difference formed by the rapid flow of time, and Wu Yizhen sneaked into the flow of time and realized the temperature. Dollar-post is a purpose-built e-mail system that sends samples of simulated media speeds by selecting different stamps, including pigeons, scorpions, boats and planes.
+										p In addition to the body's temperature perception, Yang Jiehuai went deep into the complex inner heart of the individual, emotionally thinking about the relationship between people and science and technology, and exploring the emotional temperature difference between man and machine. The work "How to Explain Love to Mobile Phones" constantly asks "I love you? Do you love me?", but the Siri has always responded vaguely.
+										p The inter-individuals form a stratosphere by conducting temperatures with each other, especially for network communities that are good at tagging and topicalization. Zheng Xianyu's "MISSION FAILED" reconstructs the experience of personal spectatorship in the virtual space, and presents the serious and fierce resistance in a playful manner, indirectly exposing the difference between the virtual and the reality. In the survival game belonging to the Sun Flower Land, even if the banana is continuously and effortlessly shot, the player's ending is MISSION FAILED.
+
+										p Online curation can transcend the barriers of space and time, and there should be more possibilities to expand the curatorial implications. However, in today's virtual curation, the uploading and preservation techniques of art works are becoming more and more mature, but it is difficult to avoid the online display works as an accessory for the physical exhibition. The exhibition "Sensual Temperature Difference" will face the possibility of full onlineization based on the future exhibition form: How to maintain the temperature of creation after the life world is gradually digitized? The creators and curators who conducted the experiments in the virtual field respectively examined the different emotional levels in the temperature difference and tested them again with the virtual world as the exhibition went online. The virtual and real echoes each other, and perhaps it is also a kind of appearance between the temperature difference.
+
 								.window-scrollbar
 									.up-btn
 										img(src="assets/images/scroll-arrow.png", alt="")
@@ -183,16 +225,17 @@ html(lang="en")
 										.bar
 									.down-btn
 										img(src="assets/images/scroll-arrow.png", alt="")
-					section.chatroom.active(data-section=5)
+					section.chatroom(data-section=5)
 						.chat-left
 							.youtube
+								iframe(src="https://www.youtube.com/embed/Dxq0IqhT3XI" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen)
 							.form
 								.form-header
 									.header-icon
 										img(src="assets/images/icon-curator.png", alt="")
 									.header-content
 										p 體感溫室
-										p Greenhouse
+										p CHAT ROOM
 								.form-content
 									.content-box
 										.comment-icon
@@ -208,7 +251,7 @@ html(lang="en")
 											.name-input
 												input(type="text" maxlength="10")
 										.comment-content
-											textarea(maxlength="100" placeholder="type something")
+											textarea(maxlength="100" placeholder="type something" autofocus)
 										.comment-send
 											p send
 
@@ -216,6 +259,13 @@ html(lang="en")
 							.comment
 								.window-content
 									.window-content-container
+										//- .comment
+										//- 	.comment-icon
+										//- 		img(src="assets/images/ex2.jpg", alt="")
+										//- 	.comment-name
+										//- 		p 王小明
+										//- 	.comment-content
+										//- 		p 冷藏約30分鐘以上即可！
 								.window-scrollbar
 									.up-btn
 										img(src="assets/images/scroll-arrow.png", alt="")

@@ -1,8 +1,9 @@
-function Scrollbar(container,scroll,content) {
+function Scrollbar(container,scroll,content,isBottom) {
   var _this = this;
   this.container = container;
   this.scroll = scroll;
   this.content = content;
+  this.isBottom = isBottom || false;
 
   this.content.addEventListener('scroll', function(e) {
     _this.scroll.style.height = _this.container.clientHeight * _this.content.clientHeight / _this.content.scrollHeight + "px";
@@ -27,9 +28,21 @@ function Scrollbar(container,scroll,content) {
     });
   });
 
+  this.update = function() {
+    this.scroll.style.height = this.container.clientHeight * this.content.clientHeight / this.content.scrollHeight + "px";
+    this.scroll.style.top = this.container.clientHeight * this.content.scrollTop / this.content.scrollHeight + "px";
+  }
+
   this.reset = function() {
     this.scroll.style.height = this.container.clientHeight * this.content.clientHeight / this.content.scrollHeight + "px";
-    this.scroll.style.top = '0px';
-    this.content.scrollTop = 0;
+
+    if(this.isBottom) {
+      this.scroll.style.top = (this.container.clientHeight - this.scroll.clientHeight) + "px";
+      this.content.scrollTop = this.content.clientHeight;
+    } else {
+      this.scroll.style.top = '0px';
+      this.content.scrollTop = 0;
+    }
+    
   }
 }

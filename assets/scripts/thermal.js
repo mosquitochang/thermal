@@ -122,9 +122,6 @@ var bgfilter = new PIXI.Filter(null, shaderFrag);
 
 
 
-
-var thermalObjects = [];
-
 //pixi本體
 var app = new PIXI.Application($(".screen").width(), $(".screen").height(), { view: $(".screen")[0], transparent: true });
 
@@ -166,6 +163,8 @@ frontLayer.filters = [filter];
 
 
 var isInit = false;
+var isPlaying = false;
+
 PIXI.loader
     .add('assets/images/art-1.png')
     .add('assets/images/art-2.png')
@@ -511,11 +510,12 @@ function init() {
 
 
 	isInit = true;
+	isPlaying = true;
 	textAnimate(1);
 }
 
 function cursorMove(e) {
-	if(!isInit) return;
+	if(!isInit || !isPlaying) return;
 	var currentPoint = { 
 		x: e.pageX - $(".screen").offset().left, 
 		y: e.pageY - $(".screen").offset().top
@@ -571,6 +571,7 @@ var mouseHeatSprite = PIXI.Sprite.from(mouseHeatTexture);
 
 
 $("body").on("mousemove", function(e) {
+	if(!isInit || !isPlaying) return;
 	mouseHeat.mouseMove(e);
 	cursorMove(e);
 })
@@ -585,8 +586,8 @@ el.addEventListener("touchmove", function(e){
 	mouseHeat.mouseMove(e.targetTouches[0]);
 }, false);
 
-
-$(window).on("resize", function() {
+function appResize() {
+	$(".screen").height($(".homepage").height()); 
 	app.renderer.resize($(".screen").width(), $(".screen").height());
 
 	backgroundSprite.width = app.screen.width * 3;
@@ -646,7 +647,10 @@ $(window).on("resize", function() {
 	mouseHeatSprite.height = app.screen.height;
 
 	mouseHeat.resize();
+}
 
+$(window).on("resize", function() {
+	appResize();
 })
 
 
@@ -1166,6 +1170,6 @@ function Thermal(option) {
 }
 
 //stat
-(function(){var script=document.createElement('script');script.onload=function(){var stats=new Stats();document.body.appendChild(stats.dom);requestAnimationFrame(function loop(){stats.update();requestAnimationFrame(loop)});};script.src='//rawgit.com/mrdoob/stats.js/master/build/stats.min.js';document.head.appendChild(script);})()
+// (function(){var script=document.createElement('script');script.onload=function(){var stats=new Stats();document.body.appendChild(stats.dom);requestAnimationFrame(function loop(){stats.update();requestAnimationFrame(loop)});};script.src='//rawgit.com/mrdoob/stats.js/master/build/stats.min.js';document.head.appendChild(script);})()
 
 
