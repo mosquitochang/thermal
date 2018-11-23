@@ -32,6 +32,18 @@ var shaderFrag = `
 	#define C_9 vec3(1.0000,0.9333,0.1608)
 	#define C_10 vec3(1.0000,1.0000,0.9529)
 
+	// #define C_0 vec3(0.0000,0.0353,0.0745)
+	// #define C_1 vec3(0.0000,0.0353,0.0784)
+	// #define C_2 vec3(0.2431,0.0000,0.5647)
+	// #define C_3 vec3(0.5294,0.0000,0.6353)
+	// #define C_4 vec3(0.8118,0.0000,0.5608)
+	// #define C_5 vec3(0.7882,0.9882,0.0000)
+	// #define C_6 vec3(1.0000,0.9843,0.0000)
+	// #define C_7 vec3(1.0000,0.7686,0.0000)
+	// #define C_8 vec3(1.0000,0.3529,0.0000)
+	// #define C_9 vec3(1.0000,0.2118,0.2000)
+	// #define C_10 vec3(1.0000,0.9569,0.9686)
+
 
 	void main(void)
 	{
@@ -174,18 +186,23 @@ PIXI.loader
     .add('assets/images/thermal-grid.png')
     .add('assets/images/cursor.png')
     .add('assets/images/blue.png')
+    .add('assets/images/icon-temp.png')
     .load(init);
 
 var shadowSprite1, shadowSprite2, shadowSprite3;
 var realSprite1, realSprite2, realSprite3;
 var ui1, ui2, ui3;
 var uiCursor;
+var uiTempText;
 
 var uiTextGroups = [];
 var uiTexts = [];
 var uiTextBgs = [];
 var uiTextLines = [];
 
+var tempertureCanvases = [];
+// var hideCanvas = $("<canvas>")[0];
+// var hideCanvasCtx = hideCanvas.getContext("2d");
 
 var nowArtIndex = 1;
 function init() {
@@ -198,7 +215,7 @@ function init() {
 	shadowSprite1.width = app.screen.height * ratio;
 	shadowSprite1.x = app.screen.width / 2;
 	shadowSprite1.y = app.screen.height / 2;
-	shadowSprite1.alpha = 1;
+	shadowSprite1.alpha = 0.8;
 
 
 	shadowSprite2 = PIXI.Sprite.fromImage("assets/images/art-2.png");
@@ -210,7 +227,7 @@ function init() {
 	shadowSprite2.width = app.screen.height * ratio;
 	shadowSprite2.x = app.screen.width + app.screen.width / 2;
 	shadowSprite2.y = app.screen.height / 2;
-	shadowSprite2.alpha = 1;
+	shadowSprite2.alpha = 0.8;
 
 
 	shadowSprite3 = PIXI.Sprite.fromImage("assets/images/art-3.png");
@@ -222,7 +239,7 @@ function init() {
 	shadowSprite3.width = app.screen.height * ratio;
 	shadowSprite3.x = app.screen.width*2 + app.screen.width / 2;
 	shadowSprite3.y = app.screen.height / 2;
-	shadowSprite3.alpha = 1;
+	shadowSprite3.alpha = 0.8;
 
 
 
@@ -239,6 +256,15 @@ function init() {
 	realSprite1.alpha = 1;
 
 
+	var hideCanvas = $("<canvas>")[0];
+	var hideCanvasCtx = hideCanvas.getContext("2d");
+	hideCanvas.width = realSprite1.texture.baseTexture.source.width;
+	hideCanvas.height = realSprite1.texture.baseTexture.source.height;
+	hideCanvasCtx.drawImage(realSprite1.texture.baseTexture.source,0,0);
+	
+	tempertureCanvases.push(hideCanvas);
+
+
 	realSprite2 = PIXI.Sprite.fromImage("assets/images/art-2.png");
 	realGroup.addChild(realSprite2);
 
@@ -249,6 +275,14 @@ function init() {
 	realSprite2.x = app.screen.width + app.screen.width / 2;
 	realSprite2.y = app.screen.height / 2;
 	realSprite2.alpha = 1;
+
+	var hideCanvas = $("<canvas>")[0];
+	var hideCanvasCtx = hideCanvas.getContext("2d");
+	hideCanvas.width = realSprite2.texture.baseTexture.source.width;
+	hideCanvas.height = realSprite2.texture.baseTexture.source.height;
+	hideCanvasCtx.drawImage(realSprite2.texture.baseTexture.source,0,0);
+	
+	tempertureCanvases.push(hideCanvas);
 
 
 	realSprite3 = PIXI.Sprite.fromImage("assets/images/art-3.png");
@@ -261,6 +295,14 @@ function init() {
 	realSprite3.x = app.screen.width*2 + app.screen.width / 2;
 	realSprite3.y = app.screen.height / 2;
 	realSprite3.alpha = 1;
+
+	var hideCanvas = $("<canvas>")[0];
+	var hideCanvasCtx = hideCanvas.getContext("2d");
+	hideCanvas.width = realSprite3.texture.baseTexture.source.width;
+	hideCanvas.height = realSprite3.texture.baseTexture.source.height;
+	hideCanvasCtx.drawImage(realSprite3.texture.baseTexture.source,0,0);
+	
+	tempertureCanvases.push(hideCanvas);
 
 
 
@@ -344,8 +386,32 @@ function init() {
 	}
 
 
+	//temperture
+	var textureUiTemp = PIXI.Texture.fromImage('assets/images/icon-temp.png');
+	var uiTemp = PIXI.Sprite.from(textureUiTemp);
+	uiLayer.addChild(uiTemp);
+	uiTemp.index = 1;
+	uiTemp.scale.x = 0.35;
+	uiTemp.scale.y = 0.35;
+	uiTemp.anchor.set(0,0);
+	uiTemp.x = 10;
+	uiTemp.y = 10;
+
+	uiTempText = new PIXI.Text('-20', {
+		fontFamily: 'Press Start 2P',
+		fill: 0x4AFFFF,
+		align: 'center'
+	});
+	uiLayer.addChild(uiTempText);
+	uiTempText.style.fontSize = 22;
+	uiTempText.anchor.set(1,0.5);
+
+	uiTempText.x = 140;
+	uiTempText.y = 40;	
+
+
 	//texts
-	var textStrings = [["鄭先喻","Mission Failed"],["楊傑懷","如何向手機解釋愛情"],["吳宜曄","Dollar-Post"]];
+	var textStrings = [["鄭先喻","Mission Failed"],["楊傑懷","如何向一支手機解釋愛情"],["吳宜曄","Dollar-Post"]];
 	for (var i = 1; i <= 3; i++) {
 		var uiTextGroup = new PIXI.Container();
 		textLayer.addChild(uiTextGroup);
@@ -358,7 +424,7 @@ function init() {
 		uiTextLines.push([]);
 		
 		var uiText = new PIXI.Text('_', {
-			fontFamily: 'Noto Sans TC',
+			fontFamily: ['PingFangTC', '微軟正黑體', 'sans-serif'],
 			letterSpacing: 3,
 			fill: 0x09053A,
 			align: 'center'
@@ -387,7 +453,7 @@ function init() {
 
 		if(i==2) {
 			var uiText = new PIXI.Text('_', {
-				fontFamily: 'Noto Sans TC',
+				fontFamily: ['PingFangTC', '微軟正黑體', 'sans-serif'],
 				fill: 0x09053A,
 				align: 'center'
 			});
@@ -507,11 +573,15 @@ function init() {
 	uiCursor.scale.x = 0.5;
 	uiCursor.scale.y = 0.5;
 	uiCursor.anchor.set(0.5);
+	uiCursor.x = -100;
+	uiCursor.y = -100;
 
 
 	isInit = true;
 	isPlaying = true;
-	textAnimate(1);
+	allReady();
+	setTimeout(textAnimate,500,1);
+	// textAnimate(1);
 }
 
 function cursorMove(e) {
@@ -523,6 +593,37 @@ function cursorMove(e) {
 
 	uiCursor.x = currentPoint.x;
 	uiCursor.y = currentPoint.y;
+}
+
+//從滑鼠位置算溫度
+function computeTemperture(e) {
+	var currentPoint = { 
+		x: (e.pageX - $(".screen").offset().left - (app.screen.width-app.screen.height)/2) / app.screen.height, 
+		y: (e.pageY - $(".screen").offset().top) / app.screen.height
+	};
+
+	var tctx = tempertureCanvases[nowArtIndex-1].getContext("2d");
+
+	var tImageData = tctx.getImageData(currentPoint.x*1000,currentPoint.y*1000,1,1);
+	
+	if(tImageData.data[0] == 0 && tImageData.data[3] != 0) {
+		//把顏色跟alpha相乘變成灰階值
+		var temperture = 255*(tImageData.data[3]/255);
+	} else if(tImageData.data[3] == 0){
+		var temperture = tImageData.data[0];
+	} else {
+		var temperture = 255 - tImageData.data[0];
+	}
+
+	temperture = Math.floor(scale(temperture,0,255,-15,45));
+
+	// console.log(temperture);
+	uiTempText.text = temperture;
+
+	function scale(num, in_min, in_max, out_min, out_max) {
+		return (num - in_min) * (out_max - out_min) / (in_max - in_min) + out_min;
+	}
+	
 }
 
 
@@ -574,6 +675,7 @@ $("body").on("mousemove", function(e) {
 	if(!isInit || !isPlaying) return;
 	mouseHeat.mouseMove(e);
 	cursorMove(e);
+	computeTemperture(e);
 })
 
 var el = $("body")[0];
@@ -1170,6 +1272,6 @@ function Thermal(option) {
 }
 
 //stat
-// (function(){var script=document.createElement('script');script.onload=function(){var stats=new Stats();document.body.appendChild(stats.dom);requestAnimationFrame(function loop(){stats.update();requestAnimationFrame(loop)});};script.src='//rawgit.com/mrdoob/stats.js/master/build/stats.min.js';document.head.appendChild(script);})()
+(function(){var script=document.createElement('script');script.onload=function(){var stats=new Stats();document.body.appendChild(stats.dom);requestAnimationFrame(function loop(){stats.update();requestAnimationFrame(loop)});};script.src='//rawgit.com/mrdoob/stats.js/master/build/stats.min.js';document.head.appendChild(script);})()
 
 

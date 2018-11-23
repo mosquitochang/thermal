@@ -38,7 +38,7 @@ function Scrollbar(container,scroll,content,isBottom) {
 
     if(this.isBottom) {
       this.scroll.style.top = (this.container.clientHeight - this.scroll.clientHeight) + "px";
-      this.content.scrollTop = this.content.clientHeight;
+      this.content.scrollTop = this.content.scrollHeight - this.content.clientHeight;
     } else {
       this.scroll.style.top = '0px';
       this.content.scrollTop = 0;

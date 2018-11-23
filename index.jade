@@ -2,14 +2,14 @@
 html(lang="en")
 	head
 		meta(charset="UTF-8")
-		title 體感溫差
+		title 體感溫差 Sensation Gap
 		//- link(rel="stylesheet", href="assets/styles/simplebar.css")
 		link(rel="stylesheet", href="assets/styles/main.css")
 		meta(name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0")
-		meta(name="title" content="")
+		meta(name="title" content="體感溫差 Sensation Gap")
 		meta(name="description" content="")
 		meta(name="keywords" content="")
-		meta(property="og:title" content="")
+		meta(property="og:title" content="體感溫差 Sensation Gap")
 		meta(property="og:type" content="website")
 		meta(property="og:url" content="")
 		meta(property="og:image" content="")
@@ -22,6 +22,8 @@ html(lang="en")
 			.line
 			.frame
 				img(src="assets/images/crt.png", alt="")
+		.intro
+			video(src="assets/images/bg.mp4" autoplay loop muted)
 
 		.page-wrapper
 			.left
@@ -83,7 +85,11 @@ html(lang="en")
 						.header-content
 							p.time 00:00:00
 					.content
-						img(src="assets/images/hourglass.png", alt="")
+						img.hourglass-gif.active(src="assets/images/hourglass.gif", alt="")
+						.hourglass-turn
+							img(src="assets/images/hourglass1.png", alt="")
+							img(src="assets/images/hourglass2.png", alt="")
+							img(src="assets/images/hourglass3.png", alt="")
 			.center
 				.main-screen
 					.screen-bg
@@ -190,41 +196,171 @@ html(lang="en")
 									.down-btn
 										img(src="assets/images/scroll-arrow.png", alt="")
 					section.artists(data-section=3)
-						.window
-							.window-header
-								.header-icon
-									img(src="assets/images/icon-curator.png", alt="")
-								.header-content
-									p 藝術家 
-									p ARTISTS
-							.window-bottom
-								.window-content
-									.window-content-container
-								.window-scrollbar
-									.up-btn
-										img(src="assets/images/scroll-arrow.png", alt="")
-									.scrollbar
-										.bar
-									.down-btn
-										img(src="assets/images/scroll-arrow.png", alt="")
+						.windows
+							.window.active
+								.window-header
+									.header-icon
+										img(src="assets/images/icon-curator.png", alt="")
+									.header-content
+										p 藝術家
+										p ARTIST
+								.window-bottom
+									.window-content-fixed
+										.pic
+											img(src="assets/images/ex1.jpg", alt="")
+										.name
+											p 鄭先喻
+											p CHENG HSIEN-YU
+										.link
+											a(href="")
+												img(src="assets/images/icon-web.png", alt="")
+											//- a(href="")
+											//- 	img(src="assets/images/icon-ig.png", alt="")
+									.window-content
+										.window-content-container.empty-top
+											p 1995年生於桃園，畢業於國立彰化師範大學美術系，創作多以油畫和裝置為主，對藝術史論抱有興趣並持續自主探索。目前潛伏在台北某機構，觀察藝術工作者的生存百態。
+											p 1984 born in Kaohsiung, Taiwan. Artist & Software developer based in Taipei now. Most of Cheng's works are electronic installations, software, experimental bio-electronic devices. His works are concerned with the relationship between human behavior, emotion, software and machine. He tries to bring out the meaning of life through his works that are filled with his own observation and feelings toward society & environment in a humorous way. He currently focuses on bioelectronic researches, such as free-energy, intelligent sound and developing creative art tools (software and hardware). 
+									.window-scrollbar
+										.up-btn
+											img(src="assets/images/scroll-arrow.png", alt="")
+										.scrollbar
+											.bar
+										.down-btn
+											img(src="assets/images/scroll-arrow.png", alt="")
+							.window
+								.window-header
+									.header-icon
+										img(src="assets/images/icon-curator.png", alt="")
+									.header-content
+										p 藝術家
+										p ARTIST
+								.window-bottom
+									.window-content-fixed
+										.pic
+											img(src="assets/images/ex1.jpg", alt="")
+										.name
+											p 鄭先喻
+											p CHENG HSIEN-YU
+										.link
+											a(href="")
+												img(src="assets/images/icon-web.png", alt="")
+											//- a(href="")
+											//- 	img(src="assets/images/icon-ig.png", alt="")
+									.window-content
+										.window-content-container.empty-top
+											p 1995年生於桃園，畢業於國立彰化師範大學美術系，創作多以油畫和裝置為主，對藝術史論抱有興趣並持續自主探索。目前潛伏在台北某機構，觀察藝術工作者的生存百態。
+											p 1984 born in Kaohsiung, Taiwan. Artist & Software developer based in Taipei now. Most of Cheng's works are electronic installations, software, experimental bio-electronic devices. His works are concerned with the relationship between human behavior, emotion, software and machine. He tries to bring out the meaning of life through his works that are filled with his own observation and feelings toward society & environment in a humorous way. He currently focuses on bioelectronic researches, such as free-energy, intelligent sound and developing creative art tools (software and hardware). 
+									.window-scrollbar
+										.up-btn
+											img(src="assets/images/scroll-arrow.png", alt="")
+										.scrollbar
+											.bar
+										.down-btn
+											img(src="assets/images/scroll-arrow.png", alt="")
+							.window
+								.window-header
+									.header-icon
+										img(src="assets/images/icon-curator.png", alt="")
+									.header-content
+										p 藝術家
+										p ARTIST
+								.window-bottom
+									.window-content-fixed
+										.pic
+											img(src="assets/images/ex1.jpg", alt="")
+										.name
+											p 鄭先喻
+											p CHENG HSIEN-YU
+										.link
+											a(href="")
+												img(src="assets/images/icon-web.png", alt="")
+											//- a(href="")
+											//- 	img(src="assets/images/icon-ig.png", alt="")
+									.window-content
+										.window-content-container.empty-top
+											p 1995年生於桃園，畢業於國立彰化師範大學美術系，創作多以油畫和裝置為主，對藝術史論抱有興趣並持續自主探索。目前潛伏在台北某機構，觀察藝術工作者的生存百態。
+											p 1984 born in Kaohsiung, Taiwan. Artist & Software developer based in Taipei now. Most of Cheng's works are electronic installations, software, experimental bio-electronic devices. His works are concerned with the relationship between human behavior, emotion, software and machine. He tries to bring out the meaning of life through his works that are filled with his own observation and feelings toward society & environment in a humorous way. He currently focuses on bioelectronic researches, such as free-energy, intelligent sound and developing creative art tools (software and hardware). 
+									.window-scrollbar
+										.up-btn
+											img(src="assets/images/scroll-arrow.png", alt="")
+										.scrollbar
+											.bar
+										.down-btn
+											img(src="assets/images/scroll-arrow.png", alt="")
+						.window-switches
+							.window-switch.active(data-tab=1)
+								include assets/images/icon-artist.svg
+							.window-switch(data-tab=2)
+								include assets/images/icon-artist.svg
+							.window-switch(data-tab=3)
+								include assets/images/icon-artist.svg
 					section.about(data-section=4)
-						.window
-							.window-header
-								.header-icon
-									img(src="assets/images/icon-curator.png", alt="")
-								.header-content
-									p 關於本計畫 
-									p ABOUT
-							.window-bottom
-								.window-content
-									.window-content-container
-								.window-scrollbar
-									.up-btn
-										img(src="assets/images/scroll-arrow.png", alt="")
-									.scrollbar
-										.bar
-									.down-btn
-										img(src="assets/images/scroll-arrow.png", alt="")
+						.windows
+							.window.active
+								.window-header
+									.header-icon
+										img(src="assets/images/icon-curator.png", alt="")
+									.header-content
+										p 關於本計畫 
+										p ABOUT
+								.window-bottom
+									.window-content-fixed
+										.pic
+											img(src="assets/images/ex1.jpg", alt="")
+										.name
+											p 鄭先喻
+											p CHENG HSIEN-YU
+										.link
+											a(href="")
+												img(src="assets/images/icon-web.png", alt="")
+											//- a(href="")
+											//- 	img(src="assets/images/icon-ig.png", alt="")
+									.window-content
+										.window-content-container.empty-top
+											p 1995年生於桃園，畢業於國立彰化師範大學美術系，創作多以油畫和裝置為主，對藝術史論抱有興趣並持續自主探索。目前潛伏在台北某機構，觀察藝術工作者的生存百態。
+											p 1984 born in Kaohsiung, Taiwan. Artist & Software developer based in Taipei now. Most of Cheng's works are electronic installations, software, experimental bio-electronic devices. His works are concerned with the relationship between human behavior, emotion, software and machine. He tries to bring out the meaning of life through his works that are filled with his own observation and feelings toward society & environment in a humorous way. He currently focuses on bioelectronic researches, such as free-energy, intelligent sound and developing creative art tools (software and hardware). 
+									.window-scrollbar
+										.up-btn
+											img(src="assets/images/scroll-arrow.png", alt="")
+										.scrollbar
+											.bar
+										.down-btn
+											img(src="assets/images/scroll-arrow.png", alt="")
+							.window
+								.window-header
+									.header-icon
+										img(src="assets/images/icon-curator.png", alt="")
+									.header-content
+										p 關於本計畫 
+										p ABOUT
+								.window-bottom
+									.window-content-fixed
+										.pic
+											img(src="assets/images/ex1.jpg", alt="")
+										.name
+											p 鄭先喻
+											p CHENG HSIEN-YU
+										.link
+											a(href="")
+												img(src="assets/images/icon-web.png", alt="")
+											//- a(href="")
+											//- 	img(src="assets/images/icon-ig.png", alt="")
+									.window-content
+										.window-content-container.empty-top
+											p 1995年生於桃園，畢業於國立彰化師範大學美術系，創作多以油畫和裝置為主，對藝術史論抱有興趣並持續自主探索。目前潛伏在台北某機構，觀察藝術工作者的生存百態。
+											p 1984 born in Kaohsiung, Taiwan. Artist & Software developer based in Taipei now. Most of Cheng's works are electronic installations, software, experimental bio-electronic devices. His works are concerned with the relationship between human behavior, emotion, software and machine. He tries to bring out the meaning of life through his works that are filled with his own observation and feelings toward society & environment in a humorous way. He currently focuses on bioelectronic researches, such as free-energy, intelligent sound and developing creative art tools (software and hardware). 
+									.window-scrollbar
+										.up-btn
+											img(src="assets/images/scroll-arrow.png", alt="")
+										.scrollbar
+											.bar
+										.down-btn
+											img(src="assets/images/scroll-arrow.png", alt="")
+						.window-switches
+							.window-switch.active(data-tab=1)
+								include assets/images/icon-artist.svg
+							.window-switch(data-tab=2)
+								include assets/images/icon-artist.svg
 					section.chatroom(data-section=5)
 						.chat-left
 							.youtube
@@ -410,7 +546,7 @@ html(lang="en")
 	script(src="assets/scripts/lodash.min.js")
 	script(src="assets/scripts/tinycolor-min.js")
 	script(src="assets/scripts/perlin.js")
-	script(src="http://cdnjs.cloudflare.com/ajax/libs/gsap/1.19.0/TweenMax.min.js")
+	script(src="https://cdnjs.cloudflare.com/ajax/libs/gsap/1.19.0/TweenMax.min.js")
 	script(src="https://cdnjs.cloudflare.com/ajax/libs/gsap/2.0.2/plugins/PixiPlugin.min.js")
 
 	script(src="assets/scripts/scrollbar.js")

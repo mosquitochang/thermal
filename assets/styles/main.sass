@@ -74,6 +74,7 @@ html,body
 	// font-size: 0
 	overscroll-behavior: contain
 	color: $light-blue
+	background-color: $dark-blue
 
 
 @keyframes pulse 
@@ -125,7 +126,7 @@ html,body
 		background: linear-gradient(#444 50%, #000 50%)
 		background-size: 100% 4px
 		background-repeat: repeat-y
-		opacity: 0.2
+		opacity: 0.1
 	.frame
 		position: absolute
 		width: 100%
@@ -155,6 +156,30 @@ html,body
 	// 	background-repeat: repeat-y
 	// 	opacity: .1
 
+.intro
+	position: fixed
+	top: 0
+	left: 0
+	width: 100%
+	height: 100%
+	z-index: 500
+	visibility: hidden
+	opacity: 0
+	transition: 0.5s
+	&.active
+		opacity: 1
+		visibility: visible
+	video
+		position: absolute
+		top: 50%
+		left: 50%
+		transform: translateX(-50%) translateY(-50%)
+		min-width: 100%
+		min-height: 100%
+		width: auto
+		height: auto
+		overflow: hidden
+
 
 .page-wrapper
 	width: 100%
@@ -164,6 +189,12 @@ html,body
 	background-color: $dark-blue
 	display: flex
 	// align-items: 
+	visibility: hidden
+	opacity: 0
+	transition: 0.5s
+	&.active
+		opacity: 1
+		visibility: visible
 	.left
 		width: 300px
 		margin-right: 10px
@@ -345,8 +376,29 @@ html,body
 				display: flex
 				align-items: center
 				justify-content: center
-				img
-					width: 50px
+				.hourglass-gif
+					width: 100px
+					opacity: 0
+					cursor: pointer
+					&.active
+						opacity: 1
+				.hourglass-turn
+					position: absolute
+					width: 100px
+					height: 100px
+					top: 50%
+					left: 50%
+					transform: translate(-50%,-50%)
+					pointer-events: none
+					img
+						position: absolute
+						top: 0
+						left: 0
+						width: 100%
+						opacity: 0
+						&.active
+							opacity: 1
+
 	.center
 		flex: 1
 		// background-color: #fff
@@ -400,6 +452,46 @@ html,body
 				&.active
 					// display: flex
 					visibility: visible
+				.windows
+					width: 70%
+					height: 80%
+					.window
+						width: 100%
+						height: 100%
+						display: none
+						&.active
+							display: flex
+				.window-switches
+					width: 130px
+					height: 80%
+					margin-left: 10px
+					display: flex
+					// align-self: flex-start
+					flex-direction: column
+					.window-switch
+						width: 130px
+						height: 130px
+						margin-bottom: 10px
+						border: 3px solid $light-blue
+						background-color: $dark-blue
+						transition: 0.1s
+						cursor: pointer
+						svg
+							width: 100%
+							height: 100%
+							fill: $light-blue
+							transition: 0.1s
+						&:hover
+							border: 3px solid $dark-blue
+							background-color: $light-blue
+							svg
+								fill: $dark-blue
+						&.active
+							border: 3px solid $dark-blue
+							background-color: $light-blue
+							svg
+								fill: $dark-blue
+
 				.window
 					width: 80%
 					height: 80%
@@ -671,6 +763,7 @@ html,body
 							display: block
 							width: 100%
 							padding-top: 56.25%
+
 						iframe
 							position: absolute
 							top: 0
@@ -733,13 +826,13 @@ html,body
 								flex-direction: column
 								justify-content: center
 								align-items: flex-end
-								margin-left: 90px
+								margin-left: 130px
 								.comment-icon
 									position: absolute
 									top: 0
-									left: -90px
-									width: 80px
-									height: 80px
+									left: -130px
+									width: 120px
+									height: 120px
 									border: 3px solid $light-blue
 									cursor: pointer
 									overflow: hidden
@@ -750,8 +843,8 @@ html,body
 										top: 50%
 										left: 50%
 										transform: translate(-50%,-50%)
-										width: 65px
-										height: 65px
+										width: 105px
+										height: 105px
 										border: 1px solid $light-blue
 										opacity: 0
 										transition: 0.2s
@@ -816,7 +909,7 @@ html,body
 											letter-spacing: 1px
 								.comment-content
 									width: 100%
-									height: 100px
+									height: 70px
 									border: 3px solid $light-blue
 									textarea
 										background-color: transparent

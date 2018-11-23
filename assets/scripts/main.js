@@ -1,11 +1,20 @@
+$(".intro video")[0].onplaying = function() {
+   $(".intro").addClass('active');
+   $(".intro video")[0].playbackRate = 1.5;
+   $(".screen-bg video")[0].playbackRate = 0.7;
+   $(".intro video")[0].onplaying = null;
+};
 
-// function crtAnimate() {
-// 	requestAnimationFrame(crtAnimate);
-// 	$(".n1").toggleClass('active');
-// 	$(".n2").toggleClass('active');
-// }
-// crtAnimate();
-
+function allReady() {
+	var tl = new TimelineMax({repeat:0});
+	var useless = {x:0};
+	tl.to(useless,1,{x:0});
+	tl.call(function(){
+		$(".intro").removeClass('active');
+	});
+	tl.to(useless,1,{x:0});
+	$(".page-wrapper").addClass('active');
+}
 
 
 
@@ -30,6 +39,38 @@ setInterval(function() {
 	$(".countdown .date").html(countdown);
 },1000)
 
+
+//沙漏
+var hourglassCount = 0;
+var isHourglassTurning = false;
+$(".hourglass-gif").on("click", function(){
+	if(isHourglassTurning) return;
+
+	var tl = new TimelineMax({repeat:0});
+	var useless = {x:0};
+	tl.call(function(){
+		isHourglassTurning = true;
+		$(".hourglass-gif").removeClass('active');
+		$(".hourglass-turn img:nth-child(1)").addClass('active');
+	});
+	tl.to(useless,0.1,{x:0});
+	tl.call(function(){
+		$(".hourglass-turn img:nth-child(1)").removeClass('active');
+		$(".hourglass-turn img:nth-child(2)").addClass('active');
+	});
+	tl.to(useless,0.1,{x:0});
+	tl.call(function(){
+		$(".hourglass-turn img:nth-child(2)").removeClass('active');
+		$(".hourglass-turn img:nth-child(3)").addClass('active');
+	});
+	tl.to(useless,0.1,{x:0});
+	tl.call(function(){
+		$(".hourglass-turn img:nth-child(3)").removeClass('active');
+		$(".hourglass-gif").addClass('active');
+		hourglassCount++;
+		isHourglassTurning = false;
+	});
+})
 
 
 //menu
@@ -78,8 +119,13 @@ $(".menu-row").on("click", function(){
 			isPlaying = false;
 		}
 
+		if(index==5 && !isChatIntro) {
+			chatIntro();
+		}
+
 		scrollbars.forEach(scrollbar => {
 			scrollbar.reset();
+			scrollbar.update();
 		})
 	},800)
 
@@ -111,6 +157,41 @@ for (var i = 0; i < $(".window").length; i++) {
 var scrollbar = new Scrollbar($(".comment").find(".scrollbar")[0],$(".comment").find(".bar")[0],$(".comment").find(".window-content")[0],true);
 scrollbars.push(scrollbar);	
 
+
+//聊天室相關
+var isChatIntro = false;
+
+function chatIntro() {
+	var introTexts = ["歡迎來到體感溫室","你可以在這裡留下任何對《體感溫差》的想法或疑問","它將會成為溫室的熱度來源","而你的發問，我們會在 12/16 Sun. 21:30 直播中解答"];
+	var tl = new TimelineMax({repeat:0});
+	var useless = {x:0};
+	tl.to(useless,1,{x:0});
+	tl.call(drawComment,[{
+		avatarIndex: 1,
+		name: "admin",
+		comment: introTexts[0]
+	}]);
+	tl.to(useless,1.5,{x:0});
+	tl.call(drawComment,[{
+		avatarIndex: 1,
+		name: "admin",
+		comment: introTexts[1]
+	}]);
+	tl.to(useless,1.5,{x:0});
+	tl.call(drawComment,[{
+		avatarIndex: 1,
+		name: "admin",
+		comment: introTexts[2]
+	}]);
+	tl.to(useless,1.5,{x:0});
+	tl.call(drawComment,[{
+		avatarIndex: 1,
+		name: "admin",
+		comment: introTexts[3]
+	}]);
+
+	isChatIntro = true;
+}
 
 
 $(".form .comment-icon").on("click", function(){
@@ -166,32 +247,38 @@ function getData() {
 	ref.on('child_added', function(snapshot) {
 		var val = snapshot.val();
 		if( val !== null ) {
-			var filter = $("<div>");
-			filter.text(val.name);
-			var name = filter.html();
-			if(name.length == 0) {
-				name = "無名氏";
-			}
-			filter.text(val.comment);
-			var comment = filter.html();
-
-			var post = postTemplate.replace("{{avatarIndex}}", val.avatarIndex)
-								   .replace("{{name}}", name)
-								   .replace("{{comment}}", comment);
-			$(".comment .window-content-container").append(post);
-
-			commentNum++;
-
-			if(commentNum >= initCommentNum) {
-				$(".comment .window-content").animate({
-					scrollTop: $(".comment .window-content-container").height()
-				},500);
-				scrollbars.forEach(s => s.update());
-			}
+			drawComment(val);
 			
 		}
 	});
 }
+
+
+function drawComment(val) {
+	var filter = $("<div>");
+	filter.text(val.name);
+	var name = filter.html();
+	if(name.length == 0) {
+		name = "無名氏";
+	}
+	filter.text(val.comment);
+	var comment = filter.html();
+
+	var post = postTemplate.replace("{{avatarIndex}}", val.avatarIndex)
+						   .replace("{{name}}", name)
+						   .replace("{{comment}}", comment);
+	$(".comment .window-content-container").append(post);
+
+	commentNum++;
+
+	if(commentNum >= initCommentNum) {
+		$(".comment .window-content").animate({
+			scrollTop: $(".comment .window-content-container").height()
+		},500);
+		scrollbars.forEach(s => s.update());
+	}
+}
+
 // getData();
 
 // var scrollbar = new Scrollbar($(".scrollbar")[0],$(".bar")[0],$(".window-content")[0]);
