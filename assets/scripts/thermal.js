@@ -8,6 +8,7 @@ var shaderFrag = `
 
 	// #define C_0 vec3(0.0000,0.0000,0.0039)
 
+	//org
 	// #define C_0 vec3(0.0035,0.0019,0.2247)
 	// #define C_1 vec3(0.0000,0.3137,0.6118)
 	// #define C_2 vec3(0.0000,0.6588,0.8549)
@@ -20,6 +21,8 @@ var shaderFrag = `
 	// #define C_9 vec3(1.0000,0.2118,0.2000)
 	// #define C_10 vec3(1.0000,0.9569,0.9686)
 
+
+	//c0
 	#define C_0 vec3(0.0000,0.0353,0.0745)
 	#define C_1 vec3(0.0000,0.0353,0.0784)
 	#define C_2 vec3(0.2431,0.0000,0.5647)
@@ -31,19 +34,6 @@ var shaderFrag = `
 	#define C_8 vec3(1.0000,0.7686,0.0000)
 	#define C_9 vec3(1.0000,0.9333,0.1608)
 	#define C_10 vec3(1.0000,1.0000,0.9529)
-
-	// #define C_0 vec3(0.0000,0.0353,0.0745)
-	// #define C_1 vec3(0.0000,0.0353,0.0784)
-	// #define C_2 vec3(0.2431,0.0000,0.5647)
-	// #define C_3 vec3(0.5294,0.0000,0.6353)
-	// #define C_4 vec3(0.8118,0.0000,0.5608)
-	// #define C_5 vec3(0.7882,0.9882,0.0000)
-	// #define C_6 vec3(1.0000,0.9843,0.0000)
-	// #define C_7 vec3(1.0000,0.7686,0.0000)
-	// #define C_8 vec3(1.0000,0.3529,0.0000)
-	// #define C_9 vec3(1.0000,0.2118,0.2000)
-	// #define C_10 vec3(1.0000,0.9569,0.9686)
-
 
 	void main(void)
 	{
@@ -95,44 +85,6 @@ var shaderFrag = `
 	}
 `;
 var filter = new PIXI.Filter(null, shaderFrag);
-
-
-
-var shaderFrag = `
-	precision mediump float;
-
-	varying vec2 vTextureCoord;
-	uniform sampler2D uSampler;
-
-	// #define C_0 vec3(0.1607,0.0000,0.2666)
-	// #define C_1 vec3(0.4313,0.0000,0.7098)
-
-	#define C_0 vec3(0.1,0.0,0.2)
-	#define C_1 vec3(0.8,0.0,0.9)
-
-
-	void main(void)
-	{
-		vec4 fg = texture2D(uSampler, vTextureCoord);		
-
-		float gray = (fg.r+fg.g+fg.b)/3.0;
-
-		vec3 mixedColor;
-
-		mixedColor = mix(C_1, C_0, gray);
-
-		fg.r = mixedColor[0];
-		fg.g = mixedColor[1];
-		fg.b = mixedColor[2];
-
-		gl_FragColor = fg;
-		if(gl_FragColor.a < 1.0) discard;
-	}
-`;
-var bgfilter = new PIXI.Filter(null, shaderFrag);
-
-
-
 
 //pixi本體
 var app = new PIXI.Application($(".screen").width(), $(".screen").height(), { view: $(".screen")[0], transparent: true });
@@ -247,6 +199,7 @@ function init() {
 	realSprite1 = PIXI.Sprite.fromImage("assets/images/art-1.png");
 	realGroup.addChild(realSprite1);
 
+	realSprite1.index = 1;
 	realSprite1.anchor.set(0.5);
 	var ratio = realSprite1.width / realSprite1.height;
 	realSprite1.height = app.screen.height;
@@ -254,6 +207,8 @@ function init() {
 	realSprite1.x = app.screen.width / 2;
 	realSprite1.y = app.screen.height / 2;
 	realSprite1.alpha = 1;
+	realSprite1.interactive = true;
+	realSprite1.on('pointerup', openArt);
 
 
 	var hideCanvas = $("<canvas>")[0];
@@ -268,6 +223,7 @@ function init() {
 	realSprite2 = PIXI.Sprite.fromImage("assets/images/art-2.png");
 	realGroup.addChild(realSprite2);
 
+	realSprite2.index = 2;
 	realSprite2.anchor.set(0.5);
 	var ratio = realSprite2.width / realSprite2.height;
 	realSprite2.height = app.screen.height;
@@ -275,6 +231,8 @@ function init() {
 	realSprite2.x = app.screen.width + app.screen.width / 2;
 	realSprite2.y = app.screen.height / 2;
 	realSprite2.alpha = 1;
+	realSprite2.interactive = true;
+	realSprite2.on('pointerup', openArt);
 
 	var hideCanvas = $("<canvas>")[0];
 	var hideCanvasCtx = hideCanvas.getContext("2d");
@@ -288,6 +246,7 @@ function init() {
 	realSprite3 = PIXI.Sprite.fromImage("assets/images/art-3.png");
 	realGroup.addChild(realSprite3);
 
+	realSprite3.index = 3;
 	realSprite3.anchor.set(0.5);
 	var ratio = realSprite3.width / realSprite3.height;
 	realSprite3.height = app.screen.height;
@@ -295,6 +254,8 @@ function init() {
 	realSprite3.x = app.screen.width*2 + app.screen.width / 2;
 	realSprite3.y = app.screen.height / 2;
 	realSprite3.alpha = 1;
+	realSprite3.interactive = true;
+	realSprite3.on('pointerup', openArt);
 
 	var hideCanvas = $("<canvas>")[0];
 	var hideCanvasCtx = hideCanvas.getContext("2d");
@@ -384,6 +345,12 @@ function init() {
 		nowArtIndex = index;
 		textAnimate(index);
 	}
+
+	//開作品頁
+	// function openArt() {
+	// 	var index = this.index;
+	// 	console.log(index);
+	// }
 
 
 	//temperture
@@ -857,7 +824,7 @@ function MouseHeat() {
 			var dist = distanceBetween(this.lastPoint, currentPoint);
 			var angle = angleBetween(this.lastPoint, currentPoint);
 
-			for (var i = 0; i < dist; i+=15) {
+			for (var i = 0; i < dist; i+=30) {
 
 				var x = this.lastPoint.x + (Math.sin(angle) * i);
 				var y = this.lastPoint.y + (Math.cos(angle) * i);

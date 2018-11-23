@@ -15,6 +15,12 @@ html(lang="en")
 		meta(property="og:image" content="")
 		meta(property="og:description" content="")
 		meta(property="og:site_name" content="")
+		script(src="https://cdnjs.cloudflare.com/ajax/libs/mobile-detect/1.4.3/mobile-detect.min.js")
+		script.
+			var md = new MobileDetect(window.navigator.userAgent);
+			if(md.mobile()) {
+				window.location.replace('./m.html');
+			}
 	body
 		.crt
 			.noise
@@ -24,6 +30,46 @@ html(lang="en")
 				img(src="assets/images/crt.png", alt="")
 		.intro
 			video(src="assets/images/bg.mp4" autoplay loop muted)
+
+		.art-lightbox
+			.art-container.active(data-art=1)
+				.art
+					//- iframe(src="")
+				.art-info-container
+					.btn-info
+					.btn-home
+					.art-info
+						p.title 鄭先喻
+						p.sub-title Mission Failed
+						.br
+						.br
+						p MISSION FAILED源於2014年太陽花學運期間，立委邱毅接受中國央視專訪時，將立法院內一堆黃色物體指為香蕉，實際調查後證實應為太陽花的烏龍事件。在MISSION FAILED中玩家必須手持槍枝射殺追殺來的香蕉，玩家雖然可以補充彈藥和醫療，但結局終為mission failed。
+						.br
+						p MISSION FAILED originated from the 2014 Sun Flower Academy. When the legislator Qiu Yi accepted an interview with China's CCTV, he pointed a pile of yellow objects in the court as bananas. The actual investigation confirmed that it should be an oolong event of the sun flower. In the MISSION FAILED, the player must shoot the bananas with the guns. The player can supplement the ammunition and medical treatment, but the final result is mission failed.
+
+			.art-container(data-art=2)
+				.art
+					video(src="https://high-range.surge.sh/art-2.mp4")
+				.art-info-container
+					.btn-info
+					.btn-home
+					.art-info
+						p.title 楊傑懷 
+						p.sub-title 如何向一支手機解釋愛情
+						p How To Explain Love To An iPhone
+						.br
+						.br
+						p 蘋果行動裝置的人工智慧助理——Siri，原開發意圖是讓使用者能夠以自然語音的方式與裝置互動，並完成搜尋資料、查詢天氣、撥打電話、發送簡訊等服務。當人工智慧技術越趨發達，人們對機器的需求就不只是基本的實用功能，因此蘋果公司將 Siri 系統設計為能夠和使用者進行日常對話的個人助理。然而它理解人類話語的能力仍舊非常有限，藉由反覆發出「你愛我嗎?」的感性提問，我在這個過程中釐清人和科技之間互為主體的關係。
+						.br
+						p Apple's mobile device's artificial intelligence assistant, Siri, was originally designed to allow users to interact with the device in a natural voice, and to complete services such as searching for information, checking the weather, making calls, and sending newsletters. As artificial intelligence technology becomes more developed, people's demand for machines is not just a basic practical function, so Apple designed the Siri system as a personal assistant who can conduct daily conversations with users. However, its ability to understand human discourse is still very limited. By repeating the perceptual question of "Do you love me?", I clarify the relationship between human and technology in this process.
+
+			.art-container(data-art=3)
+				.art
+					//- iframe(src="http://dollar-post.com/")
+				.art-info-container
+					//- .btn-info
+					.btn-home
+					.art-info
 
 		.page-wrapper
 			.left
@@ -97,32 +143,6 @@ html(lang="en")
 					section.homepage.active(data-section=6)
 						.screen-container
 							canvas.screen
-						//- .temperture-reader
-							.reader-high
-								.reader-header
-									.reader-title 
-										p HI
-									.reader-texture
-										img(src="assets/images/temp-left.png", alt="")
-								.reader-content
-									p.temp-high 20
-									img(src="assets/images/icon-menu1.png", alt="")
-							.reader-current
-								.reader-header 
-									.reader-title
-										p CURRENT TEMPERATURE
-								.reader-content
-									p.temp-high 17
-									img(src="assets/images/icon-menu1.png", alt="")
-							.reader-low
-								.reader-header
-									.reader-texture
-										img(src="assets/images/temp-right.png", alt="")
-									.reader-title 
-										p LOW
-								.reader-content
-									p.temp-high 16
-									img(src="assets/images/icon-menu1.png", alt="")
 					section.curator(data-section=1)
 						.window
 							.window-header
@@ -197,7 +217,7 @@ html(lang="en")
 										img(src="assets/images/scroll-arrow.png", alt="")
 					section.artists(data-section=3)
 						.windows
-							.window.active
+							.window.active(data-tab=1)
 								.window-header
 									.header-icon
 										img(src="assets/images/icon-curator.png", alt="")
@@ -227,7 +247,7 @@ html(lang="en")
 											.bar
 										.down-btn
 											img(src="assets/images/scroll-arrow.png", alt="")
-							.window
+							.window(data-tab=2)
 								.window-header
 									.header-icon
 										img(src="assets/images/icon-curator.png", alt="")
@@ -257,7 +277,7 @@ html(lang="en")
 											.bar
 										.down-btn
 											img(src="assets/images/scroll-arrow.png", alt="")
-							.window
+							.window(data-tab=3)
 								.window-header
 									.header-icon
 										img(src="assets/images/icon-curator.png", alt="")
@@ -296,7 +316,7 @@ html(lang="en")
 								include assets/images/icon-artist.svg
 					section.about(data-section=4)
 						.windows
-							.window.active
+							.window.active(data-tab=1)
 								.window-header
 									.header-icon
 										img(src="assets/images/icon-curator.png", alt="")
@@ -326,7 +346,7 @@ html(lang="en")
 											.bar
 										.down-btn
 											img(src="assets/images/scroll-arrow.png", alt="")
-							.window
+							.window(data-tab=2)
 								.window-header
 									.header-icon
 										img(src="assets/images/icon-curator.png", alt="")

@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+html(lang="en")
+	head
+		meta(charset="UTF-8")
+		title 體感溫差 Sensation Gap
+		link(rel="stylesheet", href="assets/styles/m.css")
+		meta(name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0")
+		meta(name="title" content="體感溫差 Sensation Gap")
+		meta(name="description" content="")
+		meta(name="keywords" content="")
+		meta(property="og:title" content="體感溫差 Sensation Gap")
+		meta(property="og:type" content="website")
+		meta(property="og:url" content="")
+		meta(property="og:image" content="")
+		meta(property="og:description" content="")
+		meta(property="og:site_name" content="")
+		script.
+			history.pushState(null,null,"./");
+	body
+		.crt
+			.noise
+				img(src="assets/images/noise.png", alt="")
+			.line
+			.frame
+				img(src="assets/images/crt.png", alt="")
+
+		canvas.screen
+
+
+	script(src="assets/scripts/jquery-3.3.1.min.js")
+
+	script(src="https://cdnjs.cloudflare.com/ajax/libs/pixi.js/4.7.1/pixi.min.js")
+	script(src="https://cdn.jsdelivr.net/npm/pixi-filters@2.6.1/dist/pixi-filters.js")
+	script(src="assets/scripts/perlin.js")
+	script(src="https://cdnjs.cloudflare.com/ajax/libs/gsap/1.19.0/TweenMax.min.js")
+
+	script(src="assets/scripts/m.js")
+
+	//- script(src="assets/scripts/thermal.js")

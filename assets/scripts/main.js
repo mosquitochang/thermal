@@ -1,8 +1,21 @@
+// $("button").on("click", function() {
+// 	if($(this).hasClass('org')) {
+// 		frontLayer.filters = [orgfilter];
+// 	} else if($(this).hasClass('c1')) {
+// 		frontLayer.filters = [filter1];
+// 	} else if($(this).hasClass('c2')) {
+// 		frontLayer.filters = [filter2];
+// 	}
+// })
+
+
 $(".intro video")[0].onplaying = function() {
-   $(".intro").addClass('active');
-   $(".intro video")[0].playbackRate = 1.5;
-   $(".screen-bg video")[0].playbackRate = 0.7;
-   $(".intro video")[0].onplaying = null;
+	$(".intro video")[0].playbackRate = 1.5;
+	$(".screen-bg video")[0].playbackRate = 0.7;
+	$(".intro video")[0].onplaying = null;
+
+	if(isInit) return;
+	$(".intro").addClass('active');
 };
 
 function allReady() {
@@ -17,6 +30,60 @@ function allReady() {
 }
 
 
+
+//作品頁面
+$(".btn-info").on("click", function(){
+	$(this).parent().toggleClass("active");
+})
+
+$(".art-info-container").on("click", function(e){
+	if(e.target.classList[0] == 'art-info-container') {
+		$(this).removeClass("active");
+	}
+})
+
+$(".btn-home").on("click", function(){
+	var index = $(this).parents(".art-container").data("art");
+	$(this).parent().removeClass("active");
+	$(".art-lightbox").removeClass("active");
+	app.start();
+
+	if(index!=2) {
+		setTimeout(function(){
+			$(".art-container[data-art="+index+"]").find(".art").html("");
+		},1000)
+	} else {
+		$(".art-container[data-art="+index+"]").find("video")[0].pause();
+	}
+	
+})
+
+function openArt() {
+	var index = this.index;
+	// console.log(index);
+	app.stop();
+
+	
+	if(index==1) {
+		var iframe = $("<iframe>");
+		iframe[0].src = "http://bent-flag.surge.sh/";
+		$(".art-container[data-art="+index+"]").find(".art").append(iframe);
+	}
+
+	if(index==2) {
+		$(".art-container[data-art="+index+"]").find("video")[0].play();
+	}
+
+	if(index==3) {
+		var iframe = $("<iframe>");
+		iframe[0].src = "http://dollar-post.com/";
+		$(".art-container[data-art="+index+"]").find(".art").append(iframe);
+	}
+
+	$(".art-container.active").removeClass("active");
+	$(".art-container[data-art="+index+"]").addClass("active");
+	$(".art-lightbox").addClass("active");
+}
 
 //時鐘和倒數
 setInterval(function() {
@@ -158,6 +225,19 @@ var scrollbar = new Scrollbar($(".comment").find(".scrollbar")[0],$(".comment").
 scrollbars.push(scrollbar);	
 
 
+
+//window tab
+$(".window-switch").on("click", function(){
+	var index = $(this).data("tab");
+	$(this).parents("section").find(".window-switch.active").removeClass('active');
+	$(this).addClass('active');
+	$(this).parents("section").find(".window.active").removeClass('active');
+	$(this).parents("section").find(".window[data-tab="+index+"]").addClass('active');
+	scrollbars.forEach(s => s.reset());
+	scrollbars.forEach(s => s.update());
+})
+
+
 //聊天室相關
 var isChatIntro = false;
 
@@ -171,19 +251,19 @@ function chatIntro() {
 		name: "admin",
 		comment: introTexts[0]
 	}]);
-	tl.to(useless,1.5,{x:0});
+	tl.to(useless,2,{x:0});
 	tl.call(drawComment,[{
 		avatarIndex: 1,
 		name: "admin",
 		comment: introTexts[1]
 	}]);
-	tl.to(useless,1.5,{x:0});
+	tl.to(useless,2,{x:0});
 	tl.call(drawComment,[{
 		avatarIndex: 1,
 		name: "admin",
 		comment: introTexts[2]
 	}]);
-	tl.to(useless,1.5,{x:0});
+	tl.to(useless,2,{x:0});
 	tl.call(drawComment,[{
 		avatarIndex: 1,
 		name: "admin",
