@@ -1,3 +1,9 @@
+var isSmall = false;
+if($(".screen").height() <= 500) {
+	isSmall = true;
+}
+console.log(isSmall);
+
 noise.seed(Math.random());
 
 var shaderFrag = `
@@ -410,10 +416,16 @@ function init() {
 	endingGroup.x = 0;
 	endingGroup.y = app.screen.height*4;
 
+	if(isSmall) {
+		var scale = 0.7;
+	} else {
+		var scale = 0.8;
+	}
+
 	var endingTextSprite1 = PIXI.Sprite.fromImage("assets/images/m-ending-text1.png");
 	endingGroup.addChild(endingTextSprite1);
 	var ratio = endingTextSprite1.width / endingTextSprite1.height;
-	endingTextSprite1.width = app.screen.width * 0.8;
+	endingTextSprite1.width = app.screen.width * scale;
 	endingTextSprite1.height = endingTextSprite1.width / ratio;
 	endingTextSprite1.anchor.set(1,0);
 	endingTextSprite1.x = app.screen.width - 30;
@@ -422,11 +434,16 @@ function init() {
 	var endingTextSprite2 = PIXI.Sprite.fromImage("assets/images/m-ending-text2.png");
 	endingGroup.addChild(endingTextSprite2);
 	var ratio = endingTextSprite2.width / endingTextSprite2.height;
-	endingTextSprite2.width = app.screen.width * 0.8;
+	endingTextSprite2.width = app.screen.width * scale;
 	endingTextSprite2.height = endingTextSprite2.width / ratio;
 	endingTextSprite2.anchor.set(0,1);
 	endingTextSprite2.x = 30;
-	endingTextSprite2.y = app.screen.height - 130;
+	if(isSmall) {
+		endingTextSprite2.y = app.screen.height - 100;
+	} else {
+		endingTextSprite2.y = app.screen.height - 130;
+	}
+	
 
 	var endingIconSprite1 = PIXI.Sprite.fromImage("assets/images/m-icon-web.png");
 	endingGroup.addChild(endingIconSprite1);
@@ -438,7 +455,7 @@ function init() {
 	endingIconSprite1.y = endingTextSprite1.y + endingTextSprite1.height + 15;
 	endingIconSprite1.interactive = true;
 	endingIconSprite1.on('pointerup', link);
-	endingIconSprite1.link = "https://avat-art.org/";
+	endingIconSprite1.link = "https://avat-art.org/「2018視盟x藝術全青年學校」獻給青年策展人-線上策/";
 
 	var endingIconSprite2 = PIXI.Sprite.fromImage("assets/images/m-icon-fb.png");
 	endingGroup.addChild(endingIconSprite2);
@@ -489,6 +506,12 @@ function init() {
 		} else {
 			var pos = 3/4;
 		}
+		if(isSmall) {
+			var leftOffset = 20;
+			pos = pos * 19/20;
+		} else {
+			var leftOffset = 50; 
+		}
 		
 		var uiTextGroup = new PIXI.Container();
 		textLayer.addChild(uiTextGroup);
@@ -515,7 +538,7 @@ function init() {
 		textBg.width = 0;
 		textBg.height = uiText.height + 6;
 
-		uiText.x = 50;
+		uiText.x = leftOffset;
 		textBg.x = uiText.x - 5;
 		uiText.y = app.screen.height* pos;
 		textBg.y = uiText.y;
@@ -557,7 +580,7 @@ function init() {
 				fontFamily: ['PingFangTC', '微軟正黑體', 'sans-serif'],
 				fill: 0x09053A,
 				align: 'center',
-				fontWeight: "500"
+				fontWeight: "700"
 			});
 			uiText.style.fontSize = 18;
 		} else {
@@ -577,7 +600,7 @@ function init() {
 		textBg.width = 0;
 		textBg.height = uiText.height + 6;
 
-		uiText.x = 50;
+		uiText.x = leftOffset;
 		textBg.x = uiText.x - 5;
 		uiText.y = app.screen.height* pos + textBg.height + 30;
 		textBg.y = uiText.y;
@@ -604,7 +627,7 @@ function init() {
 			textBg.width = 0;
 			textBg.height = uiText.height + 6;
 
-			uiText.x = 50;
+			uiText.x = leftOffset;
 			textBg.x = uiText.x - 5;
 			uiText.y = app.screen.height* pos + textBg.height + 30 + 40;
 			textBg.y = uiText.y;
@@ -631,7 +654,7 @@ function init() {
 			textBg.width = 0;
 			textBg.height = uiText.height + 6;
 
-			uiText.x = 50;
+			uiText.x = leftOffset;
 			textBg.x = uiText.x - 5;
 			uiText.y = app.screen.height* pos + textBg.height + 30 + 40 + 16;
 			textBg.y = uiText.y;
@@ -657,6 +680,15 @@ function init() {
 		var textBg1 = uiTextBgs[index-1][0];
 		var textBg2 = uiTextBgs[index-1][1];
 		var textBg3 = uiTextBgs[index-1][2];
+
+		if(index==2) {
+			var uiText4 = uiTexts[index-1][3];
+			var textBg4 = uiTextBgs[index-1][3];
+			var uiText5 = uiTexts[index-1][4];
+			var textBg5 = uiTextBgs[index-1][4];
+			tl.set([textBg4,textBg5],{width: 0});
+			tl.set([uiText4,uiText5],{alpha: 0});
+		}
 
 		//delay
 		tl.set([textBg1,textBg2,textBg3],{width: 0});
@@ -708,8 +740,6 @@ function init() {
 		}
 
 		if(index==2) {
-			var uiText4 = uiTexts[index-1][3];
-			var textBg4 = uiTextBgs[index-1][3];
 
 			tl.set(uiText4,{alpha: 1});
 			tl.set(textBg4,{width: 10 + uiText4.style.fontSize});
@@ -724,9 +754,6 @@ function init() {
 					tl.to(uiText4,interval,{text: textStrings[index-1][3].substring(0, i+1) + "_"});
 				}
 			}
-
-			var uiText5 = uiTexts[index-1][4];
-			var textBg5 = uiTextBgs[index-1][4];
 
 			tl.set(uiText5,{alpha: 1});
 			tl.set(textBg5,{width: 10 + uiText5.style.fontSize});
