@@ -40,6 +40,7 @@ $(".btn-info").on("click", function(){
 
 $(".art-info-container").on("click", function(e){
 	if(e.target.classList[0] == 'art-info-container') {
+		$(".audio-click")[0].play();
 		$(this).removeClass("active");
 		$(this).find(".btn-info").removeClass("active");
 	}
@@ -50,15 +51,16 @@ $(".btn-home").on("click", function(){
 	var index = $(this).parents(".art-container").data("art");
 	$(this).parent().removeClass("active");
 	$(".art-lightbox").removeClass("active");
+	$(".screen-bg").removeClass('hide');
+	$(".iphone").removeClass('wait');
+	$(".iphone").unbind();
 	app.start();
+	isPlaying = true;
 
-	if(index!=2) {
-		setTimeout(function(){
-			$(".art-container[data-art="+index+"]").find(".art").html("");
-		},1000)
-	} else {
+	setTimeout(function(){
 		$(".art-container[data-art="+index+"]").find("video")[0].pause();
-	}
+		$(".art-container[data-art="+index+"]").find("video")[0].currentTime = 0;
+	},1000)
 	
 })
 
@@ -72,27 +74,61 @@ function openArt() {
 	}
 
 	app.stop();
+	isPlaying = false;
 
 	
 	if(index==1) {
-		var iframe = $("<iframe>");
-		iframe[0].src = "https://bent-flag.surge.sh/";
-		$(".art-container[data-art="+index+"]").find(".art").append(iframe);
-	}
-
-	if(index==2) {
 		$(".art-container[data-art="+index+"]").find("video")[0].play();
 	}
 
-	// if(index==3) {
-	// 	var iframe = $("<iframe>");
-	// 	iframe[0].src = "http://dollar-post.com/";
-	// 	$(".art-container[data-art="+index+"]").find(".art").append(iframe);
-	// }
+	if(index==2) {
+		art2play();
+	}
 
 	$(".art-container.active").removeClass("active");
 	$(".art-container[data-art="+index+"]").addClass("active");
 	$(".art-lightbox").addClass("active");
+}
+
+//siri
+function art2play() {
+	$(".screen-bg").addClass('hide');
+	var isStopedTimes = new Array(22).fill(false);
+	var stopTimes = [2,16,29,44,58,75,89,102,118,130,146,159.5,172,186,199,216,229,243,254,264,276,294];
+	var video = $(".art-container[data-art=2]").find("video")[0];
+
+	if(window.innerWidth / window.innerHeight >= 1.777) {
+		$(".iphone").css({
+			width: window.innerHeight*0.63/1.777,
+			height: window.innerHeight*0.63
+		})
+	} else {
+		$(".iphone").css({
+			width: window.innerWidth*0.2,
+			height: window.innerWidth*0.2*1.777
+		})
+	}
+
+	video.addEventListener("timeupdate", function(){
+		// console.log(this.currentTime);
+		for (var i = 0; i < stopTimes.length; i++) {
+			if(!isStopedTimes[i] && this.currentTime >= stopTimes[i]) {
+				// console.log("!!");
+				$(".iphone").addClass('wait');
+				this.pause();
+				break;
+			}
+		}
+	});
+
+	$(".iphone").on("click", function(){
+		$(".iphone").removeClass('wait');
+		var nowIndex = isStopedTimes.indexOf(false);
+		isStopedTimes[isStopedTimes.indexOf(false)] = true;
+		video.play();
+	})
+
+	video.play();
 }
 
 //時鐘和倒數
@@ -151,6 +187,7 @@ $(".hourglass-gif").on("click", function(){
 			isHourglassTurning = false;
 		});
 	} else {
+		$(".audio-click")[0].play();
 		var tl = new TimelineMax({repeat:0});
 		var useless = {x:0};
 		tl.call(function(){

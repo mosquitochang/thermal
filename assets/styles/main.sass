@@ -75,6 +75,7 @@ html,body
 	overscroll-behavior: contain
 	color: $light-blue
 	background-color: $dark-blue
+	hyphens: auto
 
 
 @keyframes pulse 
@@ -93,6 +94,14 @@ html,body
 	100%
 		transform: scale(1.000)
 		opacity: .1
+
+@keyframes iphone
+	0%
+		transform: translate(-50%,-50%) scaleX(1.02) scaleY(calc(1 + 0.02 / 1.777))
+	50%
+		transform: translate(-50%,-50%) scaleX(1.1) scaleY(calc(1 + 0.1 / 1.777))
+	100%
+		transform: translate(-50%,-50%) scaleX(1.02) scaleY(calc(1 + 0.02 / 1.777))
 
 .crt
 	position: fixed
@@ -202,10 +211,54 @@ html,body
 		.art
 			width: 100%
 			height: 100%
-			iframe
+			background-color: #000
+			video
 				width: 100%
 				height: 100%
-				background-color: #fff
+				position: absolute
+				top: 50%
+				left: 50%
+				transform: translate(-50%,-50%)
+			.download-btns
+				position: absolute
+				bottom: 30px
+				left: 50%
+				transform: translateX(-50%)
+				display: flex
+				.download-btn
+					width: 200px
+					height: 50px
+					border: 3px solid #fff
+					background-color: rgba($dark-blue,0.5)
+					border-radius: 20px
+					color: #fff
+					display: flex
+					justify-content: center
+					align-items: center
+					font-family: 'roboto','Noto Sans TC', sans-serif
+					font-size: 18px
+					transition: background-color 0.3s
+					&:hover
+						background-color: rgba($dark-blue,0.9)
+					&:first-child
+						margin-right: 30px
+			.iphone
+				width: 20%
+				position: absolute
+				top: 50%
+				left: 50%
+				transform: translate(-50%,-50%)
+				// background-color: rgba(#000,0)
+				// opacity: 0
+				border: 0
+				transition: 0.5s
+				&.wait
+					cursor: pointer
+					background-color: rgba(#fff,0)
+					border: 3px solid rgba(#fff,0.3)
+					animation: iphone 2s infinite
+					&:hover
+						background-color: rgba(#fff,0.2)
 		.art-info-container
 			position: absolute
 			top: 0
@@ -271,16 +324,6 @@ html,body
 					font-size: 20px
 				.br
 					margin-bottom: 30px
-	.art-container[data-art='2']
-		.art
-			background-color: #000
-			video
-				width: 100%
-				height: 100%
-				position: absolute
-				top: 50%
-				left: 50%
-				transform: translate(-50%,-50%)
 
 
 .page-wrapper
@@ -532,6 +575,8 @@ html,body
 				height: 100%
 				top: 0
 				left: 0
+				&.hide
+					display: none
 				video
 					position: absolute
 					top: 50%
@@ -707,8 +752,81 @@ html,body
 									padding-top: 300px
 								p
 									margin-bottom: 30px
+									// word-wrap: break-word
+									// word-break: break-all
+									hyphens: auto
 								.br
 									margin: 80px
+								&.team-layout
+									padding: 0
+									height: 300%
+									.member
+										width: 100%
+										height: calc(100% / 3)
+										display: flex
+										padding: 30px 80px
+										border-top: 3px solid $light-blue
+										&:first-child
+											border: 0
+										.member-left
+											// flex: 1
+											height: 100%
+											width: 120px
+											display: flex
+											flex-direction: column
+											justify-content: space-between
+											align-items: flex-start
+											margin-right: 60px
+											// padding-left: 80px
+											.pic
+												width: 120px
+												height: 120px
+												border: 3px solid $light-blue
+												// margin-bottom: 50px
+												img
+													width: 100%
+											.name
+												display: flex
+												flex-direction: column
+												justify-content: space-between
+												align-items: flex-start
+												p:nth-child(1)
+													font-size: 30px
+													font-weight: 500
+													letter-spacing: 9px
+												p:nth-child(2)
+													font-size: 12px
+													line-height: 1.5
+													font-family: 'Press Start 2P'
+												p:nth-child(3)
+													font-size: 16px
+													line-height: 1.5
+													font-weight: 500
+												p:nth-child(4)
+													font-size: 16px
+													line-height: 1.5
+												span
+													white-space: pre
+												p
+													display: flex
+													flex-wrap: wrap
+													margin: 10px 0
+											.link
+												display: flex
+												align-items: center
+												a
+													width: 40px
+													margin-right: 20px
+													img
+														width: 100%
+										.member-right
+											flex: 1
+											height: 100%
+											display: flex
+											flex-direction: column
+											justify-content: flex-end
+											p:last-child
+												margin-bottom: 0
 						.window-scrollbar
 							height: 100%
 							width: 40px

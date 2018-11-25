@@ -49,7 +49,10 @@ html(lang="en")
 		.art-lightbox
 			.art-container.active(data-art=1)
 				.art
-					//- iframe(src="")
+					video(src="https://high-range.surge.sh/art-1.mp4" loop)
+					.download-btns
+						a.download-btn(href="") Windows 下載
+						a.download-btn(href="") MacOS 下載
 				.art-info-container
 					.btn-info
 						img(src="assets/images/icon-artinfo.png", alt="")
@@ -68,6 +71,7 @@ html(lang="en")
 			.art-container(data-art=2)
 				.art
 					video(src="https://high-range.surge.sh/art-2.mp4")
+					.iphone
 				.art-info-container
 					.btn-info
 						img(src="assets/images/icon-artinfo.png", alt="")
@@ -134,7 +138,7 @@ html(lang="en")
 						
 						.menu-row(data-menu=6)
 							p.row-text 
-								span 聊天室
+								span 體感溫室
 								span CHAT ROOM
 						
 				.clock
@@ -387,21 +391,81 @@ html(lang="en")
 										p 工作團隊
 										p TEAM
 								.window-bottom
-									.window-content-fixed
+									//- .window-content-fixed
 										.pic
 											img(src="assets/images/pic5.png", alt="")
 										.name
-											p 鄭先喻
-											p CHENG HSIEN-YU
+											p 王友璿
+											p 
+												span WANG
+												span YU-HSUAN
 										.link
 											a(href="")
 												img(src="assets/images/icon-web.png", alt="")
 											//- a(href="")
 											//- 	img(src="assets/images/icon-ig.png", alt="")
 									.window-content
-										.window-content-container.empty-top
-											p 1995年生於桃園，畢業於國立彰化師範大學美術系，創作多以油畫和裝置為主，對藝術史論抱有興趣並持續自主探索。目前潛伏在台北某機構，觀察藝術工作者的生存百態。
-											p 1984 born in Kaohsiung, Taiwan. Artist & Software developer based in Taipei now. Most of Cheng's works are electronic installations, software, experimental bio-electronic devices. His works are concerned with the relationship between human behavior, emotion, software and machine. He tries to bring out the meaning of life through his works that are filled with his own observation and feelings toward society & environment in a humorous way. He currently focuses on bioelectronic researches, such as free-energy, intelligent sound and developing creative art tools (software and hardware). 
+										.window-content-container.team-layout
+											.member
+												.member-left
+													.pic
+														img(src="assets/images/pic5.png", alt="")
+													.name
+														p 王友璿
+														p 
+															span WANG 
+															span YU-HSUAN
+														p 
+															span 協同策展人 
+															span Co-curator
+													.link
+														a(href="")
+															img(src="assets/images/icon-web.png", alt="")
+														//- a(href="")
+														//- 	img(src="assets/images/icon-ig.png", alt="")
+												.member-right
+													p 大學取得文學與藝術雙學位，玩過一點點劇場、試過一陣子藝術行政。目前正就讀地理學研究所，關注新媒體藝術、科技與科學的模糊邊界。
+													p The university has a double degree in literature and art, played a little theater, and tried a period of art administration. Currently studying at the Institute of Geography, focusing on the blurring of new media art, technology and science. 
+											.member
+												.member-left
+													.pic
+														img(src="assets/images/pic6.png", alt="")
+													.name
+														p 張文瀚
+														p 
+															span CHANG 
+															span WAN-HAN
+														p 
+															span 網頁設計師
+															span Web Developer
+													.link
+														a(href="")
+															img(src="assets/images/icon-web.png", alt="")
+														//- a(href="")
+														//- 	img(src="assets/images/icon-ig.png", alt="")
+												.member-right
+													p 政大數位內容碩士，科技藝術與數位互動創作者。
+													p Master of Digital Content at the University of Political Science, technology art and digital interactive creators.
+											.member
+												.member-left
+													.pic
+														img(src="assets/images/pic7.png", alt="")
+													.name
+														p 黃郁惠
+														p 
+															span DECON 
+															span HUANG
+														p 
+															span 主視覺設計師 
+															span Visual Designer
+													.link
+														a(href="")
+															img(src="assets/images/icon-web.png", alt="")
+														//- a(href="")
+														//- 	img(src="assets/images/icon-ig.png", alt="")
+												.member-right
+													p 臺藝大視傳系畢業，興趣是吸食貓非它命。
+													p Taiyi graduated from the Department of Art, and his interest in smoking cats is not his life.
 									.window-scrollbar
 										.up-btn
 											img(src="assets/images/scroll-arrow.png", alt="")
