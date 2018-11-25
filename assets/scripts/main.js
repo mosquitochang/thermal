@@ -181,10 +181,10 @@ $(".hourglass-gif").on("click", function(){
 		});
 		tl.to(useless,0.1,{x:0});
 		tl.call(function(){
-			// $(".hourglass-turn img:nth-child(6)").removeClass('active');
-			// $(".hourglass-gif").addClass('active');
 			hourglassCount++;
 			isHourglassTurning = false;
+
+			egg();
 		});
 	} else {
 		$(".audio-click")[0].play();
@@ -213,8 +213,44 @@ $(".hourglass-gif").on("click", function(){
 			isHourglassTurning = false;
 		});
 	}
+})
 
-	
+//彩蛋
+function egg() {
+	setTimeout(function(){
+		app.stop();
+		isPlaying = false;
+		$(".egg").addClass('active');
+		var egg1 = $(".egg1")[0];
+		var egg2 = $(".egg2")[0];
+
+		egg1.currentTime = 0;
+
+		egg1.addEventListener("timeupdate", function(){
+			// console.log(this.currentTime);
+			if(this.currentTime >= 15) {
+				$(".egg .btn-back").addClass('active');
+			}
+			if(this.currentTime >= 29) {
+				this.pause();
+				$(".egg2").addClass('active');
+				egg2.removeAttribute("muted");
+				egg2.muted = false;
+			}
+		});
+		egg1.play();
+	},1000);
+}
+
+$(".egg .btn-back").on("click", function() {
+	$(".egg1")[0].pause();
+	$(".egg2")[0].muted = true;
+	$(".egg2")[0].setAttribute("muted","");
+	$(".egg2").removeClass('active');
+	$(".egg").removeClass('active');
+	$(".egg .btn-back").removeClass('active');
+	app.start();
+	isPlaying = true;
 })
 
 
@@ -320,7 +356,13 @@ $(".window-switch").on("click", function(){
 var isChatIntro = false;
 
 function chatIntro() {
-	var introTexts = ["歡迎來到體感溫室","你可以在這裡留下任何對《體感溫差》的想法或疑問","它將會成為溫室的熱度來源","而你的發問，我們會在 12/16 Sun. 21:30 直播中解答"];
+	var introTexts = [
+		"歡迎來到體感溫室\n\nWelcome to the Sensation Greenhouse.",
+		"你可以在這裡留下任何對《體感溫差》的想法或疑問\n\nPease leave your comment or question of Sensation Gap here.",
+		"它將會成為溫室的熱度來源\n\nThey will turn into energy for our greenhouse.",
+		"而你的發問，我們會在 12/16 Sun. 21:30 直播中解答\n\nAnd we will hold an online live streaming to answer all of your question at 21:30 on December 16.",
+		"另外在12/23 Sun. 21:00 我們邀請到《翻掘指南》的策展人蔡秉儒，以及與談人陳岳詮，一同與策展人魏金禾討論線上策展未來的可能性。\n\nBesides, on December 23 21:00, we invite the curator of Read and Interpretation, Tsai Ping-Ju and a commentator Chen Yueh-Chuan to discuss about the possibility of online curation with Wei Chin-Ho."
+	];
 	var tl = new TimelineMax({repeat:0});
 	var useless = {x:0};
 	tl.to(useless,1,{x:0});
@@ -346,6 +388,12 @@ function chatIntro() {
 		avatarIndex: 7,
 		name: "admin",
 		comment: introTexts[3]
+	}]);
+	tl.to(useless,2,{x:0});
+	tl.call(drawComment,[{
+		avatarIndex: 7,
+		name: "admin",
+		comment: introTexts[4]
 	}]);
 
 	isChatIntro = true;
