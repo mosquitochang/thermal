@@ -33,16 +33,20 @@ function allReady() {
 
 //作品頁面
 $(".btn-info").on("click", function(){
+	$(".audio-click")[0].play();
 	$(this).parent().toggleClass("active");
+	$(this).toggleClass("active");
 })
 
 $(".art-info-container").on("click", function(e){
 	if(e.target.classList[0] == 'art-info-container') {
 		$(this).removeClass("active");
+		$(this).find(".btn-info").removeClass("active");
 	}
 })
 
 $(".btn-home").on("click", function(){
+	$(".audio-click")[0].play();
 	var index = $(this).parents(".art-container").data("art");
 	$(this).parent().removeClass("active");
 	$(".art-lightbox").removeClass("active");
@@ -59,14 +63,20 @@ $(".btn-home").on("click", function(){
 })
 
 function openArt() {
+	$(".audio-click")[0].play();
 	var index = this.index;
-	// console.log(index);
+
+	if(index==3) {
+		window.open("http://dollar-post.com/", "_blank");
+		return;
+	}
+
 	app.stop();
 
 	
 	if(index==1) {
 		var iframe = $("<iframe>");
-		iframe[0].src = "http://bent-flag.surge.sh/";
+		iframe[0].src = "https://bent-flag.surge.sh/";
 		$(".art-container[data-art="+index+"]").find(".art").append(iframe);
 	}
 
@@ -74,11 +84,11 @@ function openArt() {
 		$(".art-container[data-art="+index+"]").find("video")[0].play();
 	}
 
-	if(index==3) {
-		var iframe = $("<iframe>");
-		iframe[0].src = "http://dollar-post.com/";
-		$(".art-container[data-art="+index+"]").find(".art").append(iframe);
-	}
+	// if(index==3) {
+	// 	var iframe = $("<iframe>");
+	// 	iframe[0].src = "http://dollar-post.com/";
+	// 	$(".art-container[data-art="+index+"]").find(".art").append(iframe);
+	// }
 
 	$(".art-container.active").removeClass("active");
 	$(".art-container[data-art="+index+"]").addClass("active");
@@ -111,38 +121,69 @@ setInterval(function() {
 var hourglassCount = 0;
 var isHourglassTurning = false;
 $(".hourglass-gif").on("click", function(){
-	if(isHourglassTurning) return;
+	if(isHourglassTurning || hourglassCount>4) return;
+	$(".audio-click")[0].play();
 
-	var tl = new TimelineMax({repeat:0});
-	var useless = {x:0};
-	tl.call(function(){
-		isHourglassTurning = true;
-		$(".hourglass-gif").removeClass('active');
-		$(".hourglass-turn img:nth-child(1)").addClass('active');
-	});
-	tl.to(useless,0.1,{x:0});
-	tl.call(function(){
-		$(".hourglass-turn img:nth-child(1)").removeClass('active');
-		$(".hourglass-turn img:nth-child(2)").addClass('active');
-	});
-	tl.to(useless,0.1,{x:0});
-	tl.call(function(){
-		$(".hourglass-turn img:nth-child(2)").removeClass('active');
-		$(".hourglass-turn img:nth-child(3)").addClass('active');
-	});
-	tl.to(useless,0.1,{x:0});
-	tl.call(function(){
-		$(".hourglass-turn img:nth-child(3)").removeClass('active');
-		$(".hourglass-gif").addClass('active');
-		hourglassCount++;
-		isHourglassTurning = false;
-	});
+	if(hourglassCount==4) {
+		$(".audio-hourglass")[0].play();
+		var tl = new TimelineMax({repeat:0});
+		var useless = {x:0};
+		tl.call(function(){
+			isHourglassTurning = true;
+			$(".hourglass-gif").removeClass('active');
+			$(".hourglass-turn img:nth-child(4)").addClass('active');
+		});
+		tl.to(useless,0.1,{x:0});
+		tl.call(function(){
+			$(".hourglass-turn img:nth-child(4)").removeClass('active');
+			$(".hourglass-turn img:nth-child(5)").addClass('active');
+		});
+		tl.to(useless,0.1,{x:0});
+		tl.call(function(){
+			$(".hourglass-turn img:nth-child(5)").removeClass('active');
+			$(".hourglass-turn img:nth-child(6)").addClass('active');
+		});
+		tl.to(useless,0.1,{x:0});
+		tl.call(function(){
+			// $(".hourglass-turn img:nth-child(6)").removeClass('active');
+			// $(".hourglass-gif").addClass('active');
+			hourglassCount++;
+			isHourglassTurning = false;
+		});
+	} else {
+		var tl = new TimelineMax({repeat:0});
+		var useless = {x:0};
+		tl.call(function(){
+			isHourglassTurning = true;
+			$(".hourglass-gif").removeClass('active');
+			$(".hourglass-turn img:nth-child(1)").addClass('active');
+		});
+		tl.to(useless,0.1,{x:0});
+		tl.call(function(){
+			$(".hourglass-turn img:nth-child(1)").removeClass('active');
+			$(".hourglass-turn img:nth-child(2)").addClass('active');
+		});
+		tl.to(useless,0.1,{x:0});
+		tl.call(function(){
+			$(".hourglass-turn img:nth-child(2)").removeClass('active');
+			$(".hourglass-turn img:nth-child(3)").addClass('active');
+		});
+		tl.to(useless,0.1,{x:0});
+		tl.call(function(){
+			$(".hourglass-turn img:nth-child(3)").removeClass('active');
+			$(".hourglass-gif").addClass('active');
+			hourglassCount++;
+			isHourglassTurning = false;
+		});
+	}
+
+	
 })
 
 
 //menu
-var nowMenuIndex = 6;
-var nowArrowIndex = 6;
+var nowMenuIndex = 1;
+var nowArrowIndex = 1;
 $(".menu-row").on("mouseenter", function(){
 	var index = $(this).data("menu");
 	
@@ -163,21 +204,20 @@ $(".menu").on("mouseleave", function(){
 })
 
 $(".menu-row").on("click", function(){
+	$(".audio-menu")[0].play();
 	var index = $(this).data("menu");
 	$(".menu-row.active").removeClass('active');
 	$(this).addClass('active');
 
-	// toggleWindow($(".main-screen section.active"),false);
-	// setTimeout(function(){
-	// 	toggleWindow($(".main-screen section[data-section="+index+"]"),true);
-	// },1000)
+	ga('send', 'pageview', 'page_'+index);
+
 	$(".screen-animate").addClass('active');
 	setTimeout(function(){
 		$(".main-screen section.active").removeClass('active');
 		$(".main-screen section[data-section="+index+"]").addClass('active');
 		$(".screen-animate").removeClass('active');
 
-		if(index == 6) {
+		if(index == 1) {
 			app.start();
 			appResize();
 			isPlaying = true;
@@ -186,7 +226,7 @@ $(".menu-row").on("click", function(){
 			isPlaying = false;
 		}
 
-		if(index==5 && !isChatIntro) {
+		if(index==6 && !isChatIntro) {
 			chatIntro();
 		}
 
@@ -228,6 +268,7 @@ scrollbars.push(scrollbar);
 
 //window tab
 $(".window-switch").on("click", function(){
+	$(".audio-click")[0].play();
 	var index = $(this).data("tab");
 	$(this).parents("section").find(".window-switch.active").removeClass('active');
 	$(this).addClass('active');
@@ -247,25 +288,25 @@ function chatIntro() {
 	var useless = {x:0};
 	tl.to(useless,1,{x:0});
 	tl.call(drawComment,[{
-		avatarIndex: 1,
+		avatarIndex: 7,
 		name: "admin",
 		comment: introTexts[0]
 	}]);
 	tl.to(useless,2,{x:0});
 	tl.call(drawComment,[{
-		avatarIndex: 1,
+		avatarIndex: 7,
 		name: "admin",
 		comment: introTexts[1]
 	}]);
 	tl.to(useless,2,{x:0});
 	tl.call(drawComment,[{
-		avatarIndex: 1,
+		avatarIndex: 7,
 		name: "admin",
 		comment: introTexts[2]
 	}]);
 	tl.to(useless,2,{x:0});
 	tl.call(drawComment,[{
-		avatarIndex: 1,
+		avatarIndex: 7,
 		name: "admin",
 		comment: introTexts[3]
 	}]);
@@ -275,6 +316,7 @@ function chatIntro() {
 
 
 $(".form .comment-icon").on("click", function(){
+	$(".audio-click")[0].play();
 	var prev = $(this).find("img.active");
 	prev.removeClass('active');
 	if(prev.next().length) {
@@ -307,7 +349,7 @@ function writeNewPost(postData) {
   return firebase.database().ref().update(updates);
 }
 
-var postTemplate = '<div class="comment"><div class="comment-icon"><img src="assets/images/ex{{avatarIndex}}.jpg" alt=""/></div><div class="comment-name"><p>{{name}}</p></div><div class="comment-content"><p>{{comment}}</p></div></div>';
+var postTemplate = '<div class="comment"><div class="comment-icon"><img src="assets/images/avatar{{avatarIndex}}.png" alt=""/></div><div class="comment-name"><p>{{name}}</p></div><div class="comment-content"><p>{{comment}}</p></div></div>';
 
 
 var initCommentNum = 0;
@@ -351,11 +393,13 @@ function drawComment(val) {
 
 	commentNum++;
 
-	if(commentNum >= initCommentNum) {
+	if(commentNum > initCommentNum) {
 		$(".comment .window-content").animate({
 			scrollTop: $(".comment .window-content-container").height()
 		},500);
 		scrollbars.forEach(s => s.update());
+
+		$(".audio-send")[0].play();
 	}
 }
 

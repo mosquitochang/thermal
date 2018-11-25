@@ -227,6 +227,17 @@ html,body
 				background-color: $dark-blue
 				border: 3px solid $light-blue
 				cursor: pointer
+				img
+					width: 100%
+				img:first-child
+					display: block
+				img:last-child
+					display: none
+				&.active
+					img:first-child
+						display: none
+					img:last-child
+						display: block
 			.btn-home
 				position: absolute
 				bottom: 10px
@@ -236,6 +247,8 @@ html,body
 				background-color: $dark-blue
 				border: 3px solid $light-blue
 				cursor: pointer
+				img
+					width: 100%
 			.art-info
 				width: 500px
 				height: 100%
@@ -655,11 +668,17 @@ html,body
 									// line-height: 1.5
 								p:last-child
 									font-size: 12px
+									line-height: 1.5
+								span
+									white-space: pre
+								p
+									display: flex
+									flex-wrap: wrap
 							.link
 								display: flex
 								align-items: center
 								a
-									width: 30px
+									width: 40px
 									margin-right: 20px
 									img
 										width: 100%
@@ -853,7 +872,7 @@ html,body
 							width: 100%
 							padding-top: 56.25%
 
-						iframe
+						iframe, img
 							position: absolute
 							top: 0
 							left: 0

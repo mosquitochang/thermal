@@ -133,6 +133,7 @@ PIXI.loader
     .add('assets/images/m-icon-line.png')
     .add('assets/images/m-icon-web.png')
     .add('assets/images/m-icon-prev.png')
+    .add('assets/images/m-touch.png')
     .load(init);
 
 var shadowSprite1, shadowSprite2, shadowSprite3;
@@ -196,11 +197,31 @@ function init() {
 	realSprite1.index = 1;
 	realSprite1.anchor.set(0.5);
 	var ratio = realSprite1.width / realSprite1.height;
-	realSprite1.height = app.screen.width / ratio;
-	realSprite1.width = app.screen.width;
+	realSprite1.height = app.screen.width *1.3 / ratio;
+	realSprite1.width = app.screen.width *1.3;
 	realSprite1.x = app.screen.width / 2;
 	realSprite1.y = app.screen.height + app.screen.height / 2;
 	realSprite1.alpha = 1;
+
+	var tlHint;
+	realSprite1.interactive = true;
+	realSprite1.on('pointerup', function(){
+		tlHint.stop();
+		TweenMax.to(touchHint,0.5,{alpha:0});
+		realSprite1.interactive = false;
+	});
+
+
+	var touchHint = PIXI.Sprite.fromImage("assets/images/m-touch.png");
+	textLayer.addChild(touchHint);
+
+	touchHint.anchor.set(0.5);
+	touchHint.width = 150;
+	touchHint.height = 150;
+	touchHint.x = app.screen.width * 2 / 4;
+	touchHint.y = app.screen.height + app.screen.height * 1 / 2;
+	touchHint.alpha = 0;
+	touchHint.isInit = false;
 
 
 	realSprite2 = PIXI.Sprite.fromImage("assets/images/art-2.png");
@@ -209,8 +230,8 @@ function init() {
 	realSprite2.index = 2;
 	realSprite2.anchor.set(0.5);
 	var ratio = realSprite2.width / realSprite2.height;
-	realSprite2.height = app.screen.width / ratio;
-	realSprite2.width = app.screen.width;
+	realSprite2.height = app.screen.width*1.2 / ratio;
+	realSprite2.width = app.screen.width*1.2;
 	realSprite2.x = app.screen.width / 2;
 	realSprite2.y = app.screen.height*2 + app.screen.height / 2;
 	realSprite2.alpha = 1;
@@ -285,6 +306,19 @@ function init() {
 		if(nowArtIndex==1) {
 			TweenMax.to(ui1,0.5,{alpha: 1});
 			ui1.interactive = true;
+
+			if(!touchHint.isInit) {
+				touchHint.isInit = true;
+				var tl = new TimelineMax({repeat:0});
+				tl.to(touchHint,1,{alpha:0});
+				tl.to(touchHint,0.5,{alpha:1});
+				tl.call(function(){
+					tlHint = new TimelineMax({repeat:-1});
+					tlHint.to(touchHint,1,{alpha:0.5, ease: Sine.easeOut});
+					tlHint.to(touchHint,1,{alpha:1, ease: Sine.easeOut});
+				})
+			}
+			
 		}
 		if(nowArtIndex==3) {
 			TweenMax.to([ui1,ui2],0.5,{alpha: 1});

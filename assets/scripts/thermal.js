@@ -135,6 +135,10 @@ PIXI.loader
     .add('assets/images/art-3.png')
     .add('assets/images/icon-art-1-1.png')
     .add('assets/images/icon-art-1-2.png')
+    .add('assets/images/icon-art-2-1.png')
+    .add('assets/images/icon-art-2-2.png')
+    .add('assets/images/icon-art-3-1.png')
+    .add('assets/images/icon-art-3-2.png')
     .add('assets/images/thermal-grid.png')
     .add('assets/images/cursor.png')
     .add('assets/images/blue.png')
@@ -144,6 +148,7 @@ PIXI.loader
 var shadowSprite1, shadowSprite2, shadowSprite3;
 var realSprite1, realSprite2, realSprite3;
 var ui1, ui2, ui3;
+var uiArtBtnTextures = [];
 var uiCursor;
 var uiTempText;
 
@@ -277,13 +282,14 @@ function init() {
 
 
 	//ui
-	var textureUi1 = PIXI.Texture.fromImage('assets/images/icon-art-1-1.png');
-	var textureUi2 = PIXI.Texture.fromImage('assets/images/icon-art-1-2.png');
-	ui1 = PIXI.Sprite.from(textureUi2);
+	var textureUi11 = PIXI.Texture.fromImage('assets/images/icon-art-1-1.png');
+	var textureUi12 = PIXI.Texture.fromImage('assets/images/icon-art-1-2.png');
+	uiArtBtnTextures.push([textureUi11,textureUi12]);
+	ui1 = PIXI.Sprite.from(textureUi12);
 	uiLayer.addChild(ui1);
 	ui1.index = 1;
-	ui1.scale.x = 0.3;
-	ui1.scale.y = 0.3;
+	ui1.scale.x = 0.4;
+	ui1.scale.y = 0.4;
 	ui1.anchor.set(1,0);
 	ui1.x = app.screen.width - 10;
 	ui1.y = 10;
@@ -293,11 +299,14 @@ function init() {
 	ui1.on('mouseout', onHoverOut);
 	ui1.on('pointerup', moveTo);
 
-	ui2 = PIXI.Sprite.from(textureUi1);
+	var textureUi21 = PIXI.Texture.fromImage('assets/images/icon-art-2-1.png');
+	var textureUi22 = PIXI.Texture.fromImage('assets/images/icon-art-2-2.png');
+	uiArtBtnTextures.push([textureUi21,textureUi22]);
+	ui2 = PIXI.Sprite.from(textureUi21);
 	uiLayer.addChild(ui2);
 	ui2.index = 2;
-	ui2.scale.x = 0.3;
-	ui2.scale.y = 0.3;
+	ui2.scale.x = 0.4;
+	ui2.scale.y = 0.4;
 	ui2.anchor.set(1,0);
 	ui2.x = app.screen.width - 10;
 	ui2.y = ui1.y + ui1.height + 10;
@@ -307,11 +316,14 @@ function init() {
 	ui2.on('mouseout', onHoverOut);
 	ui2.on('pointerup', moveTo);
 
-	ui3 = PIXI.Sprite.from(textureUi1);
+	var textureUi31 = PIXI.Texture.fromImage('assets/images/icon-art-3-1.png');
+	var textureUi32 = PIXI.Texture.fromImage('assets/images/icon-art-3-2.png');
+	uiArtBtnTextures.push([textureUi31,textureUi32]);
+	ui3 = PIXI.Sprite.from(textureUi31);
 	uiLayer.addChild(ui3);
 	ui3.index = 3;
-	ui3.scale.x = 0.3;
-	ui3.scale.y = 0.3;
+	ui3.scale.x = 0.4;
+	ui3.scale.y = 0.4;
 	ui3.anchor.set(1,0);
 	ui3.x = app.screen.width - 10;
 	ui3.y = ui2.y + ui2.height + 10;
@@ -323,21 +335,22 @@ function init() {
 
 	function onHover() {
 		if(this.index != nowArtIndex) {
-			this.setTexture(textureUi2);
+			this.setTexture(uiArtBtnTextures[this.index-1][1]);
 		}
 	}
 	function onHoverOut() {
 		if(this.index != nowArtIndex) {
-			this.setTexture(textureUi1);
+			this.setTexture(uiArtBtnTextures[this.index-1][0]);
 		}
 	}
 
 	function moveTo() {
+		$(".audio-click")[0].play();
 		var index = this.index;
-		ui1.setTexture(textureUi1);
-		ui2.setTexture(textureUi1);
-		ui3.setTexture(textureUi1);
-		this.setTexture(textureUi2);
+		ui1.setTexture(uiArtBtnTextures[0][0]);
+		ui2.setTexture(uiArtBtnTextures[1][0]);
+		ui3.setTexture(uiArtBtnTextures[2][0]);
+		this.setTexture(uiArtBtnTextures[index-1][1]);
 		TweenMax.to(realGroup,1,{x:-$(".screen").width()*(index-1)});
 		TweenMax.to(backgroundLayer,1,{x:-$(".screen").width()*(index-1)});
 		TweenMax.to(tilingSprite,1,{x:-$(".screen").width()*(index-1)});
@@ -374,12 +387,16 @@ function init() {
 	uiTempText.anchor.set(1,0.5);
 
 	uiTempText.x = 140;
-	uiTempText.y = 40;	
+	uiTempText.y = 38;
+
 
 
 	//texts
-	var textStrings = [["鄭先喻","Mission Failed"],["楊傑懷","如何向一支手機解釋愛情"],["吳宜曄","Dollar-Post"]];
+	var textStrings = [["鄭先喻","Cheng Hsien-yu","Mission Failed"],["楊傑懷","Yang Jie Huai","如何向一支手機解釋愛情","How To Explain Love","To An iPhone"],["吳宜曄","Wu I-Yeh","Dollar-Post"]];
 	for (var i = 1; i <= 3; i++) {
+		var pos = 3/4;
+		var leftOffset = 50;
+		
 		var uiTextGroup = new PIXI.Container();
 		textLayer.addChild(uiTextGroup);
 		uiTextGroup.x = app.screen.width*(i-1);
@@ -390,11 +407,12 @@ function init() {
 		uiTextBgs.push([]);
 		uiTextLines.push([]);
 		
-		var uiText = new PIXI.Text('_', {
+		var uiText = new PIXI.Text(textStrings[i-1][0], {
 			fontFamily: ['PingFangTC', '微軟正黑體', 'sans-serif'],
 			letterSpacing: 3,
 			fill: 0x09053A,
-			align: 'center'
+			align: 'center',
+			fontWeight: "700"
 		});
 		uiText.style.fontSize = 24;
 		uiText.anchor.set(0,0.5);
@@ -405,34 +423,60 @@ function init() {
 		textBg.width = 0;
 		textBg.height = uiText.height + 6;
 
-		uiText.x = 80;
+		uiText.x = leftOffset;
 		textBg.x = uiText.x - 5;
-		uiText.y = app.screen.height* 3 / 4;
+		uiText.y = app.screen.height* pos;
 		textBg.y = uiText.y;
 
 		uiTextBgs[i-1].push(textBg);
 		uiTexts[i-1].push(uiText);
 
-		// textLayer.addChild(textBg);
-		// textLayer.addChild(uiText);
 		uiTextGroup.addChild(textBg);
 		uiTextGroup.addChild(uiText);
 
+
+		var uiTextEn = new PIXI.Text(textStrings[i-1][1], {
+			fontFamily: 'Press Start 2P',
+			fill: 0x09053A,
+			align: 'center'
+		});
+		uiTextEn.style.fontSize = 12;
+		uiTextEn.anchor.set(0,0.3);
+		uiTextEn.alpha = 0;
+
+		var textBgEn = new PIXI.Sprite.fromImage("assets/images/blue.png");
+		textBgEn.anchor.set(0,0.5);
+		textBgEn.width = 0;
+		textBgEn.height = uiText.height + 6;
+
+		uiTextEn.x = uiText.x + uiText.width + 13;
+		textBgEn.x = uiTextEn.x - 5;
+		uiTextEn.y = app.screen.height* pos;
+		textBgEn.y = uiTextEn.y;
+
+		uiTextBgs[i-1].push(textBgEn);
+		uiTexts[i-1].push(uiTextEn);
+
+		uiTextGroup.addChild(textBgEn);
+		uiTextGroup.addChild(uiTextEn);
+
 		if(i==2) {
-			var uiText = new PIXI.Text('_', {
+			var uiText = new PIXI.Text(textStrings[i-1][2], {
 				fontFamily: ['PingFangTC', '微軟正黑體', 'sans-serif'],
 				fill: 0x09053A,
-				align: 'center'
+				align: 'center',
+				fontWeight: "700"
 			});
+			uiText.style.fontSize = 18;
 		} else {
-			var uiText = new PIXI.Text('_', {
+			var uiText = new PIXI.Text(textStrings[i-1][2], {
 				fontFamily: 'Press Start 2P',
 				fill: 0x09053A,
 				align: 'center'
 			});
+			uiText.style.fontSize = 14;
 		}
 		
-		uiText.style.fontSize = 18;
 		uiText.anchor.set(0,0.5);
 		uiText.alpha = 0;
 
@@ -441,26 +485,23 @@ function init() {
 		textBg.width = 0;
 		textBg.height = uiText.height + 6;
 
-		uiText.x = 80;
+		uiText.x = leftOffset;
 		textBg.x = uiText.x - 5;
-		uiText.y = app.screen.height* 3 / 4 + textBg.height + 10;
+		uiText.y = app.screen.height* pos + textBg.height + 30;
 		textBg.y = uiText.y;
 
 		uiTextBgs[i-1].push(textBg);
 		uiTexts[i-1].push(uiText);
 
-		// textLayer.addChild(textBg);
-		// textLayer.addChild(uiText);
 		uiTextGroup.addChild(textBg);
 		uiTextGroup.addChild(uiText);
-
 
 		var line = new PIXI.Sprite.fromImage("assets/images/blue.png");
 		line.anchor.set(1,0);
 		line.width = 150;
 		line.height = 2;
 		line.x = uiText.x + 250;
-		line.y = uiText.y - 100;
+		line.y = uiText.y - 120;
 
 		// textLayer.addChild(line);
 		uiTextGroup.addChild(line);
@@ -471,12 +512,68 @@ function init() {
 		line.width = 50;
 		line.height = 2;
 		line.x = uiText.x + 100;
-		line.y = uiText.y - 100;
+		line.y = uiText.y - 120;
 		line.rotation = - Math.PI * 2 * 0.125;
 
 		// textLayer.addChild(line);
 		uiTextGroup.addChild(line);
 		uiTextLines[i-1].push(line);
+
+		if(i==2) {
+			var uiText = new PIXI.Text(textStrings[i-1][3], {
+				fontFamily: 'Press Start 2P',
+				fill: 0x09053A,
+				align: 'center'
+			});
+			uiText.style.fontSize = 12;
+
+			uiText.anchor.set(0,0.5);
+			uiText.alpha = 0;
+
+			var textBg = new PIXI.Sprite.fromImage("assets/images/blue.png");
+			textBg.anchor.set(0,0.5);
+			textBg.width = 0;
+			textBg.height = uiText.height + 6;
+
+			uiText.x = leftOffset;
+			textBg.x = uiText.x - 5;
+			uiText.y = app.screen.height* pos + textBg.height + 30 + 40;
+			textBg.y = uiText.y;
+
+			uiTextBgs[i-1].push(textBg);
+			uiTexts[i-1].push(uiText);
+
+			uiTextGroup.addChild(textBg);
+			uiTextGroup.addChild(uiText);
+
+
+			var uiText = new PIXI.Text(textStrings[i-1][4], {
+				fontFamily: 'Press Start 2P',
+				fill: 0x09053A,
+				align: 'center'
+			});
+			uiText.style.fontSize = 12;
+
+			uiText.anchor.set(0,0.5);
+			uiText.alpha = 0;
+
+			var textBg = new PIXI.Sprite.fromImage("assets/images/blue.png");
+			textBg.anchor.set(0,0.5);
+			textBg.width = 0;
+			textBg.height = uiText.height + 6;
+
+			uiText.x = leftOffset;
+			textBg.x = uiText.x - 5;
+			uiText.y = app.screen.height* pos + textBg.height + 30 + 40 + 16;
+			textBg.y = uiText.y;
+
+			uiTextBgs[i-1].push(textBg);
+			uiTexts[i-1].push(uiText);
+
+			uiTextGroup.addChild(textBg);
+			uiTextGroup.addChild(uiText);
+		}
+
 	}
 
 	
@@ -487,14 +584,25 @@ function init() {
 
 		var uiText1 = uiTexts[index-1][0];
 		var uiText2 = uiTexts[index-1][1];
+		var uiText3 = uiTexts[index-1][2];
 		var textBg1 = uiTextBgs[index-1][0];
 		var textBg2 = uiTextBgs[index-1][1];
+		var textBg3 = uiTextBgs[index-1][2];
 		var line1 = uiTextLines[index-1][0];
 		var line2 = uiTextLines[index-1][1];
 
+		if(index==2) {
+			var uiText4 = uiTexts[index-1][3];
+			var textBg4 = uiTextBgs[index-1][3];
+			var uiText5 = uiTexts[index-1][4];
+			var textBg5 = uiTextBgs[index-1][4];
+			tl.set([textBg4,textBg5],{width: 0});
+			tl.set([uiText4,uiText5],{alpha: 0});
+		}
+
 		//delay
-		tl.set([textBg1,textBg2,line1,line2],{width: 0});
-		tl.set([uiText1,uiText2],{alpha: 0});
+		tl.set([textBg1,textBg2,textBg3,line1,line2],{width: 0});
+		tl.set([uiText1,uiText2,uiText3],{alpha: 0});
 		tl.to(uiText1,1,{text: "_"});
 
 		tl.to(line1,0.2,{width: 150});
@@ -515,22 +623,223 @@ function init() {
 			}
 		}
 
-		tl.to(line2,0.3,{width: 50});
-
-		// tl.set(textBg1,{width: 10 + (textStrings[index-1][0].length)*(uiText1.style.fontSize+3)});
-		// tl.set(uiText1,{text: textStrings[index-1][0].substring(0, textStrings[index-1][0].length)});
-
-
 		tl.set(uiText2,{alpha: 1});
 		tl.set(textBg2,{width: 10 + uiText2.style.fontSize});
 		tl.to(uiText2,interval,{text: "_"});
 
 
 		for (var i = 0; i < textStrings[index-1][1].length; i++) {
-			tl.set(textBg2,{width: 10 + (i+2)*uiText2.style.fontSize});
-			tl.to(uiText2,interval,{text: textStrings[index-1][1].substring(0, i+1) + "_"});
+			if(i+1 == textStrings[index-1][1].length) {
+				tl.set(textBg2,{width: 10 + (i+1)*(uiText2.style.fontSize)});
+				tl.to(uiText2,interval,{text: textStrings[index-1][1].substring(0, i+1)});
+			} else {
+				tl.set(textBg2,{width: 10 + (i+2)*(uiText2.style.fontSize)});
+				tl.to(uiText2,interval,{text: textStrings[index-1][1].substring(0, i+1) + "_"});
+			}
+		}
+
+
+		tl.set(uiText3,{alpha: 1});
+		tl.set(textBg3,{width: 10 + uiText3.style.fontSize});
+		tl.to(uiText3,interval,{text: "_"});
+
+		for (var i = 0; i < textStrings[index-1][2].length; i++) {
+			if(i+1 == textStrings[index-1][2].length) {
+				tl.set(textBg3,{width: 10 + (i+1)*(uiText3.style.fontSize)});
+				tl.to(uiText3,interval,{text: textStrings[index-1][2].substring(0, i+1)});
+			} else {
+				tl.set(textBg3,{width: 10 + (i+2)*(uiText3.style.fontSize)});
+				tl.to(uiText3,interval,{text: textStrings[index-1][2].substring(0, i+1) + "_"});
+			}
+		}
+
+		if(index==2) {
+
+			tl.set(uiText4,{alpha: 1});
+			tl.set(textBg4,{width: 10 + uiText4.style.fontSize});
+			tl.to(uiText4,interval,{text: "_"});
+
+			for (var i = 0; i < textStrings[index-1][3].length; i++) {
+				if(i+1 == textStrings[index-1][3].length) {
+					tl.set(textBg4,{width: 10 + (i+1)*(uiText4.style.fontSize)});
+					tl.to(uiText4,interval,{text: textStrings[index-1][3].substring(0, i+1)});
+				} else {
+					tl.set(textBg4,{width: 10 + (i+2)*(uiText4.style.fontSize)});
+					tl.to(uiText4,interval,{text: textStrings[index-1][3].substring(0, i+1) + "_"});
+				}
+			}
+
+			tl.set(uiText5,{alpha: 1});
+			tl.set(textBg5,{width: 10 + uiText5.style.fontSize});
+			tl.to(uiText5,interval,{text: "_"});
+
+			for (var i = 0; i < textStrings[index-1][4].length; i++) {
+				if(i+1 == textStrings[index-1][4].length) {
+					tl.set(textBg5,{width: 10 + (i+1)*(uiText5.style.fontSize)});
+					tl.to(uiText5,interval,{text: textStrings[index-1][4].substring(0, i+1)});
+				} else {
+					tl.set(textBg5,{width: 10 + (i+2)*(uiText5.style.fontSize)});
+					tl.to(uiText5,interval,{text: textStrings[index-1][4].substring(0, i+1) + "_"});
+				}
+			}
 		}
 	}
+
+
+	// //texts
+	// var textStrings = [["鄭先喻","Mission Failed"],["楊傑懷","如何向一支手機解釋愛情"],["吳宜曄","Dollar-Post"]];
+	// for (var i = 1; i <= 3; i++) {
+	// 	var uiTextGroup = new PIXI.Container();
+	// 	textLayer.addChild(uiTextGroup);
+	// 	uiTextGroup.x = app.screen.width*(i-1);
+	// 	uiTextGroup.y = 0;
+	// 	uiTextGroups.push(uiTextGroup);
+
+	// 	uiTexts.push([]);
+	// 	uiTextBgs.push([]);
+	// 	uiTextLines.push([]);
+		
+	// 	var uiText = new PIXI.Text('_', {
+	// 		fontFamily: ['PingFangTC', '微軟正黑體', 'sans-serif'],
+	// 		letterSpacing: 3,
+	// 		fill: 0x09053A,
+	// 		align: 'center'
+	// 	});
+	// 	uiText.style.fontSize = 24;
+	// 	uiText.anchor.set(0,0.5);
+	// 	uiText.alpha = 0;
+
+	// 	var textBg = new PIXI.Sprite.fromImage("assets/images/blue.png");
+	// 	textBg.anchor.set(0,0.5);
+	// 	textBg.width = 0;
+	// 	textBg.height = uiText.height + 6;
+
+	// 	uiText.x = 80;
+	// 	textBg.x = uiText.x - 5;
+	// 	uiText.y = app.screen.height* 3 / 4;
+	// 	textBg.y = uiText.y;
+
+	// 	uiTextBgs[i-1].push(textBg);
+	// 	uiTexts[i-1].push(uiText);
+
+	// 	// textLayer.addChild(textBg);
+	// 	// textLayer.addChild(uiText);
+	// 	uiTextGroup.addChild(textBg);
+	// 	uiTextGroup.addChild(uiText);
+
+	// 	if(i==2) {
+	// 		var uiText = new PIXI.Text('_', {
+	// 			fontFamily: ['PingFangTC', '微軟正黑體', 'sans-serif'],
+	// 			fill: 0x09053A,
+	// 			align: 'center'
+	// 		});
+	// 	} else {
+	// 		var uiText = new PIXI.Text('_', {
+	// 			fontFamily: 'Press Start 2P',
+	// 			fill: 0x09053A,
+	// 			align: 'center'
+	// 		});
+	// 	}
+		
+	// 	uiText.style.fontSize = 18;
+	// 	uiText.anchor.set(0,0.5);
+	// 	uiText.alpha = 0;
+
+	// 	var textBg = new PIXI.Sprite.fromImage("assets/images/blue.png");
+	// 	textBg.anchor.set(0,0.5);
+	// 	textBg.width = 0;
+	// 	textBg.height = uiText.height + 6;
+
+	// 	uiText.x = 80;
+	// 	textBg.x = uiText.x - 5;
+	// 	uiText.y = app.screen.height* 3 / 4 + textBg.height + 10;
+	// 	textBg.y = uiText.y;
+
+	// 	uiTextBgs[i-1].push(textBg);
+	// 	uiTexts[i-1].push(uiText);
+
+	// 	// textLayer.addChild(textBg);
+	// 	// textLayer.addChild(uiText);
+	// 	uiTextGroup.addChild(textBg);
+	// 	uiTextGroup.addChild(uiText);
+
+
+	// 	var line = new PIXI.Sprite.fromImage("assets/images/blue.png");
+	// 	line.anchor.set(1,0);
+	// 	line.width = 150;
+	// 	line.height = 2;
+	// 	line.x = uiText.x + 250;
+	// 	line.y = uiText.y - 100;
+
+	// 	// textLayer.addChild(line);
+	// 	uiTextGroup.addChild(line);
+	// 	uiTextLines[i-1].push(line);
+
+	// 	var line = new PIXI.Sprite.fromImage("assets/images/blue.png");
+	// 	line.anchor.set(1,0);
+	// 	line.width = 50;
+	// 	line.height = 2;
+	// 	line.x = uiText.x + 100;
+	// 	line.y = uiText.y - 100;
+	// 	line.rotation = - Math.PI * 2 * 0.125;
+
+	// 	// textLayer.addChild(line);
+	// 	uiTextGroup.addChild(line);
+	// 	uiTextLines[i-1].push(line);
+	// }
+
+	
+
+	// function textAnimate(index) {
+	// 	var interval = 0.1;
+	// 	var tl = new TimelineMax({repeat:0});
+
+	// 	var uiText1 = uiTexts[index-1][0];
+	// 	var uiText2 = uiTexts[index-1][1];
+	// 	var textBg1 = uiTextBgs[index-1][0];
+	// 	var textBg2 = uiTextBgs[index-1][1];
+	// 	var line1 = uiTextLines[index-1][0];
+	// 	var line2 = uiTextLines[index-1][1];
+
+	// 	//delay
+	// 	tl.set([textBg1,textBg2,line1,line2],{width: 0});
+	// 	tl.set([uiText1,uiText2],{alpha: 0});
+	// 	tl.to(uiText1,1,{text: "_"});
+
+	// 	tl.to(line1,0.2,{width: 150});
+	// 	tl.to(line2,0.15,{width: 50});
+	// 	tl.to(line2,0.2,{width: 50});
+
+	// 	tl.set(uiText1,{alpha: 1});
+	// 	tl.set(textBg1,{width: 10 + (uiText1.style.fontSize+3)});
+	// 	tl.to(uiText1,interval,{text: "_"});
+
+	// 	for (var i = 0; i < textStrings[index-1][0].length; i++) {
+	// 		if(i+1 == textStrings[index-1][0].length) {
+	// 			tl.set(textBg1,{width: 10 + (i+1)*(uiText1.style.fontSize+3)});
+	// 			tl.to(uiText1,interval,{text: textStrings[index-1][0].substring(0, i+1)});
+	// 		} else {
+	// 			tl.set(textBg1,{width: 10 + (i+2)*(uiText1.style.fontSize+3)});
+	// 			tl.to(uiText1,interval,{text: textStrings[index-1][0].substring(0, i+1) + "_"});
+	// 		}
+	// 	}
+
+	// 	tl.to(line2,0.3,{width: 50});
+
+	// 	// tl.set(textBg1,{width: 10 + (textStrings[index-1][0].length)*(uiText1.style.fontSize+3)});
+	// 	// tl.set(uiText1,{text: textStrings[index-1][0].substring(0, textStrings[index-1][0].length)});
+
+
+	// 	tl.set(uiText2,{alpha: 1});
+	// 	tl.set(textBg2,{width: 10 + uiText2.style.fontSize});
+	// 	tl.to(uiText2,interval,{text: "_"});
+
+
+	// 	for (var i = 0; i < textStrings[index-1][1].length; i++) {
+	// 		tl.set(textBg2,{width: 10 + (i+2)*uiText2.style.fontSize});
+	// 		tl.to(uiText2,interval,{text: textStrings[index-1][1].substring(0, i+1) + "_"});
+	// 	}
+	// }
 
 
 	//cursor
