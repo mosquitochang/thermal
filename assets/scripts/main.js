@@ -1,18 +1,30 @@
-$(".intro").addClass('active');
-$(".intro video")[0].onplaying = function() {
+// $(".intro video")[0].onplaying = function() {
+// 	console.log("QQQ");
+// 	$(".intro video")[0].playbackRate = 1.5;
+// 	$(".screen-bg video")[0].playbackRate = 0.7;
+// 	$(".intro video")[0].onplaying = null;
+
+// 	if(isIntroDone) return;
+// 	$(".intro").addClass('active');
+// };
+
+$(".intro video")[0].addEventListener('canplay',function() {
+	console.log("Q");
 	$(".intro video")[0].playbackRate = 1.5;
 	$(".screen-bg video")[0].playbackRate = 0.7;
 	$(".intro video")[0].onplaying = null;
 
-	if(isInit) return;
-	
-};
+	if(isIntroDone) return;
+	$(".intro").addClass('active');
+});
 
+var isIntroDone = false;
 function allReady() {
 	var tl = new TimelineMax({repeat:0});
 	var useless = {x:0};
 	tl.to(useless,3,{x:0});
 	tl.call(function(){
+		isIntroDone = true;
 		$(".intro").removeClass('active');
 	});
 	tl.to(useless,1,{x:0});

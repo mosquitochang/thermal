@@ -143,6 +143,7 @@ PIXI.loader
     .add('assets/images/cursor.png')
     .add('assets/images/blue.png')
     .add('assets/images/icon-temp.png')
+    .add('assets/images/test-mouse.png')
     .load(init);
 
 var shadowSprite1, shadowSprite2, shadowSprite3;
@@ -278,7 +279,7 @@ function init() {
 	noiseSprite.y = app.screen.height / 2;
 	frontLayer.addChild(noiseSprite);
 
-	frontLayer.addChild(mouseHeatSprite);
+	// frontLayer.addChild(mouseHeatSprite);
 
 
 	//ui
@@ -698,6 +699,16 @@ function init() {
 	uiCursor.x = -100;
 	uiCursor.y = -100;
 
+	uiMouseHeat = PIXI.Sprite.fromImage("assets/images/test-mouse.png");
+	frontLayer.addChild(uiMouseHeat);
+	uiMouseHeat.alpha = 0.8;
+	uiMouseHeat.width = 100;
+	uiMouseHeat.height = 100;
+	uiMouseHeat.anchor.set(0.5);
+	uiMouseHeat.x = -100;
+	uiMouseHeat.y = -100;
+	TweenMax.fromTo(uiMouseHeat,2,{width:100, height:100},{width:130, height:130, ease: Sine.easeInOut, repeat:-1, yoyo:true});
+
 
 	isInit = true;
 	isPlaying = true;
@@ -715,6 +726,22 @@ function cursorMove(e) {
 
 	uiCursor.x = currentPoint.x;
 	uiCursor.y = currentPoint.y;
+
+	//熱源
+	uiMouseHeat.x = currentPoint.x;
+	uiMouseHeat.y = currentPoint.y;
+
+	var uiMouseHeatTrail = PIXI.Sprite.fromImage("assets/images/test-mouse.png");
+	frontLayer.addChild(uiMouseHeatTrail);
+	uiMouseHeatTrail.alpha = 0.2;
+	uiMouseHeatTrail.width = 100;
+	uiMouseHeatTrail.height = 100;
+	uiMouseHeatTrail.anchor.set(0.5);
+	uiMouseHeatTrail.x = currentPoint.x;
+	uiMouseHeatTrail.y = currentPoint.y;
+	TweenMax.to(uiMouseHeatTrail,2,{width:20, height:20, alpha:0, ease:Linear.easeNone, onComplete:function(){
+		frontLayer.removeChild(this.target);
+	}});
 }
 
 //從滑鼠位置算溫度
@@ -749,8 +776,6 @@ function computeTemperture(e) {
 }
 
 
-
-var noiseMap;
 
 //bg
 var backgroundCanvas = $("<canvas>")[0];
@@ -788,14 +813,14 @@ var noiseTexture = PIXI.BaseTexture.fromCanvas(noiseCanvas);
 var noiseSprite = PIXI.Sprite.from(noiseTexture);
 
 //heat
-var mouseHeat = new MouseHeat();
-var mouseHeatTexture = PIXI.BaseTexture.fromCanvas(mouseHeat.view);
-var mouseHeatSprite = PIXI.Sprite.from(mouseHeatTexture);
+// var mouseHeat = new MouseHeat();
+// var mouseHeatTexture = PIXI.BaseTexture.fromCanvas(mouseHeat.view);
+// var mouseHeatSprite = PIXI.Sprite.from(mouseHeatTexture);
 
 
 $("body").on("mousemove", function(e) {
 	if(!isInit || !isPlaying) return;
-	mouseHeat.mouseMove(e);
+	// mouseHeat.mouseMove(e);
 	cursorMove(e);
 	computeTemperture(e);
 })
@@ -816,6 +841,8 @@ function appResize() {
 
 	backgroundSprite.width = app.screen.width * 3;
 	backgroundSprite.height = app.screen.height;
+
+	tilingSprite.width = app.screen.width * 3;
 
 	var ratio = shadowSprite1.width / shadowSprite1.height;
 	shadowSprite1.height = app.screen.height;
@@ -867,10 +894,10 @@ function appResize() {
 		uiTextGroups[i].x = i*app.screen.width;
 	}
 
-	mouseHeatSprite.width = app.screen.width;
-	mouseHeatSprite.height = app.screen.height;
+	// mouseHeatSprite.width = app.screen.width;
+	// mouseHeatSprite.height = app.screen.height;
 
-	mouseHeat.resize();
+	// mouseHeat.resize();
 }
 
 $(window).on("resize", function() {
@@ -879,8 +906,10 @@ $(window).on("resize", function() {
 
 
 var time = 0;
+
+var noiseMap = $("<canvas>")[0];
 app.ticker.add(function(delta) {
-	noiseMap = getPerlinNoiseImage(500,500,0.1,1,1,time);
+	updatePerlinNoiseImage(noiseMap,time);
 
 	backgroundCtx.fillStyle = "#fff";
 	backgroundCtx.fillRect(0,0,backgroundCanvas.width,backgroundCanvas.height);
@@ -895,17 +924,20 @@ app.ticker.add(function(delta) {
 	backgroundTexture.update();
 	noiseTexture.update();
 
-	mouseHeat.update();
-	mouseHeatTexture.update();
-
 	crt.seed = Math.random();
 
 	time += 0.01;
 });
 
-function getPerlinNoiseImage(width,height,resolution,diff,scale,time) {
-	var perlinNoiseImage = $("<canvas>")[0];
-	var perlinNoiseCtx = perlinNoiseImage.getContext("2d");
+var perlinNoiseImage = $("<canvas>")[0];
+var perlinNoiseCtx = perlinNoiseImage.getContext("2d");
+function updatePerlinNoiseImage(target,time) {
+	var width = 500;
+	var height = 500;
+	var resolution = 0.1;
+	var diff = 1;
+	var scale = 1;
+
 	perlinNoiseImage.width = width*resolution;
 	perlinNoiseImage.height = height*resolution;
 
@@ -923,477 +955,15 @@ function getPerlinNoiseImage(width,height,resolution,diff,scale,time) {
 	}
 	perlinNoiseCtx.putImageData(perlinNoiseImageData,0,0);
 
-	var scaleUpCanvas = $("<canvas>")[0];
-	var scaleUpCtx = scaleUpCanvas.getContext("2d");
-	scaleUpCanvas.width = width;
-	scaleUpCanvas.height = height;
-	scaleUpCtx.scale(1/resolution,1/resolution);
-	scaleUpCtx.drawImage(perlinNoiseImage, 0, 0);
-
-	return scaleUpCanvas;
-}
-
-function MouseHeat() {
-	var _this = this;
-
-	this.view = $("<canvas>")[0];
-	this.viewCtx = this.view.getContext("2d");
-
-	this.width = this.view.width = $(".screen").width();
-	this.height = this.view.height = $(".screen").height();
-
-	this.time = 0;
-
-	this.update = function() {
-		this.viewCtx.clearRect(0,0,this.width,this.height);
-
-
-		for (var i = 0; i < this.heats.length; i++) {
-			if(this.heats[i] !== undefined) {
-				this.heats[i].draw();
-				this.heats[i].lifeCount();
-			}
-		}
-
-		this.time += 0.02;
-	}
-
-	this.resize = function() {
-		this.width = this.view.width = $(".screen").width();
-		this.height = this.view.height = $(".screen").height();
-	}
-
-	this.heats = [];
-
-	this.lastPoint = undefined;
-
-	this.mouseMove = function(e) {
-		var currentPoint = { 
-			x: e.pageX - $(".screen").offset().left, 
-			y: e.pageY - $(".screen").offset().top
-		};
-
-		// console.log(currentPoint);
-
-		if(this.lastPoint !== undefined) {
-			var dist = distanceBetween(this.lastPoint, currentPoint);
-			var angle = angleBetween(this.lastPoint, currentPoint);
-
-			for (var i = 0; i < dist; i+=30) {
-
-				var x = this.lastPoint.x + (Math.sin(angle) * i);
-				var y = this.lastPoint.y + (Math.cos(angle) * i);
-
-				var heat = new Heat(x,y,this.heats.length);
-				this.heats.push(heat);
-			}
-
-			this.lastPoint = currentPoint;
-		} else {
-			var heat = new Heat(currentPoint.x,currentPoint.y,this.heats.length);
-			this.heats.push(heat);
-
-			this.lastPoint = currentPoint;
-		}
-	}
-
-	function distanceBetween(point1, point2) {
-	  return Math.sqrt(Math.pow(point2.x - point1.x, 2) + Math.pow(point2.y - point1.y, 2));
-	}
-	function angleBetween(point1, point2) {
-	  return Math.atan2( point2.x - point1.x, point2.y - point1.y );
-	}
-
-	function Heat(x,y,index) {
-		this.x = x;
-		this.y = y;
-		this.index = index;
-		this.life = 30;
-		this.wave = 0;
-
-		this.draw = function() {
-			var innerRadius = 5;
-			var outerRadius = Math.max(70*this.life/30 + 30, 0) / 2;
-			// var radius = 70*this.life/60 + 30;
-			var alpha = 0.15*this.life/30;
-			if(this.index == _this.heats.length - 1) {
-				outerRadius = radius = (100+this.wave) / 2 ;
-				alpha = 0.7+this.wave/100;
-			}
-
-			var gradient = _this.viewCtx.createRadialGradient(this.x, this.y, innerRadius, this.x, this.y, outerRadius);
-			gradient.addColorStop(0, 'rgba(0,0,0,'+alpha+')');
-			gradient.addColorStop(0.7, 'rgba(0,0,0,'+alpha/4+')');
-			gradient.addColorStop(1, 'rgba(0,0,0,0)');
-
-			_this.viewCtx.beginPath();
-			_this.viewCtx.arc(this.x, this.y, outerRadius, 0, 2 * Math.PI);
-			_this.viewCtx.fillStyle = gradient;
-			_this.viewCtx.fill();
-		}
-
-		this.lifeCount = function() {
-			this.life -= 0.2;
-			this.wave = Math.sin(_this.time) * 6;
-
-			if(this.life <= 0) {
-				if(this.index != _this.heats.length - 1) {
-					this.dispose();
-				}
-			}
-		}
-
-		this.dispose = function() {
-			_this.heats[this.index] = undefined;
-		}
-	}
-}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-var thermals = [];
-
-// var thermal1 = new Thermal({
-// 	target: $(".screen")[0],
-// 	src: "assets/images/h2.png",
-// 	debug: false
-// })
-// thermals.push(thermal1);
-
-// var thermal2 = new Thermal({
-// 	target: $(".canvas-banana")[0],
-// 	src: "assets/images/b.png",
-// 	debug: false
-// })
-// thermals.push(thermal2);
-
-// var thermal3 = new Thermal({
-// 	target: $(".canvas-banana2")[0],
-// 	src: "assets/images/b.png",
-// 	debug: false
-// })
-// thermals.push(thermal3);
-
-
-// function draw() {
-// 	requestAnimationFrame(draw);
-
-// 	for (var i = 0; i < thermals.length; i++) {
-// 		thermals[i].update();
-// 	}
-// }
-// draw();
-
-// $("body").on("mousemove", function(e) {
-// 	// thermals[0].mouseMove(e);
-// 	for (var i = 0; i < thermals.length; i++) {
-// 		thermals[i].mouseMove(e);
-// 	}
-// })
-
-// var el = $("body")[0];
-
-// el.addEventListener("touchstart touchmove", function(e){
-// 	e.preventDefault();
-// 	for (var i = 0; i < thermals.length; i++) {
-// 		thermals[i].mouseMove(e.targetTouches[0]);
-// 	}
-// }, false);
-
-// $(window).on("resize", function() {
-// 	for (var i = 0; i < thermals.length; i++) {
-// 		thermals[i].resize();
-// 	}
-// })
-
-// $("body").on("keypress", function(e) {
-// 	if(e.which == 122) {
-// 		var nowX = thermal1.pixiApp.stage.x;
-// 		TweenMax.to(thermal1.pixiApp.stage,1,{x:nowX-$(".screen").width()});
-// 	} else if(e.which == 120) {
-// 		var nowX = thermal1.pixiApp.stage.x;
-// 		TweenMax.to(thermal1.pixiApp.stage,1,{x:nowX+$(".screen").width()});
-// 	}
-// })
-
-
-function Thermal(option) {
-	var _this = this;
-
-	this.targetCanvas = option.target;
-
-	this.processCanvas = $("<canvas>")[0];
-	this.processCtx = this.processCanvas.getContext("2d");
-
-	this.backgroundCanvas = $("<canvas>")[0];
-	this.backgroundCtx = this.backgroundCanvas.getContext("2d");
-	this.backgroundCanvas.width = $(".screen").width()*3;
-	this.backgroundCanvas.height = $(".screen").height();
-
-	//pixi本體
-	this.pixiApp = new PIXI.Application($(".screen").width(), $(".screen").height(), { view: this.targetCanvas, transparent: true });
-	this.processTexture = PIXI.BaseTexture.fromCanvas(this.processCanvas);
-	this.processSprite = PIXI.Sprite.from(this.processTexture);
-
-	this.backgroundTexture = PIXI.BaseTexture.fromCanvas(this.backgroundCanvas);
-	this.backgroundSprite = PIXI.Sprite.from(this.backgroundTexture);
-	this.pixiApp.stage.addChild(this.backgroundSprite);
-
-	//pixi shader
-	// var pixelate = new PIXI.filters.BlurFilter(100,50);
-	// this.pixiApp.stage.filters = [filter];
-
-	var crt = new PIXI.filters.CRTFilter({
-		curvature: 5,
-		lineWidth: 1,
-		lineContrast: 0.2,
-		noise: 0.15,
-		vignetting: 0.4,
-		vignettingAlpha: 0.7
-	})
-
-	this.backgroundSprite.filters = [filter];
-	this.processSprite.filters = [filter];
-
-	this.pixiApp.stage.filters = [crt];
-	
-	this.width = this.height = undefined;
-
-	this.debug = option.debug || false;
-
-	this.time = 0;
-
-	this.imageSourse = new Image();
-	this.imageSourse.onload = init;
-	this.imageSourse.src = option.src;
-
-	this.isLoaded = false;
-
-	function init() {
-		// _this.width = _this.targetCanvas.width = _this.processCanvas.width = _this.imageSourse.width;
-		// _this.height = _this.targetCanvas.height = _this.processCanvas.height = _this.imageSourse.height;
-		_this.width = _this.processCanvas.width = _this.imageSourse.width;
-		_this.height = _this.processCanvas.height = _this.imageSourse.height;
-
-		_this.processTexture.update();
-
-		_this.processSprite.anchor.set(0.5);
-		_this.processSprite.scale.x = _this.pixiApp.screen.height / _this.imageSourse.height;
-		_this.processSprite.scale.y = _this.pixiApp.screen.height / _this.imageSourse.height;
-		_this.processSprite.x = _this.pixiApp.screen.width / 2;
-		_this.processSprite.y = _this.pixiApp.screen.height / 2;
-		_this.pixiApp.stage.addChild(_this.processSprite);
-
-		// _this.pixiApp.renderer.resize(_this.width,_this.height);
-
-		_this.isLoaded = true;
-
-		_this.update();
-	}
-
-	this.resize = function() {
-		_this.pixiApp.renderer.resize($(".screen").width(), $(".screen").height());
-		_this.processSprite.scale.x = _this.pixiApp.screen.height / _this.imageSourse.height;
-		_this.processSprite.scale.y = _this.pixiApp.screen.height / _this.imageSourse.height;
-		_this.processSprite.x = _this.pixiApp.screen.width / 2;
-		_this.processSprite.y = _this.pixiApp.screen.height / 2;
-
-		_this.backgroundCanvas.width = $(".screen").width()*3;
-		_this.backgroundCanvas.height = $(".screen").height();
-	}
-
-	this.update = function() {
-		if(!this.isLoaded) return;
-
-
-		// this.processCtx.fillStyle = "#fff";
-		// this.processCtx.fillRect(0,0,this.width,this.height);
-		this.processCtx.clearRect(0,0,this.width,this.height);
-		this.processCtx.drawImage(this.imageSourse,0,0);
-
-		var noiseMap = getPerlinNoiseImage(500,500,0.1,1,1,this.time/2);
-		this.processCtx.globalCompositeOperation = "source-atop";
-		this.processCtx.drawImage(noiseMap,0,0,this.width,this.height);
-		this.processCtx.globalCompositeOperation = "source-out";
-
-		// this.processCtx.drawImage(this.imageSourse,0,0);
-
-
-		// var noiseMap = getPerlinNoiseImage(this.backgroundCanvas.width/2,this.backgroundCanvas.height/2,0.1,0.8,0.5,this.time/10);
-		this.backgroundCtx.fillStyle = "#fff";
-		this.backgroundCtx.fillRect(0,0,this.backgroundCanvas.width,this.backgroundCanvas.height);
-
-		this.backgroundCtx.globalAlpha = 0.6;
-		this.backgroundCtx.drawImage(this.imageSourse,(this.processSprite.x - this.processSprite.width/2 + 0),(this.processSprite.y - this.processSprite.height/2 + 0),this.processSprite.width - 0,this.processSprite.height - 0);
-		this.backgroundCtx.globalAlpha = 0.6;
-		this.backgroundCtx.drawImage(noiseMap,0,0,this.backgroundCanvas.width,this.backgroundCanvas.height);
-		this.backgroundCtx.globalAlpha = 1;
-
-		for (var i = 0; i < this.heats.length; i++) {
-			if(this.heats[i] !== undefined) {
-				this.heats[i].draw();
-				this.heats[i].lifeCount();
-			}
-		}
-
-		this.processTexture.update();
-		this.backgroundTexture.update();
-
-		this.time += 0.02;
-
-		// crt.time = this.time;
-		crt.seed = Math.random();
-	}
-
-	this.heats = [];
-
-	this.lastPoint = undefined;
-
-	this.mouseMove = function(e) {
-		if(!this.isLoaded) return;
-
-		// var currentPoint = { 
-		// 	x: (e.pageX-$(option.target).offset().left) * (this.width/$(option.target).width()), 
-		// 	y: (e.pageY-$(option.target).offset().top) * (this.height/$(option.target).height())
-		// };
-
-		var currentPoint = { 
-			x: (e.pageX - $(".screen").offset().left -  (this.processSprite.x - this.processSprite.width/2)) / this.processSprite.scale.x, 
-			y: (e.pageY - $(".screen").offset().top - (this.processSprite.y - this.processSprite.height/2)) / this.processSprite.scale.y
-		};
-
-		if(this.lastPoint !== undefined) {
-			var dist = distanceBetween(this.lastPoint, currentPoint);
-			var angle = angleBetween(this.lastPoint, currentPoint);
-
-			for (var i = 0; i < dist; i+=15) {
-
-				var x = this.lastPoint.x + (Math.sin(angle) * i);
-				var y = this.lastPoint.y + (Math.cos(angle) * i);
-
-				var heat = new Heat(x,y,this.heats.length);
-				this.heats.push(heat);
-			}
-
-			this.lastPoint = currentPoint;
-		} else {
-			var heat = new Heat(currentPoint.x,currentPoint.y,this.heats.length);
-			this.heats.push(heat);
-
-			this.lastPoint = currentPoint;
-		}
-	}
-
-	function distanceBetween(point1, point2) {
-	  return Math.sqrt(Math.pow(point2.x - point1.x, 2) + Math.pow(point2.y - point1.y, 2));
-	}
-	function angleBetween(point1, point2) {
-	  return Math.atan2( point2.x - point1.x, point2.y - point1.y );
-	}
-
-	function Heat(x,y,index) {
-		this.x = x;
-		this.y = y;
-		this.index = index;
-		this.life = 30;
-		this.wave = 0;
-
-		this.draw = function() {
-			var innerRadius = 5;
-			var outerRadius = Math.max(70*this.life/30 + 30, 0);
-			// var radius = 70*this.life/60 + 30;
-			var alpha = 0.15*this.life/30;
-			if(this.index == _this.heats.length - 1) {
-				outerRadius = radius = 150+this.wave;
-				alpha = 0.7+this.wave/100;
-			}
-
-			var gradient = _this.processCtx.createRadialGradient(this.x, this.y, innerRadius, this.x, this.y, outerRadius);
-			gradient.addColorStop(0, 'rgba(0,0,0,'+alpha+')');
-			gradient.addColorStop(0.7, 'rgba(0,0,0,'+alpha/4+')');
-			gradient.addColorStop(1, 'rgba(0,0,0,0)');
-
-			_this.processCtx.globalCompositeOperation = "source-atop";
-			_this.processCtx.beginPath();
-			_this.processCtx.arc(this.x, this.y, outerRadius, 0, 2 * Math.PI);
-			_this.processCtx.fillStyle = gradient;
-			_this.processCtx.fill();
-			_this.processCtx.globalCompositeOperation = "source-out";
-
-			// _this.backgroundCtx.globalAlpha = 0.1;
-			// _this.backgroundCtx.beginPath();
-			// _this.backgroundCtx.arc(this.x, this.y, outerRadius, 0, 2 * Math.PI);
-			// _this.backgroundCtx.fillStyle = gradient;
-			// _this.backgroundCtx.fill();
-			// _this.backgroundCtx.globalAlpha = 1;
-		}
-
-		this.lifeCount = function() {
-			this.life--;
-			this.wave = Math.sin(_this.time) * 6;
-
-			if(this.life <= 0) {
-				if(this.index != _this.heats.length - 1) {
-					this.dispose();
-				}
-			}
-		}
-
-		this.dispose = function() {
-			_this.heats[this.index] = undefined;
-		}
-	}
-
-	function getPerlinNoiseImage(width,height,resolution,diff,scale,time) {
-		var perlinNoiseImage = $("<canvas>")[0];
-		var perlinNoiseCtx = perlinNoiseImage.getContext("2d");
-		perlinNoiseImage.width = width*resolution;
-		perlinNoiseImage.height = height*resolution;
-
-		var perlinNoiseImageData = perlinNoiseCtx.createImageData(perlinNoiseImage.width,perlinNoiseImage.height);
-
-		for (var x = 0; x < perlinNoiseImage.width; x++) {
-		  for (var y = 0; y < perlinNoiseImage.height; y++) {
-		  	var value = noise.perlin3(x / (50*resolution*diff), y / (50*resolution*diff), time);
-
-		  	value = (1.6+value) * 30 * scale;
-
-		  	var cell = (x + y * perlinNoiseImage.width) * 4;
-		  	perlinNoiseImageData.data[cell + 3] = value;
-		  }
-		}
-		perlinNoiseCtx.putImageData(perlinNoiseImageData,0,0);
-
-		var scaleUpCanvas = $("<canvas>")[0];
-		var scaleUpCtx = scaleUpCanvas.getContext("2d");
-		scaleUpCanvas.width = width;
-		scaleUpCanvas.height = height;
-		scaleUpCtx.scale(1/resolution,1/resolution);
-		scaleUpCtx.drawImage(perlinNoiseImage, 0, 0);
-
-		return scaleUpCanvas;
-	}
+	target.width = width;
+	target.height = height;
+	var targetCtx = target.getContext("2d");
+	targetCtx.clearRect(0,0,width,height);
+	targetCtx.scale(1/resolution,1/resolution);
+	targetCtx.drawImage(perlinNoiseImage, 0, 0);
 }
 
 //stat
-// (function(){var script=document.createElement('script');script.onload=function(){var stats=new Stats();document.body.appendChild(stats.dom);requestAnimationFrame(function loop(){stats.update();requestAnimationFrame(loop)});};script.src='//rawgit.com/mrdoob/stats.js/master/build/stats.min.js';document.head.appendChild(script);})()
+(function(){var script=document.createElement('script');script.onload=function(){var stats=new Stats();document.body.appendChild(stats.dom);requestAnimationFrame(function loop(){stats.update();requestAnimationFrame(loop)});};script.src='//rawgit.com/mrdoob/stats.js/master/build/stats.min.js';document.head.appendChild(script);})()
 
 
