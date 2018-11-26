@@ -74,6 +74,7 @@ function openArt() {
 	var index = this.index;
 
 	if(index==3) {
+		ga('send', 'pageview', 'page_art3');
 		window.open("http://dollar-post.com/", "_blank");
 		return;
 	}
@@ -83,10 +84,12 @@ function openArt() {
 
 	
 	if(index==1) {
+		ga('send', 'pageview', 'page_art1');
 		$(".art-container[data-art="+index+"]").find("video")[0].play();
 	}
 
 	if(index==2) {
+		ga('send', 'pageview', 'page_art2');
 		art2play();
 	}
 
@@ -223,6 +226,7 @@ $(".hourglass-gif").on("click", function(){
 //彩蛋
 function egg() {
 	setTimeout(function(){
+		ga('send', 'pageview', 'page_egg');
 		app.stop();
 		isPlaying = false;
 		$(".egg").addClass('active');
