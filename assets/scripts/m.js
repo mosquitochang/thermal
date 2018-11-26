@@ -205,7 +205,7 @@ function init() {
 
 	var tlHint;
 	realSprite1.interactive = true;
-	realSprite1.on('pointerup', function(){
+	realSprite1.on('pointerdown', function(){
 		tlHint.stop();
 		TweenMax.to(touchHint,0.5,{alpha:0});
 		realSprite1.interactive = false;
@@ -533,7 +533,7 @@ function init() {
 		
 
 	//texts
-	var textStrings = [["鄭先喻","Cheng Hsien-yu","Mission Failed"],["楊傑懷","Yang Jie Huai","如何向一支手機解釋愛情","How To Explain Love","To An iPhone"],["吳宜曄","Wu I-Yeh","Dollar-Post"]];
+	var textStrings = [["鄭先喻","Cheng Hsien-Yu","Mission Failed"],["楊傑懷","Yang Jie-Huai","如何向一支手機解釋愛情","How To Explain Love","To An iPhone"],["吳宜曄","Wu I-Yeh","Dollar-Post"]];
 	for (var i = 1; i <= 3; i++) {
 		if(i==2) {
 			var pos = 2.7/4;
