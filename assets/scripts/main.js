@@ -1,32 +1,25 @@
-// $("button").on("click", function() {
-// 	if($(this).hasClass('org')) {
-// 		frontLayer.filters = [orgfilter];
-// 	} else if($(this).hasClass('c1')) {
-// 		frontLayer.filters = [filter1];
-// 	} else if($(this).hasClass('c2')) {
-// 		frontLayer.filters = [filter2];
-// 	}
-// })
-
-
+$(".intro").addClass('active');
 $(".intro video")[0].onplaying = function() {
 	$(".intro video")[0].playbackRate = 1.5;
 	$(".screen-bg video")[0].playbackRate = 0.7;
 	$(".intro video")[0].onplaying = null;
 
 	if(isInit) return;
-	$(".intro").addClass('active');
+	
 };
 
 function allReady() {
 	var tl = new TimelineMax({repeat:0});
 	var useless = {x:0};
-	tl.to(useless,1,{x:0});
+	tl.to(useless,3,{x:0});
 	tl.call(function(){
 		$(".intro").removeClass('active');
 	});
 	tl.to(useless,1,{x:0});
-	$(".page-wrapper").addClass('active');
+	tl.call(function(){
+		$(".page-wrapper").addClass('active');
+	});
+	
 }
 
 

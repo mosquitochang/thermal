@@ -703,10 +703,13 @@ function init() {
 	}
 
 	
-
+	var textAnimateTl;
 	function textAnimate(index) {
+		if(textAnimateTl) {
+			textAnimateTl.pause();
+		}
 		var interval = 0.1;
-		var tl = new TimelineMax({repeat:0});
+		textAnimateTl = new TimelineMax({repeat:0});
 
 		var uiText1 = uiTexts[index-1][0];
 		var uiText2 = uiTexts[index-1][1];
@@ -720,86 +723,86 @@ function init() {
 			var textBg4 = uiTextBgs[index-1][3];
 			var uiText5 = uiTexts[index-1][4];
 			var textBg5 = uiTextBgs[index-1][4];
-			tl.set([textBg4,textBg5],{width: 0});
-			tl.set([uiText4,uiText5],{alpha: 0});
+			textAnimateTl.set([textBg4,textBg5],{width: 0});
+			textAnimateTl.set([uiText4,uiText5],{alpha: 0});
 		}
 
 		//delay
-		tl.set([textBg1,textBg2,textBg3],{width: 0});
-		tl.set([uiText1,uiText2,uiText3],{alpha: 0});
-		tl.to(uiText1,1,{text: "_"});
+		textAnimateTl.set([textBg1,textBg2,textBg3],{width: 0});
+		textAnimateTl.set([uiText1,uiText2,uiText3],{alpha: 0});
+		textAnimateTl.to(uiText1,1,{text: "_"});
 
-		tl.set(uiText1,{alpha: 1});
-		tl.set(textBg1,{width: 10 + (uiText1.style.fontSize+3)});
-		tl.to(uiText1,interval,{text: "_"});
+		textAnimateTl.set(uiText1,{alpha: 1});
+		textAnimateTl.set(textBg1,{width: 10 + (uiText1.style.fontSize+3)});
+		textAnimateTl.to(uiText1,interval,{text: "_"});
 
 		for (var i = 0; i < textStrings[index-1][0].length; i++) {
 			if(i+1 == textStrings[index-1][0].length) {
-				tl.set(textBg1,{width: 10 + (i+1)*(uiText1.style.fontSize+3)});
-				tl.to(uiText1,interval,{text: textStrings[index-1][0].substring(0, i+1)});
+				textAnimateTl.set(textBg1,{width: 10 + (i+1)*(uiText1.style.fontSize+3)});
+				textAnimateTl.to(uiText1,interval,{text: textStrings[index-1][0].substring(0, i+1)});
 			} else {
-				tl.set(textBg1,{width: 10 + (i+2)*(uiText1.style.fontSize+3)});
-				tl.to(uiText1,interval,{text: textStrings[index-1][0].substring(0, i+1) + "_"});
+				textAnimateTl.set(textBg1,{width: 10 + (i+2)*(uiText1.style.fontSize+3)});
+				textAnimateTl.to(uiText1,interval,{text: textStrings[index-1][0].substring(0, i+1) + "_"});
 			}
 		}
 
-		tl.set(uiText2,{alpha: 1});
-		tl.set(textBg2,{width: 10 + uiText2.style.fontSize});
-		tl.to(uiText2,interval,{text: "_"});
+		textAnimateTl.set(uiText2,{alpha: 1});
+		textAnimateTl.set(textBg2,{width: 10 + uiText2.style.fontSize});
+		textAnimateTl.to(uiText2,interval,{text: "_"});
 
 
 		for (var i = 0; i < textStrings[index-1][1].length; i++) {
 			if(i+1 == textStrings[index-1][1].length) {
-				tl.set(textBg2,{width: 10 + (i+1)*(uiText2.style.fontSize)});
-				tl.to(uiText2,interval,{text: textStrings[index-1][1].substring(0, i+1)});
+				textAnimateTl.set(textBg2,{width: 10 + (i+1)*(uiText2.style.fontSize)});
+				textAnimateTl.to(uiText2,interval,{text: textStrings[index-1][1].substring(0, i+1)});
 			} else {
-				tl.set(textBg2,{width: 10 + (i+2)*(uiText2.style.fontSize)});
-				tl.to(uiText2,interval,{text: textStrings[index-1][1].substring(0, i+1) + "_"});
+				textAnimateTl.set(textBg2,{width: 10 + (i+2)*(uiText2.style.fontSize)});
+				textAnimateTl.to(uiText2,interval,{text: textStrings[index-1][1].substring(0, i+1) + "_"});
 			}
 		}
 
 
-		tl.set(uiText3,{alpha: 1});
-		tl.set(textBg3,{width: 10 + uiText3.style.fontSize});
-		tl.to(uiText3,interval,{text: "_"});
+		textAnimateTl.set(uiText3,{alpha: 1});
+		textAnimateTl.set(textBg3,{width: 10 + uiText3.style.fontSize});
+		textAnimateTl.to(uiText3,interval,{text: "_"});
 
 		for (var i = 0; i < textStrings[index-1][2].length; i++) {
 			if(i+1 == textStrings[index-1][2].length) {
-				tl.set(textBg3,{width: 10 + (i+1)*(uiText3.style.fontSize)});
-				tl.to(uiText3,interval,{text: textStrings[index-1][2].substring(0, i+1)});
+				textAnimateTl.set(textBg3,{width: 10 + (i+1)*(uiText3.style.fontSize)});
+				textAnimateTl.to(uiText3,interval,{text: textStrings[index-1][2].substring(0, i+1)});
 			} else {
-				tl.set(textBg3,{width: 10 + (i+2)*(uiText3.style.fontSize)});
-				tl.to(uiText3,interval,{text: textStrings[index-1][2].substring(0, i+1) + "_"});
+				textAnimateTl.set(textBg3,{width: 10 + (i+2)*(uiText3.style.fontSize)});
+				textAnimateTl.to(uiText3,interval,{text: textStrings[index-1][2].substring(0, i+1) + "_"});
 			}
 		}
 
 		if(index==2) {
 
-			tl.set(uiText4,{alpha: 1});
-			tl.set(textBg4,{width: 10 + uiText4.style.fontSize});
-			tl.to(uiText4,interval,{text: "_"});
+			textAnimateTl.set(uiText4,{alpha: 1});
+			textAnimateTl.set(textBg4,{width: 10 + uiText4.style.fontSize});
+			textAnimateTl.to(uiText4,interval,{text: "_"});
 
 			for (var i = 0; i < textStrings[index-1][3].length; i++) {
 				if(i+1 == textStrings[index-1][3].length) {
-					tl.set(textBg4,{width: 10 + (i+1)*(uiText4.style.fontSize)});
-					tl.to(uiText4,interval,{text: textStrings[index-1][3].substring(0, i+1)});
+					textAnimateTl.set(textBg4,{width: 10 + (i+1)*(uiText4.style.fontSize)});
+					textAnimateTl.to(uiText4,interval,{text: textStrings[index-1][3].substring(0, i+1)});
 				} else {
-					tl.set(textBg4,{width: 10 + (i+2)*(uiText4.style.fontSize)});
-					tl.to(uiText4,interval,{text: textStrings[index-1][3].substring(0, i+1) + "_"});
+					textAnimateTl.set(textBg4,{width: 10 + (i+2)*(uiText4.style.fontSize)});
+					textAnimateTl.to(uiText4,interval,{text: textStrings[index-1][3].substring(0, i+1) + "_"});
 				}
 			}
 
-			tl.set(uiText5,{alpha: 1});
-			tl.set(textBg5,{width: 10 + uiText5.style.fontSize});
-			tl.to(uiText5,interval,{text: "_"});
+			textAnimateTl.set(uiText5,{alpha: 1});
+			textAnimateTl.set(textBg5,{width: 10 + uiText5.style.fontSize});
+			textAnimateTl.to(uiText5,interval,{text: "_"});
 
 			for (var i = 0; i < textStrings[index-1][4].length; i++) {
 				if(i+1 == textStrings[index-1][4].length) {
-					tl.set(textBg5,{width: 10 + (i+1)*(uiText5.style.fontSize)});
-					tl.to(uiText5,interval,{text: textStrings[index-1][4].substring(0, i+1)});
+					textAnimateTl.set(textBg5,{width: 10 + (i+1)*(uiText5.style.fontSize)});
+					textAnimateTl.to(uiText5,interval,{text: textStrings[index-1][4].substring(0, i+1)});
 				} else {
-					tl.set(textBg5,{width: 10 + (i+2)*(uiText5.style.fontSize)});
-					tl.to(uiText5,interval,{text: textStrings[index-1][4].substring(0, i+1) + "_"});
+					textAnimateTl.set(textBg5,{width: 10 + (i+2)*(uiText5.style.fontSize)});
+					textAnimateTl.to(uiText5,interval,{text: textStrings[index-1][4].substring(0, i+1) + "_"});
 				}
 			}
 		}

@@ -577,10 +577,13 @@ function init() {
 	}
 
 	
-
+	var textAnimateTl;
 	function textAnimate(index) {
+		if(textAnimateTl) {
+			textAnimateTl.pause();
+		}
 		var interval = 0.1;
-		var tl = new TimelineMax({repeat:0});
+		textAnimateTl = new TimelineMax({repeat:0});
 
 		var uiText1 = uiTexts[index-1][0];
 		var uiText2 = uiTexts[index-1][1];
@@ -596,251 +599,94 @@ function init() {
 			var textBg4 = uiTextBgs[index-1][3];
 			var uiText5 = uiTexts[index-1][4];
 			var textBg5 = uiTextBgs[index-1][4];
-			tl.set([textBg4,textBg5],{width: 0});
-			tl.set([uiText4,uiText5],{alpha: 0});
+			textAnimateTl.set([textBg4,textBg5],{width: 0});
+			textAnimateTl.set([uiText4,uiText5],{alpha: 0});
 		}
 
 		//delay
-		tl.set([textBg1,textBg2,textBg3,line1,line2],{width: 0});
-		tl.set([uiText1,uiText2,uiText3],{alpha: 0});
-		tl.to(uiText1,1,{text: "_"});
+		textAnimateTl.set([textBg1,textBg2,textBg3,line1,line2],{width: 0});
+		textAnimateTl.set([uiText1,uiText2,uiText3],{alpha: 0});
+		textAnimateTl.to(uiText1,1,{text: "_"});
 
-		tl.to(line1,0.2,{width: 150});
-		tl.to(line2,0.15,{width: 50});
-		tl.to(line2,0.2,{width: 50});
+		textAnimateTl.to(line1,0.2,{width: 150});
+		textAnimateTl.to(line2,0.15,{width: 50});
+		textAnimateTl.to(line2,0.2,{width: 50});
 
-		tl.set(uiText1,{alpha: 1});
-		tl.set(textBg1,{width: 10 + (uiText1.style.fontSize+3)});
-		tl.to(uiText1,interval,{text: "_"});
+		textAnimateTl.set(uiText1,{alpha: 1});
+		textAnimateTl.set(textBg1,{width: 10 + (uiText1.style.fontSize+3)});
+		textAnimateTl.to(uiText1,interval,{text: "_"});
 
 		for (var i = 0; i < textStrings[index-1][0].length; i++) {
 			if(i+1 == textStrings[index-1][0].length) {
-				tl.set(textBg1,{width: 10 + (i+1)*(uiText1.style.fontSize+3)});
-				tl.to(uiText1,interval,{text: textStrings[index-1][0].substring(0, i+1)});
+				textAnimateTl.set(textBg1,{width: 10 + (i+1)*(uiText1.style.fontSize+3)});
+				textAnimateTl.to(uiText1,interval,{text: textStrings[index-1][0].substring(0, i+1)});
 			} else {
-				tl.set(textBg1,{width: 10 + (i+2)*(uiText1.style.fontSize+3)});
-				tl.to(uiText1,interval,{text: textStrings[index-1][0].substring(0, i+1) + "_"});
+				textAnimateTl.set(textBg1,{width: 10 + (i+2)*(uiText1.style.fontSize+3)});
+				textAnimateTl.to(uiText1,interval,{text: textStrings[index-1][0].substring(0, i+1) + "_"});
 			}
 		}
 
-		tl.set(uiText2,{alpha: 1});
-		tl.set(textBg2,{width: 10 + uiText2.style.fontSize});
-		tl.to(uiText2,interval,{text: "_"});
+		textAnimateTl.set(uiText2,{alpha: 1});
+		textAnimateTl.set(textBg2,{width: 10 + uiText2.style.fontSize});
+		textAnimateTl.to(uiText2,interval,{text: "_"});
 
 
 		for (var i = 0; i < textStrings[index-1][1].length; i++) {
 			if(i+1 == textStrings[index-1][1].length) {
-				tl.set(textBg2,{width: 10 + (i+1)*(uiText2.style.fontSize)});
-				tl.to(uiText2,interval,{text: textStrings[index-1][1].substring(0, i+1)});
+				textAnimateTl.set(textBg2,{width: 10 + (i+1)*(uiText2.style.fontSize)});
+				textAnimateTl.to(uiText2,interval,{text: textStrings[index-1][1].substring(0, i+1)});
 			} else {
-				tl.set(textBg2,{width: 10 + (i+2)*(uiText2.style.fontSize)});
-				tl.to(uiText2,interval,{text: textStrings[index-1][1].substring(0, i+1) + "_"});
+				textAnimateTl.set(textBg2,{width: 10 + (i+2)*(uiText2.style.fontSize)});
+				textAnimateTl.to(uiText2,interval,{text: textStrings[index-1][1].substring(0, i+1) + "_"});
 			}
 		}
 
 
-		tl.set(uiText3,{alpha: 1});
-		tl.set(textBg3,{width: 10 + uiText3.style.fontSize});
-		tl.to(uiText3,interval,{text: "_"});
+		textAnimateTl.set(uiText3,{alpha: 1});
+		textAnimateTl.set(textBg3,{width: 10 + uiText3.style.fontSize});
+		textAnimateTl.to(uiText3,interval,{text: "_"});
 
 		for (var i = 0; i < textStrings[index-1][2].length; i++) {
 			if(i+1 == textStrings[index-1][2].length) {
-				tl.set(textBg3,{width: 10 + (i+1)*(uiText3.style.fontSize)});
-				tl.to(uiText3,interval,{text: textStrings[index-1][2].substring(0, i+1)});
+				textAnimateTl.set(textBg3,{width: 10 + (i+1)*(uiText3.style.fontSize)});
+				textAnimateTl.to(uiText3,interval,{text: textStrings[index-1][2].substring(0, i+1)});
 			} else {
-				tl.set(textBg3,{width: 10 + (i+2)*(uiText3.style.fontSize)});
-				tl.to(uiText3,interval,{text: textStrings[index-1][2].substring(0, i+1) + "_"});
+				textAnimateTl.set(textBg3,{width: 10 + (i+2)*(uiText3.style.fontSize)});
+				textAnimateTl.to(uiText3,interval,{text: textStrings[index-1][2].substring(0, i+1) + "_"});
 			}
 		}
 
 		if(index==2) {
 
-			tl.set(uiText4,{alpha: 1});
-			tl.set(textBg4,{width: 10 + uiText4.style.fontSize});
-			tl.to(uiText4,interval,{text: "_"});
+			textAnimateTl.set(uiText4,{alpha: 1});
+			textAnimateTl.set(textBg4,{width: 10 + uiText4.style.fontSize});
+			textAnimateTl.to(uiText4,interval,{text: "_"});
 
 			for (var i = 0; i < textStrings[index-1][3].length; i++) {
 				if(i+1 == textStrings[index-1][3].length) {
-					tl.set(textBg4,{width: 10 + (i+1)*(uiText4.style.fontSize)});
-					tl.to(uiText4,interval,{text: textStrings[index-1][3].substring(0, i+1)});
+					textAnimateTl.set(textBg4,{width: 10 + (i+1)*(uiText4.style.fontSize)});
+					textAnimateTl.to(uiText4,interval,{text: textStrings[index-1][3].substring(0, i+1)});
 				} else {
-					tl.set(textBg4,{width: 10 + (i+2)*(uiText4.style.fontSize)});
-					tl.to(uiText4,interval,{text: textStrings[index-1][3].substring(0, i+1) + "_"});
+					textAnimateTl.set(textBg4,{width: 10 + (i+2)*(uiText4.style.fontSize)});
+					textAnimateTl.to(uiText4,interval,{text: textStrings[index-1][3].substring(0, i+1) + "_"});
 				}
 			}
 
-			tl.set(uiText5,{alpha: 1});
-			tl.set(textBg5,{width: 10 + uiText5.style.fontSize});
-			tl.to(uiText5,interval,{text: "_"});
+			textAnimateTl.set(uiText5,{alpha: 1});
+			textAnimateTl.set(textBg5,{width: 10 + uiText5.style.fontSize});
+			textAnimateTl.to(uiText5,interval,{text: "_"});
 
 			for (var i = 0; i < textStrings[index-1][4].length; i++) {
 				if(i+1 == textStrings[index-1][4].length) {
-					tl.set(textBg5,{width: 10 + (i+1)*(uiText5.style.fontSize)});
-					tl.to(uiText5,interval,{text: textStrings[index-1][4].substring(0, i+1)});
+					textAnimateTl.set(textBg5,{width: 10 + (i+1)*(uiText5.style.fontSize)});
+					textAnimateTl.to(uiText5,interval,{text: textStrings[index-1][4].substring(0, i+1)});
 				} else {
-					tl.set(textBg5,{width: 10 + (i+2)*(uiText5.style.fontSize)});
-					tl.to(uiText5,interval,{text: textStrings[index-1][4].substring(0, i+1) + "_"});
+					textAnimateTl.set(textBg5,{width: 10 + (i+2)*(uiText5.style.fontSize)});
+					textAnimateTl.to(uiText5,interval,{text: textStrings[index-1][4].substring(0, i+1) + "_"});
 				}
 			}
 		}
 	}
-
-
-	// //texts
-	// var textStrings = [["鄭先喻","Mission Failed"],["楊傑懷","如何向一支手機解釋愛情"],["吳宜曄","Dollar-Post"]];
-	// for (var i = 1; i <= 3; i++) {
-	// 	var uiTextGroup = new PIXI.Container();
-	// 	textLayer.addChild(uiTextGroup);
-	// 	uiTextGroup.x = app.screen.width*(i-1);
-	// 	uiTextGroup.y = 0;
-	// 	uiTextGroups.push(uiTextGroup);
-
-	// 	uiTexts.push([]);
-	// 	uiTextBgs.push([]);
-	// 	uiTextLines.push([]);
-		
-	// 	var uiText = new PIXI.Text('_', {
-	// 		fontFamily: ['PingFangTC', '微軟正黑體', 'sans-serif'],
-	// 		letterSpacing: 3,
-	// 		fill: 0x09053A,
-	// 		align: 'center'
-	// 	});
-	// 	uiText.style.fontSize = 24;
-	// 	uiText.anchor.set(0,0.5);
-	// 	uiText.alpha = 0;
-
-	// 	var textBg = new PIXI.Sprite.fromImage("assets/images/blue.png");
-	// 	textBg.anchor.set(0,0.5);
-	// 	textBg.width = 0;
-	// 	textBg.height = uiText.height + 6;
-
-	// 	uiText.x = 80;
-	// 	textBg.x = uiText.x - 5;
-	// 	uiText.y = app.screen.height* 3 / 4;
-	// 	textBg.y = uiText.y;
-
-	// 	uiTextBgs[i-1].push(textBg);
-	// 	uiTexts[i-1].push(uiText);
-
-	// 	// textLayer.addChild(textBg);
-	// 	// textLayer.addChild(uiText);
-	// 	uiTextGroup.addChild(textBg);
-	// 	uiTextGroup.addChild(uiText);
-
-	// 	if(i==2) {
-	// 		var uiText = new PIXI.Text('_', {
-	// 			fontFamily: ['PingFangTC', '微軟正黑體', 'sans-serif'],
-	// 			fill: 0x09053A,
-	// 			align: 'center'
-	// 		});
-	// 	} else {
-	// 		var uiText = new PIXI.Text('_', {
-	// 			fontFamily: 'Press Start 2P',
-	// 			fill: 0x09053A,
-	// 			align: 'center'
-	// 		});
-	// 	}
-		
-	// 	uiText.style.fontSize = 18;
-	// 	uiText.anchor.set(0,0.5);
-	// 	uiText.alpha = 0;
-
-	// 	var textBg = new PIXI.Sprite.fromImage("assets/images/blue.png");
-	// 	textBg.anchor.set(0,0.5);
-	// 	textBg.width = 0;
-	// 	textBg.height = uiText.height + 6;
-
-	// 	uiText.x = 80;
-	// 	textBg.x = uiText.x - 5;
-	// 	uiText.y = app.screen.height* 3 / 4 + textBg.height + 10;
-	// 	textBg.y = uiText.y;
-
-	// 	uiTextBgs[i-1].push(textBg);
-	// 	uiTexts[i-1].push(uiText);
-
-	// 	// textLayer.addChild(textBg);
-	// 	// textLayer.addChild(uiText);
-	// 	uiTextGroup.addChild(textBg);
-	// 	uiTextGroup.addChild(uiText);
-
-
-	// 	var line = new PIXI.Sprite.fromImage("assets/images/blue.png");
-	// 	line.anchor.set(1,0);
-	// 	line.width = 150;
-	// 	line.height = 2;
-	// 	line.x = uiText.x + 250;
-	// 	line.y = uiText.y - 100;
-
-	// 	// textLayer.addChild(line);
-	// 	uiTextGroup.addChild(line);
-	// 	uiTextLines[i-1].push(line);
-
-	// 	var line = new PIXI.Sprite.fromImage("assets/images/blue.png");
-	// 	line.anchor.set(1,0);
-	// 	line.width = 50;
-	// 	line.height = 2;
-	// 	line.x = uiText.x + 100;
-	// 	line.y = uiText.y - 100;
-	// 	line.rotation = - Math.PI * 2 * 0.125;
-
-	// 	// textLayer.addChild(line);
-	// 	uiTextGroup.addChild(line);
-	// 	uiTextLines[i-1].push(line);
-	// }
-
-	
-
-	// function textAnimate(index) {
-	// 	var interval = 0.1;
-	// 	var tl = new TimelineMax({repeat:0});
-
-	// 	var uiText1 = uiTexts[index-1][0];
-	// 	var uiText2 = uiTexts[index-1][1];
-	// 	var textBg1 = uiTextBgs[index-1][0];
-	// 	var textBg2 = uiTextBgs[index-1][1];
-	// 	var line1 = uiTextLines[index-1][0];
-	// 	var line2 = uiTextLines[index-1][1];
-
-	// 	//delay
-	// 	tl.set([textBg1,textBg2,line1,line2],{width: 0});
-	// 	tl.set([uiText1,uiText2],{alpha: 0});
-	// 	tl.to(uiText1,1,{text: "_"});
-
-	// 	tl.to(line1,0.2,{width: 150});
-	// 	tl.to(line2,0.15,{width: 50});
-	// 	tl.to(line2,0.2,{width: 50});
-
-	// 	tl.set(uiText1,{alpha: 1});
-	// 	tl.set(textBg1,{width: 10 + (uiText1.style.fontSize+3)});
-	// 	tl.to(uiText1,interval,{text: "_"});
-
-	// 	for (var i = 0; i < textStrings[index-1][0].length; i++) {
-	// 		if(i+1 == textStrings[index-1][0].length) {
-	// 			tl.set(textBg1,{width: 10 + (i+1)*(uiText1.style.fontSize+3)});
-	// 			tl.to(uiText1,interval,{text: textStrings[index-1][0].substring(0, i+1)});
-	// 		} else {
-	// 			tl.set(textBg1,{width: 10 + (i+2)*(uiText1.style.fontSize+3)});
-	// 			tl.to(uiText1,interval,{text: textStrings[index-1][0].substring(0, i+1) + "_"});
-	// 		}
-	// 	}
-
-	// 	tl.to(line2,0.3,{width: 50});
-
-	// 	// tl.set(textBg1,{width: 10 + (textStrings[index-1][0].length)*(uiText1.style.fontSize+3)});
-	// 	// tl.set(uiText1,{text: textStrings[index-1][0].substring(0, textStrings[index-1][0].length)});
-
-
-	// 	tl.set(uiText2,{alpha: 1});
-	// 	tl.set(textBg2,{width: 10 + uiText2.style.fontSize});
-	// 	tl.to(uiText2,interval,{text: "_"});
-
-
-	// 	for (var i = 0; i < textStrings[index-1][1].length; i++) {
-	// 		tl.set(textBg2,{width: 10 + (i+2)*uiText2.style.fontSize});
-	// 		tl.to(uiText2,interval,{text: textStrings[index-1][1].substring(0, i+1) + "_"});
-	// 	}
-	// }
-
 
 	//cursor
 
@@ -856,7 +702,7 @@ function init() {
 	isInit = true;
 	isPlaying = true;
 	allReady();
-	setTimeout(textAnimate,500,1);
+	setTimeout(textAnimate,4000,1);
 	// textAnimate(1);
 }
 
