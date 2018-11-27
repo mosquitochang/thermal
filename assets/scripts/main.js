@@ -8,15 +8,21 @@
 // 	$(".intro").addClass('active');
 // };
 
-$(".intro video")[0].addEventListener('canplay',function() {
+// $("body").on("click", function(){
+// 	$(".audio-click")[0].play();
+// })
+
+$(".intro video")[0].addEventListener('canplay',introVideo);
+
+function introVideo() {
 	console.log("Q");
 	$(".intro video")[0].playbackRate = 1.5;
 	$(".screen-bg video")[0].playbackRate = 0.7;
-	$(".intro video")[0].onplaying = null;
+	$(".intro video")[0].removeEventListener('canplay',introVideo);
 
 	if(isIntroDone) return;
 	$(".intro").addClass('active');
-});
+}
 
 var isIntroDone = false;
 function allReady() {
@@ -31,7 +37,6 @@ function allReady() {
 	tl.call(function(){
 		$(".page-wrapper").addClass('active');
 	});
-	
 }
 
 
