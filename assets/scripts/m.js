@@ -480,7 +480,7 @@ function init() {
 	
 
 	var endingIconSprite1 = PIXI.Sprite.fromImage("assets/images/m-icon-web.png");
-	endingGroup.addChild(endingIconSprite1);
+	// endingGroup.addChild(endingIconSprite1);
 	var ratio = endingIconSprite1.width / endingIconSprite1.height;
 	endingIconSprite1.width = 50;
 	endingIconSprite1.height = endingIconSprite1.width / ratio;
